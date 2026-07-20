@@ -1,0 +1,73 @@
+@startuml
+left to right direction
+skinparam packageStyle rectangle
+skinparam shadowing false
+skinparam actorStyle awesome
+
+actor "Khách hàng (Customer)" as Customer
+actor "Quản trị viên (Admin)" as Admin
+actor "Tác vụ ngầm (Background Worker)" as Worker
+
+rectangle "FlashShop Microservices Platform" {
+  
+  package "Quản lý Tài khoản & Ví (Identity Service)" {
+    usecase "Đăng ký / Đăng nhập" as UC_Login
+    usecase "Xem thông tin Profile" as UC_Profile
+    usecase "Xem số dư Ví" as UC_ViewWallet
+    usecase "Nạp tiền vào Ví" as UC_TopUp
+    usecase "Quản lý Users (Toggle Active, Change Role)" as UC_ManageUsers
+  }
+
+  package "Quản lý Sản phẩm & Flash Sale (Catalog Service)" {
+    usecase "Xem danh sách sản phẩm" as UC_ViewProducts
+    usecase "Xem chiến dịch Flash Sale" as UC_ViewFlashSale
+    usecase "Xem Testimonials" as UC_ViewTestimonials
+    usecase "Quản lý sản phẩm & Danh mục" as UC_ManageProducts
+    usecase "Tạo chiến dịch Flash Sale" as UC_CreateFlashSale
+  }
+
+  package "Đặt hàng & Giỏ hàng (Ordering Service)" {
+    usecase "Thêm sản phẩm vào giỏ" as UC_AddToCart
+    usecase "Đặt hàng (Checkout)" as UC_Checkout
+    usecase "Thanh toán bằng Ví điện tử" as UC_PayWallet
+    usecase "Hủy đơn hàng" as UC_CancelOrder
+    usecase "Xem tất cả đơn hàng (Admin)" as UC_ViewAllOrders
+    usecase "Tự động Hủy đơn quá hạn (PendingOrderTimeoutJob)" as UC_CancelTimeoutOrder
+  }
+
+  package "Tồn kho (Inventory Service)" {
+    usecase "Khởi tạo & Quản lý Tồn kho" as UC_ManageInventory
+  }
+
+  package "Thông báo (Notification Service)" {
+    usecase "Gửi Email xác nhận đơn hàng" as UC_SendEmail
+    usecase "Tổng hợp báo cáo doanh số (DailySalesReportJob)" as UC_SalesReport
+  }
+}
+
+Customer --> UC_Login
+Customer --> UC_Profile
+Customer --> UC_ViewProducts
+Customer --> UC_ViewFlashSale
+Customer --> UC_ViewTestimonials
+Customer --> UC_AddToCart
+Customer --> UC_Checkout
+Customer --> UC_PayWallet
+Customer --> UC_CancelOrder
+Customer --> UC_ViewWallet
+Customer --> UC_TopUp
+
+UC_Checkout .> UC_PayWallet : <<include>>
+UC_Checkout .> UC_SendEmail : <<include>>
+
+Admin --> UC_Login
+Admin --> UC_ManageProducts
+Admin --> UC_CreateFlashSale
+Admin --> UC_ManageInventory
+Admin --> UC_ManageUsers
+Admin --> UC_ViewAllOrders
+
+Worker --> UC_CancelTimeoutOrder
+Worker --> UC_SalesReport
+
+@enduml

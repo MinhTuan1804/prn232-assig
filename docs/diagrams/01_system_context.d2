@@ -1,0 +1,81 @@
+# System Context Diagram (D2 Format)
+# Đối chiếu 100% với appsettings.json YARP routes + docker-compose.yml + source code
+direction: right
+
+# Actors (Users)
+Customer: "Khách hàng (Customer)" {
+  shape: person
+  style.fill: "#E0F2FE"
+  style.stroke: "#0284C7"
+}
+
+Admin: "Quản trị viên (Admin)" {
+  shape: person
+  style.fill: "#F0FDF4"
+  style.stroke: "#16A34A"
+}
+
+Worker: "Hangfire Background Worker" {
+  shape: person
+  style.fill: "#FEF2F2"
+  style.stroke: "#EF4444"
+}
+
+# Entry Point
+Gateway: "API Gateway (YARP) — Port 5000" {
+  style.fill: "#FEF3C7"
+  style.stroke: "#D97706"
+}
+
+# System Boundary
+System: "FlashShop Microservices System" {
+  style.fill: "#FFFFFF"
+  style.stroke: "#15803D"
+  style.stroke-width: 3
+
+  Identity: "Identity & Wallet Service"
+  Catalog: "Catalog & FlashSale Service"
+  Inventory: "Inventory Service"
+  Ordering: "Ordering & Cart Service"
+  Notification: "Notification Service"
+}
+
+# External Systems
+External: "External Infrastructure Services" {
+  style.stroke-dash: 3
+  DB: "MS SQL Server 2022" { shape: cylinder }
+  Broker: "RabbitMQ Message Broker" { shape: queue }
+  Mail: "SMTP Mail Server"
+}
+
+# Interactions
+Customer -> Gateway: "HTTP / REST API (Xem hàng, Đặt hàng, Nạp tiền)"
+Admin -> Gateway: "HTTP / REST API (Quản lý SP, Users, FlashSale)"
+
+# YARP Routes — khớp chính xác appsettings.json
+Gateway -> System.Identity: "Route /api/auth/*, /api/users/*, /api/wallets/*"
+Gateway -> System.Catalog: "Route /api/categories/*, /api/products/*, /api/flashsales/*, /api/testimonials/*"
+Gateway -> System.Inventory: "Route /api/stocks/*"
+Gateway -> System.Ordering: "Route /api/cart/*, /api/orders/*"
+Gateway -> System.Notification: "Route /api/notifications/*"
+
+# Hangfire Workers — cả Ordering và Notification đều có
+Worker -> System.Ordering: "PendingOrderTimeoutJob (Hủy đơn quá hạn, Cron.Minutely)"
+Worker -> System.Notification: "DailySalesReportJob (Báo cáo doanh số, 23:59 hàng ngày)"
+
+# Database connections — EF Core
+System.Identity -> External.DB: "EF Core (IdentityDb)"
+System.Catalog -> External.DB: "EF Core (CatalogDb)"
+System.Inventory -> External.DB: "EF Core (InventoryDb)"
+System.Ordering -> External.DB: "EF Core (OrderingDb)"
+System.Notification -> External.DB: "EF Core (NotificationDb)"
+
+# Message Bus — MassTransit + RabbitMQ
+System.Ordering -> External.Broker: "Publish Events (OrderCreated, OrderPaid, OrderCancelled)"
+System.Inventory -> External.Broker: "Publish Events (InventoryReserved, ReservationFailed)"
+External.Broker -> System.Inventory: "Consume OrderCreated, OrderPaid, OrderCancelled"
+External.Broker -> System.Ordering: "Consume InventoryReserved, ReservationFailed"
+External.Broker -> System.Notification: "Consume tất cả Events (Gửi email)"
+
+# SMTP email
+System.Notification -> External.Mail: "SMTP (MailKit — Gửi email thông báo)"
