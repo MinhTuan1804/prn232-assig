@@ -1,0 +1,70 @@
+[
+  {
+    "ContainingType": "FlashShop.Notification.Api.Controllers.NotificationsController",
+    "Method": "GetLogs",
+    "RelativePath": "api/notifications/logs",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "page",
+        "Type": "System.Int32",
+        "IsRequired": false
+      },
+      {
+        "Name": "pageSize",
+        "Type": "System.Int32",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "FlashShop.Notification.Api.Controllers.NotificationsController",
+    "Method": "GetTemplates",
+    "RelativePath": "api/notifications/templates",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "FlashShop.Notification.Api.Controllers.NotificationsController",
+    "Method": "GetTemplate",
+    "RelativePath": "api/notifications/templates/{key}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "key",
+        "Type": "System.String",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "FlashShop.Notification.Api.Controllers.NotificationsController",
+    "Method": "UpdateTemplate",
+    "RelativePath": "api/notifications/templates/{key}",
+    "HttpMethod": "PUT",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "key",
+        "Type": "System.String",
+        "IsRequired": true
+      },
+      {
+        "Name": "request",
+        "Type": "FlashShop.Notification.Api.DTOs.Requests.UpdateTemplateRequest",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  }
+]

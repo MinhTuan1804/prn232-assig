@@ -1,0 +1,23 @@
+{
+  "runtimeTarget": {
+    "name": ".NETCoreApp,Version=v8.0",
+    "signature": ""
+  },
+  "compilationOptions": {},
+  "targets": {
+    ".NETCoreApp,Version=v8.0": {
+      "FlashShop.Shared/1.0.0": {
+        "runtime": {
+          "FlashShop.Shared.dll": {}
+        }
+      }
+    }
+  },
+  "libraries": {
+    "FlashShop.Shared/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    }
+  }
+}

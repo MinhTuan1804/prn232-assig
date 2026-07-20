@@ -1,0 +1,31 @@
+[
+  {
+    "Name": "New Profile",
+    "Projects": [
+      {
+        "Path": "src\\Services\\Identity\\FlashShop.Identity.Api\\FlashShop.Identity.Api.csproj",
+        "Action": "Start"
+      },
+      {
+        "Path": "src\\Services\\Catalog\\FlashShop.Catalog.Api\\FlashShop.Catalog.Api.csproj",
+        "Action": "Start"
+      },
+      {
+        "Path": "src\\Services\\Inventory\\FlashShop.Inventory.Api\\FlashShop.Inventory.Api.csproj",
+        "Action": "Start"
+      },
+      {
+        "Path": "src\\Services\\Ordering\\FlashShop.Ordering.Api\\FlashShop.Ordering.Api.csproj",
+        "Action": "Start"
+      },
+      {
+        "Path": "src\\Services\\Notification\\FlashShop.Notification.Api\\FlashShop.Notification.Api.csproj",
+        "Action": "Start"
+      },
+      {
+        "Path": "src\\Gateway\\FlashShop.Gateway\\FlashShop.Gateway.csproj",
+        "Action": "Start"
+      }
+    ]
+  }
+]

@@ -1,0 +1,65 @@
+[
+  {
+    "ContainingType": "FlashShop.Inventory.Api.Controllers.StocksController",
+    "Method": "GetStock",
+    "RelativePath": "api/inventory/{productId}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "productId",
+        "Type": "System.Guid",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "FlashShop.Inventory.Api.Controllers.StocksController",
+    "Method": "UpdateStock",
+    "RelativePath": "api/inventory/{productId}",
+    "HttpMethod": "PUT",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "productId",
+        "Type": "System.Guid",
+        "IsRequired": true
+      },
+      {
+        "Name": "request",
+        "Type": "FlashShop.Inventory.Api.DTOs.Requests.UpdateStockRequest",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "FlashShop.Inventory.Api.Controllers.StocksController",
+    "Method": "InitializeStock",
+    "RelativePath": "api/inventory/initialize",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "request",
+        "Type": "FlashShop.Inventory.Api.DTOs.Requests.InitializeStockRequest",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "FlashShop.Inventory.Api.Controllers.StocksController",
+    "Method": "GetLowStockItems",
+    "RelativePath": "api/inventory/low-stock",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  }
+]

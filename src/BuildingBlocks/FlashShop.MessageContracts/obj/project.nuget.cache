@@ -1,0 +1,13 @@
+{
+  "version": 2,
+  "dgSpecHash": "TH5QIBb7TLs=",
+  "success": true,
+  "projectFilePath": "D:\\C#\\PRN232\\src\\BuildingBlocks\\FlashShop.MessageContracts\\FlashShop.MessageContracts.csproj",
+  "expectedPackageFiles": [
+    "D:\\NuGetPackages\\masstransit.abstractions\\8.2.5\\masstransit.abstractions.8.2.5.nupkg.sha512",
+    "D:\\NuGetPackages\\microsoft.windowsdesktop.app.ref\\8.0.29\\microsoft.windowsdesktop.app.ref.8.0.29.nupkg.sha512",
+    "D:\\NuGetPackages\\microsoft.netcore.app.ref\\8.0.29\\microsoft.netcore.app.ref.8.0.29.nupkg.sha512",
+    "D:\\NuGetPackages\\microsoft.aspnetcore.app.ref\\8.0.29\\microsoft.aspnetcore.app.ref.8.0.29.nupkg.sha512"
+  ],
+  "logs": []
+}

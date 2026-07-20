@@ -1,0 +1,29 @@
+{
+  "version": 2,
+  "dgSpecHash": "ggnGJwNvZvg=",
+  "success": true,
+  "projectFilePath": "D:\\C#\\PRN232\\src\\Gateway\\FlashShop.Gateway\\FlashShop.Gateway.csproj",
+  "expectedPackageFiles": [
+    "D:\\NuGetPackages\\microsoft.aspnetcore.authentication.jwtbearer\\8.0.29\\microsoft.aspnetcore.authentication.jwtbearer.8.0.29.nupkg.sha512",
+    "D:\\NuGetPackages\\microsoft.extensions.apidescription.server\\6.0.5\\microsoft.extensions.apidescription.server.6.0.5.nupkg.sha512",
+    "D:\\NuGetPackages\\microsoft.identitymodel.abstractions\\7.7.3\\microsoft.identitymodel.abstractions.7.7.3.nupkg.sha512",
+    "D:\\NuGetPackages\\microsoft.identitymodel.jsonwebtokens\\7.7.3\\microsoft.identitymodel.jsonwebtokens.7.7.3.nupkg.sha512",
+    "D:\\NuGetPackages\\microsoft.identitymodel.logging\\7.7.3\\microsoft.identitymodel.logging.7.7.3.nupkg.sha512",
+    "D:\\NuGetPackages\\microsoft.identitymodel.protocols\\7.7.3\\microsoft.identitymodel.protocols.7.7.3.nupkg.sha512",
+    "D:\\NuGetPackages\\microsoft.identitymodel.protocols.openidconnect\\7.7.3\\microsoft.identitymodel.protocols.openidconnect.7.7.3.nupkg.sha512",
+    "D:\\NuGetPackages\\microsoft.identitymodel.tokens\\7.7.3\\microsoft.identitymodel.tokens.7.7.3.nupkg.sha512",
+    "D:\\NuGetPackages\\microsoft.openapi\\1.2.3\\microsoft.openapi.1.2.3.nupkg.sha512",
+    "D:\\NuGetPackages\\swashbuckle.aspnetcore\\6.5.0\\swashbuckle.aspnetcore.6.5.0.nupkg.sha512",
+    "D:\\NuGetPackages\\swashbuckle.aspnetcore.swagger\\6.5.0\\swashbuckle.aspnetcore.swagger.6.5.0.nupkg.sha512",
+    "D:\\NuGetPackages\\swashbuckle.aspnetcore.swaggergen\\6.5.0\\swashbuckle.aspnetcore.swaggergen.6.5.0.nupkg.sha512",
+    "D:\\NuGetPackages\\swashbuckle.aspnetcore.swaggerui\\6.5.0\\swashbuckle.aspnetcore.swaggerui.6.5.0.nupkg.sha512",
+    "D:\\NuGetPackages\\system.identitymodel.tokens.jwt\\7.7.3\\system.identitymodel.tokens.jwt.7.7.3.nupkg.sha512",
+    "D:\\NuGetPackages\\system.io.hashing\\7.0.0\\system.io.hashing.7.0.0.nupkg.sha512",
+    "D:\\NuGetPackages\\yarp.reverseproxy\\2.1.0\\yarp.reverseproxy.2.1.0.nupkg.sha512",
+    "D:\\NuGetPackages\\microsoft.windowsdesktop.app.ref\\8.0.29\\microsoft.windowsdesktop.app.ref.8.0.29.nupkg.sha512",
+    "D:\\NuGetPackages\\microsoft.netcore.app.ref\\8.0.29\\microsoft.netcore.app.ref.8.0.29.nupkg.sha512",
+    "D:\\NuGetPackages\\microsoft.aspnetcore.app.ref\\8.0.29\\microsoft.aspnetcore.app.ref.8.0.29.nupkg.sha512",
+    "D:\\NuGetPackages\\microsoft.netcore.app.host.win-x64\\8.0.29\\microsoft.netcore.app.host.win-x64.8.0.29.nupkg.sha512"
+  ],
+  "logs": []
+}

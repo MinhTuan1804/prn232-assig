@@ -1,0 +1,15 @@
+D:\C#\PRN232\src\BuildingBlocks\FlashShop.MessageContracts\bin\Debug\net8.0\FlashShop.MessageContracts.deps.json
+D:\C#\PRN232\src\BuildingBlocks\FlashShop.MessageContracts\bin\Debug\net8.0\FlashShop.MessageContracts.dll
+D:\C#\PRN232\src\BuildingBlocks\FlashShop.MessageContracts\bin\Debug\net8.0\FlashShop.MessageContracts.pdb
+D:\C#\PRN232\src\BuildingBlocks\FlashShop.MessageContracts\bin\Debug\net8.0\FlashShop.Shared.dll
+D:\C#\PRN232\src\BuildingBlocks\FlashShop.MessageContracts\bin\Debug\net8.0\FlashShop.Shared.pdb
+D:\C#\PRN232\src\BuildingBlocks\FlashShop.MessageContracts\obj\Debug\net8.0\FlashShop.MessageContracts.csproj.AssemblyReference.cache
+D:\C#\PRN232\src\BuildingBlocks\FlashShop.MessageContracts\obj\Debug\net8.0\FlashShop.MessageContracts.GeneratedMSBuildEditorConfig.editorconfig
+D:\C#\PRN232\src\BuildingBlocks\FlashShop.MessageContracts\obj\Debug\net8.0\FlashShop.MessageContracts.AssemblyInfoInputs.cache
+D:\C#\PRN232\src\BuildingBlocks\FlashShop.MessageContracts\obj\Debug\net8.0\FlashShop.MessageContracts.AssemblyInfo.cs
+D:\C#\PRN232\src\BuildingBlocks\FlashShop.MessageContracts\obj\Debug\net8.0\FlashShop.MessageContracts.csproj.CoreCompileInputs.cache
+D:\C#\PRN232\src\BuildingBlocks\FlashShop.MessageContracts\obj\Debug\net8.0\FlashSho.F2CF7429.Up2Date
+D:\C#\PRN232\src\BuildingBlocks\FlashShop.MessageContracts\obj\Debug\net8.0\FlashShop.MessageContracts.dll
+D:\C#\PRN232\src\BuildingBlocks\FlashShop.MessageContracts\obj\Debug\net8.0\refint\FlashShop.MessageContracts.dll
+D:\C#\PRN232\src\BuildingBlocks\FlashShop.MessageContracts\obj\Debug\net8.0\FlashShop.MessageContracts.pdb
+D:\C#\PRN232\src\BuildingBlocks\FlashShop.MessageContracts\obj\Debug\net8.0\ref\FlashShop.MessageContracts.dll

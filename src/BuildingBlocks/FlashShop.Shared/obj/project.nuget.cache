@@ -1,0 +1,12 @@
+{
+  "version": 2,
+  "dgSpecHash": "XmrRw6C1S4M=",
+  "success": true,
+  "projectFilePath": "D:\\C#\\PRN232\\src\\BuildingBlocks\\FlashShop.Shared\\FlashShop.Shared.csproj",
+  "expectedPackageFiles": [
+    "D:\\NuGetPackages\\microsoft.windowsdesktop.app.ref\\8.0.29\\microsoft.windowsdesktop.app.ref.8.0.29.nupkg.sha512",
+    "D:\\NuGetPackages\\microsoft.netcore.app.ref\\8.0.29\\microsoft.netcore.app.ref.8.0.29.nupkg.sha512",
+    "D:\\NuGetPackages\\microsoft.aspnetcore.app.ref\\8.0.29\\microsoft.aspnetcore.app.ref.8.0.29.nupkg.sha512"
+  ],
+  "logs": []
+}
