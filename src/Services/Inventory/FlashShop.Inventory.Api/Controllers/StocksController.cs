@@ -8,7 +8,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace FlashShop.Inventory.Api.Controllers;
 
 [ApiController]
-[Route("api/inventory")]
+[Route("api/stocks")]
 public class StocksController : ControllerBase
 {
     private readonly IStockService _stockService;

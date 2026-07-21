@@ -39,8 +39,8 @@ public static class DataSeeder
                 {
                     Id = Guid.NewGuid(),
                     UserId = admin.Id,
-                    Balance = 0,
-                    Currency = "VND",
+                    Balance = 10000000,
+                    Currency = "USD",
                     UpdatedAt = DateTime.UtcNow
                 });
                 await dbContext.SaveChangesAsync();

@@ -92,4 +92,20 @@ app.UseAuthorization();
 app.MapControllers();
 
 
+using (var scope = app.Services.CreateScope())
+{
+    var services = scope.ServiceProvider;
+    try
+    {
+        var dbContext = services.GetRequiredService<CatalogDbContext>();
+        await dbContext.Database.MigrateAsync();
+        await DataSeeder.SeedAsync(dbContext);
+    }
+    catch (Exception ex)
+    {
+        var logger = services.GetRequiredService<ILogger<Program>>();
+        logger.LogError(ex, "An error occurred while migrating or seeding the Catalog database.");
+    }
+}
+
 app.Run();

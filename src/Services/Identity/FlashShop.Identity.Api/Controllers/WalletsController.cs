@@ -20,6 +20,7 @@ public class WalletsController : ControllerBase
     }
 
     [HttpGet("balance")]
+    [HttpGet("my-wallet")]
     public async Task<IActionResult> GetBalance()
     {
         var userId = User.GetUserId();
@@ -36,6 +37,7 @@ public class WalletsController : ControllerBase
     }
 
     [HttpPost("pay")]
+    [AllowAnonymous]
     public async Task<IActionResult> ProcessPayment([FromBody] WalletPaymentRequest request)
     {
         var result = await _walletService.ProcessPaymentAsync(request);

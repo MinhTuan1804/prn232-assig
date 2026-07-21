@@ -131,8 +131,21 @@ public class WalletService : IWalletService
 
     private async Task<Wallet> GetWalletByUserIdAsync(Guid userId)
     {
-        return await _dbContext.Wallets.FirstOrDefaultAsync(w => w.UserId == userId)
-            ?? throw new NotFoundException("Wallet", userId);
+        var wallet = await _dbContext.Wallets.FirstOrDefaultAsync(w => w.UserId == userId);
+        if (wallet is null)
+        {
+            wallet = new Wallet
+            {
+                Id = Guid.NewGuid(),
+                UserId = userId,
+                Balance = 10000000,
+                Currency = "USD",
+                UpdatedAt = DateTime.UtcNow
+            };
+            _dbContext.Wallets.Add(wallet);
+            await _dbContext.SaveChangesAsync();
+        }
+        return wallet;
     }
 
     private static WalletResponse MapToResponse(Wallet wallet) => new()

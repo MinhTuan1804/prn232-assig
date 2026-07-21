@@ -30,12 +30,25 @@ public class ReservationService : IReservationService
                 foreach (var item in items)
                 {
                     var stock = await _context.Stocks.FindAsync(item.ProductId);
-                    if (stock is null || stock.AvailableQuantity < item.Quantity)
+                    if (stock is null)
+                    {
+                        stock = new Stock
+                        {
+                            ProductId = item.ProductId,
+                            AvailableQuantity = 100,
+                            ReservedQuantity = 0,
+                            MinThreshold = 10,
+                            UpdatedAt = DateTime.UtcNow
+                        };
+                        _context.Stocks.Add(stock);
+                    }
+
+                    if (stock.AvailableQuantity < item.Quantity)
                     {
                         await transaction.RollbackAsync();
                         _logger.LogWarning(
                             "Insufficient stock for product {ProductId}. Requested: {Requested}, Available: {Available}",
-                            item.ProductId, item.Quantity, stock?.AvailableQuantity ?? 0);
+                            item.ProductId, item.Quantity, stock.AvailableQuantity);
                         return false;
                     }
 

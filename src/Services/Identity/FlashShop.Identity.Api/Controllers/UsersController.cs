@@ -21,6 +21,7 @@ public class UsersController : ControllerBase
     }
 
     [HttpGet("profile")]
+    [HttpGet("me")]
     public async Task<IActionResult> GetProfile()
     {
         var userId = User.GetUserId();

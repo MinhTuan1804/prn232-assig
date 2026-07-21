@@ -82,6 +82,17 @@ public class AuthService : IAuthService
         return await GenerateAuthResponse(user);
     }
 
+    public async Task<AuthResponse> RefreshTokenAsync(Guid userId)
+    {
+        var user = await _userManager.FindByIdAsync(userId.ToString())
+            ?? throw new NotFoundException("User not found.");
+
+        if (!user.IsActive)
+            throw new BadRequestException("Account has been deactivated.");
+
+        return await GenerateAuthResponse(user);
+    }
+
     private async Task<AuthResponse> GenerateAuthResponse(ApplicationUser user)
     {
         var roles = await _userManager.GetRolesAsync(user);

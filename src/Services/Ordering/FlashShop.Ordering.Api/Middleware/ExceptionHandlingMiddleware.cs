@@ -39,7 +39,7 @@ public class ExceptionHandlingMiddleware
         catch (Exception ex)
         {
             _logger.LogError(ex, "Unhandled exception");
-            await WriteResponse(context, StatusCodes.Status500InternalServerError, "An internal error occurred.");
+            await WriteResponse(context, StatusCodes.Status500InternalServerError, "Đã xảy ra lỗi hệ thống. Vui lòng thử lại sau.");
         }
     }
 

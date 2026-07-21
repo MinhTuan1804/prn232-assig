@@ -8,7 +8,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace FlashShop.Catalog.Api.Controllers;
 
 [ApiController]
-[Route("api/catalog/products")]
+[Route("api/products")]
 public class ProductsController : ControllerBase
 {
     private readonly IProductService _productService;

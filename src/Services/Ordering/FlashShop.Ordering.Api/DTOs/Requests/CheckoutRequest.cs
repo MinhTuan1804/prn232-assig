@@ -13,6 +13,9 @@ public class CheckoutRequest
     [Required, MaxLength(20)]
     public string RecipientPhone { get; set; } = string.Empty;
 
+    [MaxLength(100)]
+    public string PaymentMethod { get; set; } = "FlashPay Wallet";
+
     [MaxLength(500)]
     public string? Notes { get; set; }
 

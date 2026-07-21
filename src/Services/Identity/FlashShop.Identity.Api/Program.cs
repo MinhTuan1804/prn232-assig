@@ -107,4 +107,20 @@ app.UseAuthorization();
 app.MapControllers();
 
 
+using (var scope = app.Services.CreateScope())
+{
+    var services = scope.ServiceProvider;
+    try
+    {
+        var dbContext = services.GetRequiredService<IdentityDbContext>();
+        await dbContext.Database.MigrateAsync();
+        await DataSeeder.SeedAsync(services);
+    }
+    catch (Exception ex)
+    {
+        var logger = services.GetRequiredService<ILogger<Program>>();
+        logger.LogError(ex, "An error occurred while migrating or seeding the database.");
+    }
+}
+
 app.Run();

@@ -55,6 +55,7 @@ public class OrderService : IOrderService
             ShippingAddress = request.ShippingAddress,
             RecipientName = request.RecipientName,
             RecipientPhone = request.RecipientPhone,
+            PaymentMethod = string.IsNullOrWhiteSpace(request.PaymentMethod) ? "FlashPay Wallet" : request.PaymentMethod,
             IsFlashSaleOrder = request.IsFlashSaleOrder,
             Notes = request.Notes,
             PaymentDeadline = paymentDeadline,
