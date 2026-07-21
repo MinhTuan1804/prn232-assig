@@ -40,11 +40,14 @@ public class ProductService : IProductService
             .AsQueryable();
 
         // Filtering
-        if (queryParams.CategoryId.HasValue)
+        if (queryParams.CategoryId.HasValue && queryParams.CategoryId.Value > 0)
             query = query.Where(p => p.CategoryId == queryParams.CategoryId.Value);
 
         if (!string.IsNullOrWhiteSpace(queryParams.Search))
-            query = query.Where(p => p.Name.Contains(queryParams.Search));
+        {
+            var searchKeyword = queryParams.Search.Trim();
+            query = query.Where(p => EF.Functions.Like(p.Name, $"%{searchKeyword}%") || (p.Description != null && EF.Functions.Like(p.Description, $"%{searchKeyword}%")));
+        }
 
         if (queryParams.MinPrice.HasValue)
             query = query.Where(p => p.Price >= queryParams.MinPrice.Value);
@@ -55,6 +58,8 @@ public class ProductService : IProductService
         // Sorting
         query = queryParams.SortBy?.ToLower() switch
         {
+            "price-asc" => query.OrderBy(p => p.Price),
+            "price-desc" => query.OrderByDescending(p => p.Price),
             "price" => queryParams.SortDir?.ToLower() == "desc"
                 ? query.OrderByDescending(p => p.Price)
                 : query.OrderBy(p => p.Price),

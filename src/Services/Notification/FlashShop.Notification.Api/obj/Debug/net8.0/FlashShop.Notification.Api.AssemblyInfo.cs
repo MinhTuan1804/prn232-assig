@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("FlashShop.Notification.Api")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+8de303c5dfb6e16f15179be9083e49284b079078")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+759e436d6b1f46db80aaebdeaf1ed66453963936")]
 [assembly: System.Reflection.AssemblyProductAttribute("FlashShop.Notification.Api")]
 [assembly: System.Reflection.AssemblyTitleAttribute("FlashShop.Notification.Api")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

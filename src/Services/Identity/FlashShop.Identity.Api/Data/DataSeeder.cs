@@ -19,31 +19,34 @@ public static class DataSeeder
                 await roleManager.CreateAsync(new IdentityRole<Guid> { Name = role });
         }
 
-        const string adminEmail = "admin@flashshop.com";
-        if (await userManager.FindByEmailAsync(adminEmail) == null)
+        string[] adminEmails = ["admin@flashshop.com", "admin@flashshop.vn"];
+        foreach (var adminEmail in adminEmails)
         {
-            var admin = new ApplicationUser
+            if (await userManager.FindByEmailAsync(adminEmail) == null)
             {
-                UserName = "admin",
-                Email = adminEmail,
-                FullName = "System Administrator",
-                EmailConfirmed = true,
-                IsActive = true
-            };
-
-            var result = await userManager.CreateAsync(admin, "Admin@123");
-            if (result.Succeeded)
-            {
-                await userManager.AddToRoleAsync(admin, Roles.Admin);
-                dbContext.Wallets.Add(new Wallet
+                var admin = new ApplicationUser
                 {
-                    Id = Guid.NewGuid(),
-                    UserId = admin.Id,
-                    Balance = 10000000,
-                    Currency = "USD",
-                    UpdatedAt = DateTime.UtcNow
-                });
-                await dbContext.SaveChangesAsync();
+                    UserName = adminEmail.Split('@')[0],
+                    Email = adminEmail,
+                    FullName = "System Administrator",
+                    EmailConfirmed = true,
+                    IsActive = true
+                };
+
+                var result = await userManager.CreateAsync(admin, "Admin@123");
+                if (result.Succeeded)
+                {
+                    await userManager.AddToRoleAsync(admin, Roles.Admin);
+                    dbContext.Wallets.Add(new Wallet
+                    {
+                        Id = Guid.NewGuid(),
+                        UserId = admin.Id,
+                        Balance = 100000000,
+                        Currency = "VND",
+                        UpdatedAt = DateTime.UtcNow
+                    });
+                    await dbContext.SaveChangesAsync();
+                }
             }
         }
     }
