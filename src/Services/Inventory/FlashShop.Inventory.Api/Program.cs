@@ -95,11 +95,5 @@ app.UseAuthentication();
 app.UseAuthorization();
 app.MapControllers();
 
-// Auto-migrate
-using (var scope = app.Services.CreateScope())
-{
-    var db = scope.ServiceProvider.GetRequiredService<InventoryDbContext>();
-    await db.Database.MigrateAsync();
-}
 
 app.Run();

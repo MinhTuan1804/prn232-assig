@@ -119,13 +119,6 @@ builder.Services.AddSwaggerGen(c =>
 
 var app = builder.Build();
 
-// Auto-migrate + seed
-using (var scope = app.Services.CreateScope())
-{
-    var db = scope.ServiceProvider.GetRequiredService<NotificationDbContext>();
-    await db.Database.MigrateAsync();
-    await DataSeeder.SeedAsync(db);
-}
 
 if (app.Environment.IsDevelopment())
 {

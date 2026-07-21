@@ -106,12 +106,5 @@ app.UseAuthentication();
 app.UseAuthorization();
 app.MapControllers();
 
-// Auto-migrate & seed
-using (var scope = app.Services.CreateScope())
-{
-    var db = scope.ServiceProvider.GetRequiredService<IdentityDbContext>();
-    await db.Database.MigrateAsync();
-    await DataSeeder.SeedAsync(scope.ServiceProvider);
-}
 
 app.Run();
