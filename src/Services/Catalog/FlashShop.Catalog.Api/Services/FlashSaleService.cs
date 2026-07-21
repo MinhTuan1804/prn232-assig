@@ -32,6 +32,17 @@ public class FlashSaleService : IFlashSaleService
         return campaigns.Select(MapToCampaignResponse).ToList();
     }
 
+    public async Task<List<FlashSaleCampaignResponse>> GetAllCampaignsAsync()
+    {
+        var campaigns = await _context.FlashSaleCampaigns
+            .Include(c => c.Items)
+                .ThenInclude(i => i.Product)
+            .OrderByDescending(c => c.StartTime)
+            .ToListAsync();
+
+        return campaigns.Select(MapToCampaignResponse).ToList();
+    }
+
     public async Task<FlashSaleCampaignResponse> GetCampaignByIdAsync(Guid id)
     {
         var campaign = await _context.FlashSaleCampaigns

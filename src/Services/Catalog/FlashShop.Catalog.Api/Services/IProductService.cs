@@ -7,6 +7,7 @@ namespace FlashShop.Catalog.Api.Services;
 public interface IProductService
 {
     Task<PagedResult<ProductResponse>> GetPagedAsync(ProductQueryParams queryParams);
+    Task<List<ProductResponse>> GetHotDealsAsync();
     Task<ProductResponse> GetByIdAsync(Guid id);
     Task<ProductResponse> CreateAsync(CreateProductRequest request);
     Task<ProductResponse> UpdateAsync(Guid id, UpdateProductRequest request);

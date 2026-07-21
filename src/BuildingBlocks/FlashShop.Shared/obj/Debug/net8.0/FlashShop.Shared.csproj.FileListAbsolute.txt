@@ -9,3 +9,15 @@ D:\C#\PRN232\src\BuildingBlocks\FlashShop.Shared\obj\Debug\net8.0\FlashShop.Shar
 D:\C#\PRN232\src\BuildingBlocks\FlashShop.Shared\obj\Debug\net8.0\refint\FlashShop.Shared.dll
 D:\C#\PRN232\src\BuildingBlocks\FlashShop.Shared\obj\Debug\net8.0\FlashShop.Shared.pdb
 D:\C#\PRN232\src\BuildingBlocks\FlashShop.Shared\obj\Debug\net8.0\ref\FlashShop.Shared.dll
+E:\Ki 8\PRN232\PRN232-ASSIGMENT\prn232-assig\src\BuildingBlocks\FlashShop.Shared\bin\Debug\net8.0\FlashShop.Shared.deps.json
+E:\Ki 8\PRN232\PRN232-ASSIGMENT\prn232-assig\src\BuildingBlocks\FlashShop.Shared\bin\Debug\net8.0\FlashShop.Shared.dll
+E:\Ki 8\PRN232\PRN232-ASSIGMENT\prn232-assig\src\BuildingBlocks\FlashShop.Shared\bin\Debug\net8.0\FlashShop.Shared.pdb
+E:\Ki 8\PRN232\PRN232-ASSIGMENT\prn232-assig\src\BuildingBlocks\FlashShop.Shared\obj\Debug\net8.0\FlashShop.Shared.GeneratedMSBuildEditorConfig.editorconfig
+E:\Ki 8\PRN232\PRN232-ASSIGMENT\prn232-assig\src\BuildingBlocks\FlashShop.Shared\obj\Debug\net8.0\FlashShop.Shared.AssemblyInfoInputs.cache
+E:\Ki 8\PRN232\PRN232-ASSIGMENT\prn232-assig\src\BuildingBlocks\FlashShop.Shared\obj\Debug\net8.0\FlashShop.Shared.AssemblyInfo.cs
+E:\Ki 8\PRN232\PRN232-ASSIGMENT\prn232-assig\src\BuildingBlocks\FlashShop.Shared\obj\Debug\net8.0\FlashShop.Shared.csproj.CoreCompileInputs.cache
+E:\Ki 8\PRN232\PRN232-ASSIGMENT\prn232-assig\src\BuildingBlocks\FlashShop.Shared\obj\Debug\net8.0\FlashShop.Shared.sourcelink.json
+E:\Ki 8\PRN232\PRN232-ASSIGMENT\prn232-assig\src\BuildingBlocks\FlashShop.Shared\obj\Debug\net8.0\FlashShop.Shared.dll
+E:\Ki 8\PRN232\PRN232-ASSIGMENT\prn232-assig\src\BuildingBlocks\FlashShop.Shared\obj\Debug\net8.0\refint\FlashShop.Shared.dll
+E:\Ki 8\PRN232\PRN232-ASSIGMENT\prn232-assig\src\BuildingBlocks\FlashShop.Shared\obj\Debug\net8.0\FlashShop.Shared.pdb
+E:\Ki 8\PRN232\PRN232-ASSIGMENT\prn232-assig\src\BuildingBlocks\FlashShop.Shared\obj\Debug\net8.0\ref\FlashShop.Shared.dll

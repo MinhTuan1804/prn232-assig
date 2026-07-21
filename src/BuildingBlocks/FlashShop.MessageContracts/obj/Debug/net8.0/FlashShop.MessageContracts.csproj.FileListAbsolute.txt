@@ -13,3 +13,19 @@ D:\C#\PRN232\src\BuildingBlocks\FlashShop.MessageContracts\obj\Debug\net8.0\Flas
 D:\C#\PRN232\src\BuildingBlocks\FlashShop.MessageContracts\obj\Debug\net8.0\refint\FlashShop.MessageContracts.dll
 D:\C#\PRN232\src\BuildingBlocks\FlashShop.MessageContracts\obj\Debug\net8.0\FlashShop.MessageContracts.pdb
 D:\C#\PRN232\src\BuildingBlocks\FlashShop.MessageContracts\obj\Debug\net8.0\ref\FlashShop.MessageContracts.dll
+E:\Ki 8\PRN232\PRN232-ASSIGMENT\prn232-assig\src\BuildingBlocks\FlashShop.MessageContracts\bin\Debug\net8.0\FlashShop.MessageContracts.deps.json
+E:\Ki 8\PRN232\PRN232-ASSIGMENT\prn232-assig\src\BuildingBlocks\FlashShop.MessageContracts\bin\Debug\net8.0\FlashShop.MessageContracts.dll
+E:\Ki 8\PRN232\PRN232-ASSIGMENT\prn232-assig\src\BuildingBlocks\FlashShop.MessageContracts\bin\Debug\net8.0\FlashShop.MessageContracts.pdb
+E:\Ki 8\PRN232\PRN232-ASSIGMENT\prn232-assig\src\BuildingBlocks\FlashShop.MessageContracts\bin\Debug\net8.0\FlashShop.Shared.dll
+E:\Ki 8\PRN232\PRN232-ASSIGMENT\prn232-assig\src\BuildingBlocks\FlashShop.MessageContracts\bin\Debug\net8.0\FlashShop.Shared.pdb
+E:\Ki 8\PRN232\PRN232-ASSIGMENT\prn232-assig\src\BuildingBlocks\FlashShop.MessageContracts\obj\Debug\net8.0\FlashShop.MessageContracts.csproj.AssemblyReference.cache
+E:\Ki 8\PRN232\PRN232-ASSIGMENT\prn232-assig\src\BuildingBlocks\FlashShop.MessageContracts\obj\Debug\net8.0\FlashShop.MessageContracts.GeneratedMSBuildEditorConfig.editorconfig
+E:\Ki 8\PRN232\PRN232-ASSIGMENT\prn232-assig\src\BuildingBlocks\FlashShop.MessageContracts\obj\Debug\net8.0\FlashShop.MessageContracts.AssemblyInfoInputs.cache
+E:\Ki 8\PRN232\PRN232-ASSIGMENT\prn232-assig\src\BuildingBlocks\FlashShop.MessageContracts\obj\Debug\net8.0\FlashShop.MessageContracts.AssemblyInfo.cs
+E:\Ki 8\PRN232\PRN232-ASSIGMENT\prn232-assig\src\BuildingBlocks\FlashShop.MessageContracts\obj\Debug\net8.0\FlashShop.MessageContracts.csproj.CoreCompileInputs.cache
+E:\Ki 8\PRN232\PRN232-ASSIGMENT\prn232-assig\src\BuildingBlocks\FlashShop.MessageContracts\obj\Debug\net8.0\FlashShop.MessageContracts.sourcelink.json
+E:\Ki 8\PRN232\PRN232-ASSIGMENT\prn232-assig\src\BuildingBlocks\FlashShop.MessageContracts\obj\Debug\net8.0\FlashSho.F2CF7429.Up2Date
+E:\Ki 8\PRN232\PRN232-ASSIGMENT\prn232-assig\src\BuildingBlocks\FlashShop.MessageContracts\obj\Debug\net8.0\FlashShop.MessageContracts.dll
+E:\Ki 8\PRN232\PRN232-ASSIGMENT\prn232-assig\src\BuildingBlocks\FlashShop.MessageContracts\obj\Debug\net8.0\refint\FlashShop.MessageContracts.dll
+E:\Ki 8\PRN232\PRN232-ASSIGMENT\prn232-assig\src\BuildingBlocks\FlashShop.MessageContracts\obj\Debug\net8.0\FlashShop.MessageContracts.pdb
+E:\Ki 8\PRN232\PRN232-ASSIGMENT\prn232-assig\src\BuildingBlocks\FlashShop.MessageContracts\obj\Debug\net8.0\ref\FlashShop.MessageContracts.dll

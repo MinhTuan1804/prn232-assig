@@ -28,6 +28,13 @@ public class InventoryReservedConsumer : IConsumer<InventoryReservedEvent>
             return;
         }
 
+        // CRITICAL FIX: Do not overwrite status if the order is already Paid, Shipping, Completed, or Cancelled!
+        if (order.Status is OrderStatus.Paid or OrderStatus.Shipping or OrderStatus.Completed or OrderStatus.Cancelled)
+        {
+            _logger.LogInformation("Order {OrderNumber} is already in status '{Status}', skipping overwrite to AwaitingPayment", order.OrderNumber, order.Status);
+            return;
+        }
+
         order.Status = OrderStatus.AwaitingPayment;
         order.PaymentDeadline = context.Message.PaymentDeadline;
         order.UpdatedAt = DateTime.UtcNow;

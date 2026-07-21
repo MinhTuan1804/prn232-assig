@@ -25,6 +25,13 @@ public class ProductsController : ControllerBase
         return Ok(ApiResponse<object>.SuccessResponse(result));
     }
 
+    [HttpGet("hot-deals")]
+    public async Task<IActionResult> GetHotDeals()
+    {
+        var products = await _productService.GetHotDealsAsync();
+        return Ok(ApiResponse<object>.SuccessResponse(products));
+    }
+
     [HttpGet("{id:guid}")]
     public async Task<IActionResult> GetById(Guid id)
     {

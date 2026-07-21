@@ -19,6 +19,19 @@ public class ProductService : IProductService
         _context = context;
     }
 
+    public async Task<List<ProductResponse>> GetHotDealsAsync()
+    {
+        var products = await _context.Products
+            .Include(p => p.Category)
+            .Include(p => p.Images)
+            .Where(p => p.IsActive)
+            .OrderByDescending(p => p.CreatedAt)
+            .Take(12)
+            .ToListAsync();
+
+        return products.Select(MapToProductResponse).ToList();
+    }
+
     public async Task<PagedResult<ProductResponse>> GetPagedAsync(ProductQueryParams queryParams)
     {
         var query = _context.Products

@@ -6,6 +6,7 @@ namespace FlashShop.Catalog.Api.Services;
 public interface IFlashSaleService
 {
     Task<List<FlashSaleCampaignResponse>> GetActiveCampaignsAsync();
+    Task<List<FlashSaleCampaignResponse>> GetAllCampaignsAsync();
     Task<FlashSaleCampaignResponse> GetCampaignByIdAsync(Guid id);
     Task<FlashSaleCampaignResponse> CreateCampaignAsync(CreateFlashSaleRequest request);
     Task<FlashSaleCampaignResponse> UpdateCampaignStatusAsync(Guid id, string status);

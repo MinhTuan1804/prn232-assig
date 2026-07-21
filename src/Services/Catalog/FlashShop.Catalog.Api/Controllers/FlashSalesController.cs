@@ -25,6 +25,13 @@ public class FlashSalesController : ControllerBase
         return Ok(ApiResponse<object>.SuccessResponse(campaigns));
     }
 
+    [HttpGet]
+    public async Task<IActionResult> GetAll()
+    {
+        var campaigns = await _flashSaleService.GetAllCampaignsAsync();
+        return Ok(ApiResponse<object>.SuccessResponse(campaigns));
+    }
+
     [HttpGet("{id:guid}")]
     public async Task<IActionResult> GetById(Guid id)
     {
