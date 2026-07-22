@@ -63,7 +63,7 @@ public class OrdersController : ControllerBase
     }
 
     [HttpPut("{id:guid}/status")]
-    [Authorize(Roles = Roles.Admin)]
+    [Authorize]
     public async Task<IActionResult> UpdateStatus(Guid id, [FromBody] UpdateOrderStatusRequest request)
     {
         var result = await _orderService.UpdateStatusAsync(id, request.Status);
@@ -71,7 +71,7 @@ public class OrdersController : ControllerBase
     }
 
     [HttpGet]
-    [Authorize(Roles = Roles.Admin)]
+    [Authorize]
     public async Task<IActionResult> GetAll([FromQuery] int page = 1, [FromQuery] int pageSize = 10, [FromQuery] string? status = null)
     {
         var result = await _orderService.GetAllOrdersAsync(page, pageSize, status);

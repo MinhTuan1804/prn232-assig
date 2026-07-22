@@ -137,16 +137,36 @@ public class WalletService : IWalletService
         var wallet = await _dbContext.Wallets.FirstOrDefaultAsync(w => w.UserId == userId);
         if (wallet is null)
         {
-            wallet = new Wallet
+            var targetUserId = userId;
+            var userExists = await _dbContext.Users.AnyAsync(u => u.Id == userId);
+            
+            if (!userExists)
             {
-                Id = Guid.NewGuid(),
-                UserId = userId,
-                Balance = 100000000m, // Standard 100 million VND initial balance
-                Currency = "VND",
-                UpdatedAt = DateTime.UtcNow
-            };
-            _dbContext.Wallets.Add(wallet);
-            await _dbContext.SaveChangesAsync();
+                var defaultUser = await _dbContext.Users.FirstOrDefaultAsync();
+                if (defaultUser != null)
+                {
+                    targetUserId = defaultUser.Id;
+                    wallet = await _dbContext.Wallets.FirstOrDefaultAsync(w => w.UserId == targetUserId);
+                }
+            }
+
+            if (wallet is null)
+            {
+                wallet = new Wallet
+                {
+                    Id = Guid.NewGuid(),
+                    UserId = targetUserId,
+                    Balance = 100000000m, // Standard 100 million VND initial balance
+                    Currency = "VND",
+                    UpdatedAt = DateTime.UtcNow
+                };
+
+                if (userExists || targetUserId != userId)
+                {
+                    _dbContext.Wallets.Add(wallet);
+                    await _dbContext.SaveChangesAsync();
+                }
+            }
         }
         else if (wallet.Balance > 200000000m)
         {

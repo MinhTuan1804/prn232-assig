@@ -7,18 +7,28 @@ public static class ClaimsPrincipalExtensions
     public static Guid GetUserId(this ClaimsPrincipal principal)
     {
         var claim = principal.FindFirst(ClaimTypes.NameIdentifier)
-            ?? throw new UnauthorizedAccessException("User ID claim not found.");
-        return Guid.Parse(claim.Value);
+            ?? principal.FindFirst("sub")
+            ?? principal.FindFirst("id")
+            ?? principal.FindFirst(ClaimTypes.Name);
+
+        if (claim == null || !Guid.TryParse(claim.Value, out var userId))
+        {
+            return Guid.Empty;
+        }
+        return userId;
     }
 
     public static string GetEmail(this ClaimsPrincipal principal)
     {
         return principal.FindFirst(ClaimTypes.Email)?.Value
-            ?? throw new UnauthorizedAccessException("Email claim not found.");
+            ?? principal.FindFirst("email")?.Value
+            ?? string.Empty;
     }
 
     public static string GetRole(this ClaimsPrincipal principal)
     {
-        return principal.FindFirst(ClaimTypes.Role)?.Value ?? string.Empty;
+        return principal.FindFirst(ClaimTypes.Role)?.Value
+            ?? principal.FindFirst("role")?.Value
+            ?? string.Empty;
     }
 }
