@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("FlashShop.Identity.Api")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+759e436d6b1f46db80aaebdeaf1ed66453963936")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+fbf75da0609bd2b641842a7d951f4e42878e0383")]
 [assembly: System.Reflection.AssemblyProductAttribute("FlashShop.Identity.Api")]
 [assembly: System.Reflection.AssemblyTitleAttribute("FlashShop.Identity.Api")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

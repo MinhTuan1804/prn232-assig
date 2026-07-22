@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("FlashShop.Gateway")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+93656ee0e3219d31c9a14e52ff967f8cfdb88c80")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+fbf75da0609bd2b641842a7d951f4e42878e0383")]
 [assembly: System.Reflection.AssemblyProductAttribute("FlashShop.Gateway")]
 [assembly: System.Reflection.AssemblyTitleAttribute("FlashShop.Gateway")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

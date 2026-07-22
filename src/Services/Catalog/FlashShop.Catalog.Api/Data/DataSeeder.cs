@@ -58,6 +58,7 @@ public static class DataSeeder
         // 1. Điện thoại & Máy tính bảng (Giá chuẩn VND)
         AddItems(catPhones.Id, new[]
         {
+            ("iPhone 17 Pro 256GB", 34990000m, "https://images.unsplash.com/photo-1695048133142-1a20484d2569?auto=format&fit=crop&q=80&w=800"),
             ("iPhone 15 Pro Max 256GB Titan Tự Nhiên", 29990000m, "https://images.unsplash.com/photo-1695048133142-1a20484d2569?auto=format&fit=crop&q=80&w=800"),
             ("Samsung Galaxy S24 Ultra 512GB", 31990000m, "https://images.unsplash.com/photo-1610945265064-0e34e5519bbf?auto=format&fit=crop&q=80&w=800"),
             ("iPad Pro 13 inch M4 Wifi 256GB", 31990000m, "https://images.unsplash.com/photo-1544244015-0df4b3ffc6b0?auto=format&fit=crop&q=80&w=800"),
@@ -227,7 +228,7 @@ public static class DataSeeder
             {
                 CampaignId = campaign.Id,
                 ProductId = prod.Id,
-                FlashSalePrice = Math.Round(prod.Price * 0.7m, 2),
+                FlashSalePrice = prod.Price >= 30000000m ? prod.Price - 1000000m : Math.Round(prod.Price * 0.75m, 2),
                 FlashSaleQuantity = 50,
                 SoldQuantity = 12
             });
