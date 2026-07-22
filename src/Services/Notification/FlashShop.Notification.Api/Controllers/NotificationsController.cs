@@ -1,9 +1,12 @@
+using FlashShop.Notification.Api.Data;
 using FlashShop.Notification.Api.DTOs.Requests;
+using FlashShop.Notification.Api.Entities;
 using FlashShop.Notification.Api.Services;
 using FlashShop.Shared.Common;
 using FlashShop.Shared.Constants;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace FlashShop.Notification.Api.Controllers;
 
@@ -12,10 +15,12 @@ namespace FlashShop.Notification.Api.Controllers;
 public class NotificationsController : ControllerBase
 {
     private readonly INotificationService _notificationService;
+    private readonly NotificationDbContext _dbContext;
 
-    public NotificationsController(INotificationService notificationService)
+    public NotificationsController(INotificationService notificationService, NotificationDbContext dbContext)
     {
         _notificationService = notificationService;
+        _dbContext = dbContext;
     }
 
     [HttpGet("logs")]
@@ -24,6 +29,27 @@ public class NotificationsController : ControllerBase
     {
         var result = await _notificationService.GetLogsAsync(page, pageSize);
         return Ok(ApiResponse<object>.SuccessResponse(result));
+    }
+
+    [HttpGet("my-notifications")]
+    [AllowAnonymous]
+    public async Task<IActionResult> GetPublicNotifications()
+    {
+        var logs = await _dbContext.NotificationLogs
+            .OrderByDescending(n => n.CreatedAt)
+            .Take(30)
+            .Select(n => new
+            {
+                id = n.Id.ToString(),
+                title = n.Subject,
+                message = n.Body,
+                timestamp = n.CreatedAt.ToString("o"),
+                type = n.TemplateKey == "SystemPush" ? "flash_sale" : "order",
+                isRead = false
+            })
+            .ToListAsync();
+
+        return Ok(ApiResponse<object>.SuccessResponse(logs));
     }
 
     [HttpGet("templates")]
@@ -52,22 +78,36 @@ public class NotificationsController : ControllerBase
 
     [HttpPost("push-test")]
     [AllowAnonymous]
-    public IActionResult PushTest([FromBody] PushTestRequest? request)
+    public async Task<IActionResult> PushTest([FromBody] PushTestRequest? request)
     {
-        var title = request?.Title ?? "⚡ BÁO ĐỘNG SALE SỐC 2026";
-        var message = request?.Message ?? "Chuột Gaming Razer Viper V3 Pro 54g siêu nhẹ đang giảm giá 30%!";
+        var title = string.IsNullOrWhiteSpace(request?.Title) ? "⚡ BÁO ĐỘNG SALE SỐC 2026" : request.Title.Trim();
+        var message = string.IsNullOrWhiteSpace(request?.Message) ? "Chuột Gaming Razer Viper V3 Pro 54g siêu nhẹ đang giảm giá 30%!" : request.Message.Trim();
+
+        var log = new NotificationLog
+        {
+            Id = Guid.NewGuid(),
+            RecipientEmail = "all@flashshop.com",
+            Subject = title,
+            Body = message,
+            TemplateKey = "SystemPush",
+            IsSent = true,
+            CreatedAt = DateTime.UtcNow
+        };
+
+        _dbContext.NotificationLogs.Add(log);
+        await _dbContext.SaveChangesAsync();
 
         var notification = new
         {
-            Id = Guid.NewGuid(),
-            Title = title,
-            Message = message,
-            Timestamp = DateTime.UtcNow.ToString("o"),
-            Type = "flash_sale",
-            Status = "Pushed"
+            id = log.Id.ToString(),
+            title = log.Subject,
+            message = log.Body,
+            timestamp = log.CreatedAt.ToString("o"),
+            type = "flash_sale",
+            isRead = false
         };
 
-        return Ok(ApiResponse<object>.SuccessResponse(notification, "Push notification test message sent successfully."));
+        return Ok(ApiResponse<object>.SuccessResponse(notification, "Push notification sent successfully."));
     }
 }
 
