@@ -1,4 +1,4 @@
-version: '3.8'
+version: "3.8"
 
 services:
   # ==========================================
@@ -13,7 +13,11 @@ services:
     ports:
       - "1434:1433" # Map port 1433 in container to 1434 on host (as in appsettings.json)
     healthcheck:
-      test: ["CMD-SHELL", "/opt/mssql-tools18/bin/sqlcmd -S localhost -U sa -P 'FlashShop2024Strong' -Q 'SELECT 1' -No || exit 1"]
+      test:
+        [
+          "CMD-SHELL",
+          "/opt/mssql-tools18/bin/sqlcmd -S localhost -U sa -P 'FlashShop2024Strong' -Q 'SELECT 1' -No || exit 1",
+        ]
       interval: 10s
       timeout: 5s
       retries: 5
@@ -158,7 +162,7 @@ services:
       - ReverseProxy__Clusters__ordering-cluster__Destinations__destination1__Address=http://ordering-api:8080
       - ReverseProxy__Clusters__notification-cluster__Destinations__destination1__Address=http://notification-api:8080
     ports:
-      - "5164:8080" # Map gateway internal 8080 to host 5164
+      - "80:8080" # Map gateway internal 8080 to host 80
     depends_on:
       - identity-api
       - catalog-api
