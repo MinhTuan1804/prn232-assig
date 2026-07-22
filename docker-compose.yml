@@ -55,6 +55,8 @@ services:
         condition: service_healthy
       rabbitmq:
         condition: service_healthy
+    ports:
+      - "5001:8080"
     networks:
       - flashshop-network
 
@@ -73,6 +75,8 @@ services:
         condition: service_healthy
       rabbitmq:
         condition: service_healthy
+    ports:
+      - "5002:8080"
     networks:
       - flashshop-network
 
@@ -91,6 +95,8 @@ services:
         condition: service_healthy
       rabbitmq:
         condition: service_healthy
+    ports:
+      - "5003:8080"
     networks:
       - flashshop-network
 
@@ -110,6 +116,8 @@ services:
         condition: service_healthy
       rabbitmq:
         condition: service_healthy
+    ports:
+      - "5004:8080"
     networks:
       - flashshop-network
 
@@ -128,6 +136,8 @@ services:
         condition: service_healthy
       rabbitmq:
         condition: service_healthy
+    ports:
+      - "5005:8080"
     networks:
       - flashshop-network
 
