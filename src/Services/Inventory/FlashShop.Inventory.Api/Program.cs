@@ -89,7 +89,11 @@ var app = builder.Build();
 app.UseMiddleware<ExceptionHandlingMiddleware>();
 
 app.UseSwagger();
-app.UseSwaggerUI();
+app.UseSwaggerUI(c =>
+{
+    c.SwaggerEndpoint("/swagger/v1/swagger.json", "FlashShop Inventory API v1");
+    c.RoutePrefix = "swagger";
+});
 
 app.UseAuthentication();
 app.UseAuthorization();
