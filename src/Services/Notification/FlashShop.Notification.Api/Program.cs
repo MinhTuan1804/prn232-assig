@@ -126,6 +126,7 @@ using (var scope = app.Services.CreateScope())
     {
         var dbContext = services.GetRequiredService<FlashShop.Notification.Api.Data.NotificationDbContext>();
         await dbContext.Database.MigrateAsync();
+        await FlashShop.Notification.Api.Data.DataSeeder.SeedAsync(dbContext);
     }
     catch (Exception ex)
     {

@@ -7,46 +7,38 @@ public static class DataSeeder
 {
     public static async Task SeedAsync(NotificationDbContext context)
     {
-        if (await context.NotificationTemplates.AnyAsync()) return;
+        var existingKeys = await context.NotificationTemplates.Select(t => t.Key).ToListAsync();
 
-        var templates = new List<NotificationTemplate>
+        var templates = new List<NotificationTemplate>();
+
+        if (!existingKeys.Contains("OrderAwaitingPayment"))
         {
-            new()
+            templates.Add(new NotificationTemplate
             {
                 Id = Guid.NewGuid(),
                 Key = "OrderAwaitingPayment",
                 Subject = "Your order {{OrderNumber}} is awaiting payment",
+                IsActive = true,
                 Body = """
                 <h2>Order Awaiting Payment</h2>
                 <p>Dear Customer,</p>
                 <p>Your order <strong>{{OrderNumber}}</strong> has been confirmed and is awaiting payment.</p>
                 <p>Total Amount: <strong>{{TotalAmount}} VND</strong></p>
                 <p>Please complete payment before: <strong>{{PaymentDeadline}}</strong></p>
-                <p>If you do not pay within the deadline, your order will be automatically cancelled.</p>
                 <br/>
                 <p>Best regards,<br/>FlashShop Team</p>
                 """
-            },
-            new()
-            {
-                Id = Guid.NewGuid(),
-                Key = "OrderOutOfStock",
-                Subject = "Your order {{OrderNumber}} could not be fulfilled",
-                Body = """
-                <h2>Order Could Not Be Fulfilled</h2>
-                <p>Dear Customer,</p>
-                <p>Unfortunately, your order <strong>{{OrderNumber}}</strong> could not be fulfilled due to insufficient stock.</p>
-                <p>Reason: {{Reason}}</p>
-                <p>We apologize for the inconvenience. Please try again later.</p>
-                <br/>
-                <p>Best regards,<br/>FlashShop Team</p>
-                """
-            },
-            new()
+            });
+        }
+
+        if (!existingKeys.Contains("OrderPaid"))
+        {
+            templates.Add(new NotificationTemplate
             {
                 Id = Guid.NewGuid(),
                 Key = "OrderPaid",
                 Subject = "Payment confirmed for order {{OrderNumber}}",
+                IsActive = true,
                 Body = """
                 <h2>Payment Confirmed</h2>
                 <p>Dear Customer,</p>
@@ -56,45 +48,64 @@ public static class DataSeeder
                 <br/>
                 <p>Best regards,<br/>FlashShop Team</p>
                 """
-            },
-            new()
+            });
+        }
+
+        if (!existingKeys.Contains("OrderOutOfStock"))
+        {
+            templates.Add(new NotificationTemplate
+            {
+                Id = Guid.NewGuid(),
+                Key = "OrderOutOfStock",
+                Subject = "Your order {{OrderNumber}} could not be fulfilled",
+                IsActive = true,
+                Body = """
+                <h2>Order Could Not Be Fulfilled</h2>
+                <p>Dear Customer,</p>
+                <p>Unfortunately, your order <strong>{{OrderNumber}}</strong> could not be fulfilled due to insufficient stock.</p>
+                <br/>
+                <p>Best regards,<br/>FlashShop Team</p>
+                """
+            });
+        }
+
+        if (!existingKeys.Contains("OrderCancelled"))
+        {
+            templates.Add(new NotificationTemplate
             {
                 Id = Guid.NewGuid(),
                 Key = "OrderCancelled",
                 Subject = "Your order {{OrderNumber}} has been cancelled",
+                IsActive = true,
                 Body = """
                 <h2>Order Cancelled</h2>
                 <p>Dear Customer,</p>
                 <p>Your order <strong>{{OrderNumber}}</strong> has been cancelled.</p>
-                <p>Reason: {{Reason}}</p>
-                <p>If you believe this is a mistake, please contact our support team.</p>
                 <br/>
                 <p>Best regards,<br/>FlashShop Team</p>
                 """
-            },
-            new()
+            });
+        }
+
+        if (!existingKeys.Contains("DailySalesReport"))
+        {
+            templates.Add(new NotificationTemplate
             {
                 Id = Guid.NewGuid(),
                 Key = "DailySalesReport",
                 Subject = "Daily Sales Report - {{Date}}",
+                IsActive = true,
                 Body = """
                 <h2>Daily Sales Report</h2>
-                <p>Date: <strong>{{Date}}</strong></p>
-                <hr/>
-                <h3>Summary</h3>
-                <ul>
-                    <li>Total Orders: {{TotalOrders}}</li>
-                    <li>Completed Orders: {{CompletedOrders}}</li>
-                    <li>Cancelled Orders: {{CancelledOrders}}</li>
-                    <li>Total Revenue: {{TotalRevenue}} VND</li>
-                </ul>
-                <br/>
                 <p>This is an automated report generated by FlashShop system.</p>
                 """
-            }
-        };
+            });
+        }
 
-        context.NotificationTemplates.AddRange(templates);
-        await context.SaveChangesAsync();
+        if (templates.Any())
+        {
+            context.NotificationTemplates.AddRange(templates);
+            await context.SaveChangesAsync();
+        }
     }
 }
