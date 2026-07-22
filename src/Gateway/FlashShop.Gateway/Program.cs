@@ -43,12 +43,26 @@ builder.Services.AddCors(options =>
 });
 
 builder.Services.AddHttpClient();
+builder.Services.AddEndpointsApiExplorer();
+builder.Services.AddSwaggerGen();
 
 var app = builder.Build();
 
 app.UseCors("AllowAll");
 app.UseAuthentication();
 app.UseAuthorization();
+
+app.UseSwagger();
+app.UseSwaggerUI(c =>
+{
+    c.SwaggerEndpoint("/swagger-doc/identity/v1/swagger.json", "Identity API");
+    c.SwaggerEndpoint("/swagger-doc/catalog/v1/swagger.json", "Catalog API");
+    c.SwaggerEndpoint("/swagger-doc/inventory/v1/swagger.json", "Inventory API");
+    c.SwaggerEndpoint("/swagger-doc/ordering/v1/swagger.json", "Ordering API");
+    c.SwaggerEndpoint("/swagger-doc/notification/v1/swagger.json", "Notification API");
+    c.RoutePrefix = "swagger";
+    c.DocumentTitle = "FlashShop Microservices API Documentation";
+});
 
 app.MapGet("/api/gateway/health", async (IHttpClientFactory clientFactory, IConfiguration config) =>
 {
