@@ -14,6 +14,8 @@ public class ProductResponse
     public List<ProductImageResponse> Images { get; set; } = new();
     public DateTime CreatedAt { get; set; }
     public DateTime? UpdatedAt { get; set; }
+    public int StockQuantity { get; set; } = 15;
+    public bool IsSoldOut => StockQuantity <= 0;
     public decimal? FlashSalePrice { get; set; }
     public DateTime? FlashSaleEndTime { get; set; }
 }

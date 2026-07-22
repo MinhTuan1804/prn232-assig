@@ -31,8 +31,13 @@ public class WalletsController : ControllerBase
     [HttpPost("topup")]
     public async Task<IActionResult> TopUp([FromBody] TopUpRequest request)
     {
-        var userId = User.GetUserId();
-        var result = await _walletService.TopUpAsync(userId, request.Amount);
+        var currentUserId = User.GetUserId();
+        var targetUserId = (request.UserId.HasValue && request.UserId.Value != Guid.Empty)
+            ? request.UserId.Value
+            : currentUserId;
+
+        var isSelfTopUp = targetUserId == currentUserId;
+        var result = await _walletService.TopUpAsync(targetUserId, request.Amount, checkLock: isSelfTopUp);
         return Ok(ApiResponse<object>.SuccessResponse(result, "Top up successful."));
     }
 

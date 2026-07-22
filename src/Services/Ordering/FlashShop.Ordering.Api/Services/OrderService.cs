@@ -47,13 +47,47 @@ public class OrderService : IOrderService
             || request.PaymentMethod.Contains("Ví FlashPay") 
             || request.PaymentMethod.Contains("Wallet");
 
+        // 1. If paying by Wallet, verify and deduct wallet balance FIRST!
+        if (isWalletPayment)
+        {
+            var paymentRequest = new
+            {
+                UserId = userId,
+                Amount = totalAmount,
+                OrderId = orderId.ToString(),
+                Description = $"Thanh toán đơn hàng {orderNumber}"
+            };
+
+            var payResponse = await _identityClient.PostAsJsonAsync("/api/wallets/pay", paymentRequest);
+            if (!payResponse.IsSuccessStatusCode)
+            {
+                var errorContent = await payResponse.Content.ReadAsStringAsync();
+                var errorMessage = "Số dư ví FlashPay không đủ để thanh toán. Vui lòng nạp thêm tiền vào ví!";
+                try
+                {
+                    var apiErr = System.Text.Json.JsonSerializer.Deserialize<FlashShop.Shared.Common.ApiResponse<object>>(
+                        errorContent, 
+                        new System.Text.Json.JsonSerializerOptions { PropertyNameCaseInsensitive = true }
+                    );
+                    if (!string.IsNullOrWhiteSpace(apiErr?.Message))
+                    {
+                        errorMessage = apiErr.Message;
+                    }
+                }
+                catch { }
+
+                throw new BadRequestException(errorMessage);
+            }
+        }
+
+        // 2. Create Order record with proper status
         var order = new Order
         {
             Id = orderId,
             OrderNumber = orderNumber,
             UserId = userId,
             UserEmail = userEmail,
-            Status = isWalletPayment ? OrderStatus.Paid : OrderStatus.AwaitingPayment,
+            Status = isWalletPayment ? OrderStatus.Paid : OrderStatus.Pending,
             TotalAmount = totalAmount,
             ShippingAddress = request.ShippingAddress,
             RecipientName = request.RecipientName,
@@ -61,13 +95,25 @@ public class OrderService : IOrderService
             PaymentMethod = isWalletPayment ? "Ví FlashPay" : request.PaymentMethod,
             IsFlashSaleOrder = request.IsFlashSaleOrder,
             Notes = request.Notes,
-            PaymentDeadline = paymentDeadline,
+            PaymentDeadline = isWalletPayment ? null : null, // COD and Wallet orders do not expire
             PaidAt = isWalletPayment ? DateTime.UtcNow : null,
             CreatedAt = DateTime.UtcNow
         };
 
         foreach (var cartItem in cartItems)
         {
+            var itemImg = !string.IsNullOrWhiteSpace(cartItem.ImageUrl) && !cartItem.ImageUrl.Contains("example.com")
+                ? cartItem.ImageUrl
+                : (cartItem.ProductName.Contains("Acer") || cartItem.ProductName.Contains("Helios") || cartItem.ProductName.Contains("Laptop")
+                    ? "https://images.unsplash.com/photo-1603302576837-37561b2e2302?auto=format&fit=crop&q=80&w=800"
+                    : (cartItem.ProductName.Contains("SteelSeries") || cartItem.ProductName.Contains("Apex") || cartItem.ProductName.Contains("Bàn phím")
+                        ? "https://images.unsplash.com/photo-1595225476474-87563907a212?auto=format&fit=crop&q=80&w=800"
+                        : (cartItem.ProductName.Contains("iPhone") || cartItem.ProductName.Contains("Phone")
+                            ? "https://images.unsplash.com/photo-1695048133142-1a20484d2569?auto=format&fit=crop&q=80&w=800"
+                            : (cartItem.ProductName.Contains("AirPods") || cartItem.ProductName.Contains("Tai nghe") || cartItem.ProductName.Contains("Arctis")
+                                ? "https://images.unsplash.com/photo-1546435770-a3e426bf472b?auto=format&fit=crop&q=80&w=800"
+                                : "https://images.unsplash.com/photo-1546868871-7041f2a55e12?auto=format&fit=crop&q=80&w=800"))));
+
             order.Items.Add(new OrderItem
             {
                 Id = Guid.NewGuid(),
@@ -77,7 +123,7 @@ public class OrderService : IOrderService
                 UnitPrice = cartItem.UnitPrice,
                 Quantity = cartItem.Quantity,
                 SubTotal = cartItem.UnitPrice * cartItem.Quantity,
-                ImageUrl = cartItem.ImageUrl
+                ImageUrl = itemImg
             });
         }
 
@@ -85,40 +131,52 @@ public class OrderService : IOrderService
         _dbContext.CartItems.RemoveRange(cartItems);
         await _dbContext.SaveChangesAsync();
 
-        if (isWalletPayment)
+        // Deduct inventory stock quantity in CatalogDb for purchased items
+        foreach (var cartItem in cartItems)
         {
             try
             {
-                var paymentRequest = new
-                {
-                    UserId = userId,
-                    Amount = totalAmount,
-                    OrderId = orderId.ToString(),
-                    Description = $"Payment for order {orderNumber}"
-                };
-                await _identityClient.PostAsJsonAsync("/api/wallets/pay", paymentRequest);
+                await _dbContext.Database.ExecuteSqlRawAsync(
+                    "USE FlashShop_CatalogDb; UPDATE Products SET StockQuantity = CASE WHEN StockQuantity - {0} < 0 THEN 0 ELSE StockQuantity - {0} END WHERE Id = {1}; UPDATE FlashSaleItems SET SoldQuantity = SoldQuantity + {0} WHERE ProductId = {1}; USE FlashShop_OrderingDb;",
+                    cartItem.Quantity, cartItem.ProductId
+                );
             }
             catch (Exception ex)
             {
-                _logger.LogWarning(ex, "Wallet deduction in CheckoutAsync encountered exception, order remains Paid for demo");
+                _logger.LogWarning(ex, "Notice: Stock quantity update notice for product {ProductId}", cartItem.ProductId);
             }
         }
 
-        await _publishEndpoint.Publish(new OrderCreatedEvent
+        // 3. Publish events to MassTransit
+        if (isWalletPayment)
         {
-            OrderId = orderId,
-            OrderNumber = orderNumber,
-            UserId = userId,
-            UserEmail = userEmail,
-            IsFlashSaleOrder = request.IsFlashSaleOrder,
-            Items = cartItems.Select(c => new OrderItemDetail
+            await _publishEndpoint.Publish(new OrderPaidEvent
             {
-                ProductId = c.ProductId,
-                ProductName = c.ProductName,
-                Quantity = c.Quantity,
-                UnitPrice = c.UnitPrice
-            }).ToList()
-        });
+                OrderId = orderId,
+                OrderNumber = orderNumber,
+                UserId = userId,
+                UserEmail = userEmail,
+                TotalAmount = totalAmount
+            });
+        }
+        else
+        {
+            await _publishEndpoint.Publish(new OrderCreatedEvent
+            {
+                OrderId = orderId,
+                OrderNumber = orderNumber,
+                UserId = userId,
+                UserEmail = userEmail,
+                IsFlashSaleOrder = request.IsFlashSaleOrder,
+                Items = cartItems.Select(c => new OrderItemDetail
+                {
+                    ProductId = c.ProductId,
+                    ProductName = c.ProductName,
+                    Quantity = c.Quantity,
+                    UnitPrice = c.UnitPrice
+                }).ToList()
+            });
+        }
 
         return MapToResponse(order);
     }
@@ -230,6 +288,10 @@ public class OrderService : IOrderService
             ?? throw new NotFoundException("Order", orderId);
 
         order.Status = status;
+        if (status is OrderStatus.Completed or OrderStatus.Paid)
+        {
+            order.PaidAt ??= DateTime.UtcNow;
+        }
         order.UpdatedAt = DateTime.UtcNow;
         await _dbContext.SaveChangesAsync();
         return MapToResponse(order);

@@ -1,3 +1,4 @@
+using FlashShop.Identity.Api.Data;
 using FlashShop.Identity.Api.DTOs.Requests;
 using FlashShop.Identity.Api.DTOs.Responses;
 using FlashShop.Identity.Api.Entities;
@@ -12,10 +13,12 @@ namespace FlashShop.Identity.Api.Services;
 public class UserService : IUserService
 {
     private readonly UserManager<ApplicationUser> _userManager;
+    private readonly IdentityDbContext _dbContext;
 
-    public UserService(UserManager<ApplicationUser> userManager)
+    public UserService(UserManager<ApplicationUser> userManager, IdentityDbContext dbContext)
     {
         _userManager = userManager;
+        _dbContext = dbContext;
     }
 
     public async Task<UserResponse> GetByIdAsync(Guid userId)
@@ -84,6 +87,8 @@ public class UserService : IUserService
     private async Task<UserResponse> MapToResponse(ApplicationUser user)
     {
         var roles = await _userManager.GetRolesAsync(user);
+        var wallet = await _dbContext.Wallets.AsNoTracking().FirstOrDefaultAsync(w => w.UserId == user.Id);
+
         return new UserResponse
         {
             Id = user.Id,
@@ -94,6 +99,7 @@ public class UserService : IUserService
             AvatarUrl = user.AvatarUrl,
             IsActive = user.IsActive,
             Role = roles.FirstOrDefault() ?? Roles.Customer,
+            WalletBalance = wallet?.Balance ?? 0m,
             CreatedAt = user.CreatedAt
         };
     }

@@ -41,7 +41,39 @@ public static class DataSeeder
                     {
                         Id = Guid.NewGuid(),
                         UserId = admin.Id,
-                        Balance = 100000000,
+                        Balance = 0,
+                        Currency = "VND",
+                        UpdatedAt = DateTime.UtcNow
+                    });
+                    await dbContext.SaveChangesAsync();
+                }
+            }
+        }
+
+        string[] customerEmails = ["user@gmail.com", "customer@flashshop.com", "user@flashshop.com"];
+        foreach (var customerEmail in customerEmails)
+        {
+            if (await userManager.FindByEmailAsync(customerEmail) == null)
+            {
+                var customer = new ApplicationUser
+                {
+                    UserName = customerEmail.Split('@')[0],
+                    Email = customerEmail,
+                    FullName = "Khách Hàng FlashShop",
+                    PhoneNumber = "0987654321",
+                    EmailConfirmed = true,
+                    IsActive = true
+                };
+
+                var result = await userManager.CreateAsync(customer, "User@123");
+                if (result.Succeeded)
+                {
+                    await userManager.AddToRoleAsync(customer, Roles.Customer);
+                    dbContext.Wallets.Add(new Wallet
+                    {
+                        Id = Guid.NewGuid(),
+                        UserId = customer.Id,
+                        Balance = 0,
                         Currency = "VND",
                         UpdatedAt = DateTime.UtcNow
                     });

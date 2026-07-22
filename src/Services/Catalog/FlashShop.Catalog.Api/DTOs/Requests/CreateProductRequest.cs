@@ -19,5 +19,6 @@ public class CreateProductRequest
     [Required]
     public int CategoryId { get; set; }
 
+    public int StockQuantity { get; set; } = 15;
     public List<string> ImageUrls { get; set; } = new();
 }

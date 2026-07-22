@@ -38,18 +38,69 @@ public class NotificationsController : ControllerBase
         var logs = await _dbContext.NotificationLogs
             .OrderByDescending(n => n.CreatedAt)
             .Take(30)
-            .Select(n => new
+            .ToListAsync();
+
+        var formattedLogs = logs.Select(n =>
+        {
+            var title = n.Subject ?? "Thông Báo Hệ Thống";
+            var match = System.Text.RegularExpressions.Regex.Match(title + " " + (n.Body ?? ""), @"FS-[A-Z0-9-]+");
+            var orderNum = match.Success ? match.Value : "";
+
+            if (title.Contains("is awaiting payment", StringComparison.OrdinalIgnoreCase) || title.Contains("đã đặt thành công", StringComparison.OrdinalIgnoreCase))
+            {
+                title = string.IsNullOrEmpty(orderNum) ? "Đơn hàng đã đặt thành công" : $"Đơn hàng #{orderNum} đã đặt thành công";
+            }
+            else if (title.Contains("Payment confirmed", StringComparison.OrdinalIgnoreCase) || title.Contains("thanh toán thành công", StringComparison.OrdinalIgnoreCase))
+            {
+                title = string.IsNullOrEmpty(orderNum) ? "Xác nhận thanh toán thành công" : $"Đơn hàng #{orderNum} đã thanh toán thành công";
+            }
+            else if (title.Contains("has been cancelled", StringComparison.OrdinalIgnoreCase) || title.Contains("Order Cancelled", StringComparison.OrdinalIgnoreCase) || title.Contains("đã bị hủy", StringComparison.OrdinalIgnoreCase))
+            {
+                title = string.IsNullOrEmpty(orderNum) ? "Đơn hàng đã bị hủy" : $"Đơn hàng #{orderNum} đã bị hủy";
+            }
+            else if (title.Contains("could not be fulfilled", StringComparison.OrdinalIgnoreCase) || title.Contains("OutOfStock", StringComparison.OrdinalIgnoreCase))
+            {
+                title = string.IsNullOrEmpty(orderNum) ? "Đơn hàng chưa thể xử lý" : $"Đơn hàng #{orderNum} chưa thể xử lý do hết hàng";
+            }
+
+            var body = n.Body ?? "";
+            body = System.Text.RegularExpressions.Regex.Replace(body, "<.*?>", " ");
+            
+            body = body.Replace("Order Awaiting Payment", "Đơn hàng đã đặt thành công.")
+                       .Replace("Payment Confirmed", "Thanh toán thành công.")
+                       .Replace("Order Cancelled", "Đơn hàng đã bị hủy.")
+                       .Replace("Order Could Not Be Fulfilled", "Đơn hàng không thể xử lý.")
+                       .Replace("Dear Customer,", "Kính gửi quý khách,")
+                       .Replace("has been confirmed and is awaiting payment.", "đã được hệ thống xác nhận và đang được chuẩn bị.")
+                       .Replace("has been confirmed.", "đã được xác nhận thanh toán thành công.")
+                       .Replace("has been cancelled.", "đã bị hủy thành công.")
+                       .Replace("could not be fulfilled due to insufficient stock.", "chưa thể thực hiện do sản phẩm tạm thời hết hàng.")
+                       .Replace("Your order is now being processed for shipping.", "Đơn hàng của bạn đang được chuẩn bị giao.")
+                       .Replace("Total Amount:", "Tổng tiền:")
+                       .Replace("Please complete payment before:", "Hạn xử lý:")
+                       .Replace("Best regards, FlashShop Team", "")
+                       .Replace("Best regards,", "")
+                       .Replace("FlashShop Team", "");
+
+            body = System.Text.RegularExpressions.Regex.Replace(body, @"Your order\s+(FS-[A-Z0-9-]+)\s+has been cancelled", "Đơn hàng $1 đã bị hủy");
+            body = System.Text.RegularExpressions.Regex.Replace(body, @"Your order\s+(FS-[A-Z0-9-]+)\s+has been confirmed", "Đơn hàng $1 đã được xác nhận");
+            body = System.Text.RegularExpressions.Regex.Replace(body, @"Your order\s+(FS-[A-Z0-9-]+)\s+could not be fulfilled", "Đơn hàng $1 chưa thể thực hiện");
+            body = System.Text.RegularExpressions.Regex.Replace(body, @"Your payment for order\s+(FS-[A-Z0-9-]+)", "Thanh toán cho đơn hàng $1");
+
+            body = System.Text.RegularExpressions.Regex.Replace(body, @"\s+", " ").Trim();
+
+            return new
             {
                 id = n.Id.ToString(),
-                title = n.Subject,
-                message = n.Body,
+                title = title,
+                message = body,
                 timestamp = n.CreatedAt.ToString("o"),
                 type = n.TemplateKey == "SystemPush" ? "flash_sale" : "order",
                 isRead = false
-            })
-            .ToListAsync();
+            };
+        });
 
-        return Ok(ApiResponse<object>.SuccessResponse(logs));
+        return Ok(ApiResponse<object>.SuccessResponse(formattedLogs));
     }
 
     [HttpGet("templates")]

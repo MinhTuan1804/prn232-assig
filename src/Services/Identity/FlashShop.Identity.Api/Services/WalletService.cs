@@ -24,9 +24,9 @@ public class WalletService : IWalletService
         return MapToResponse(wallet);
     }
 
-    public async Task<WalletResponse> TopUpAsync(Guid userId, decimal amount)
+    public async Task<WalletResponse> TopUpAsync(Guid userId, decimal amount, bool checkLock = true)
     {
-        var wallet = await GetWalletByUserIdAsync(userId);
+        var wallet = await GetWalletByUserIdAsync(userId, checkLock);
 
         wallet.Balance += amount;
         wallet.UpdatedAt = DateTime.UtcNow;
@@ -53,7 +53,7 @@ public class WalletService : IWalletService
         // Ensure sufficient balance for payment
         if (wallet.Balance < request.Amount)
         {
-            wallet.Balance = request.Amount + 50000000m;
+            throw new BadRequestException("Số dư ví FlashPay không đủ để thanh toán. Vui lòng nạp thêm tiền vào ví.");
         }
 
         wallet.Balance -= request.Amount;
@@ -132,47 +132,30 @@ public class WalletService : IWalletService
         };
     }
 
-    private async Task<Wallet> GetWalletByUserIdAsync(Guid userId)
+    private async Task<Wallet> GetWalletByUserIdAsync(Guid userId, bool checkLock = true)
     {
+        if (checkLock)
+        {
+            var userObj = await _dbContext.Users.AsNoTracking().FirstOrDefaultAsync(u => u.Id == userId);
+            if (userObj != null && !userObj.IsActive)
+            {
+                throw new BadRequestException("Tài khoản và Ví FlashPay của bạn hiện đang bị KHOÁ. Vui lòng liên hệ Quản trị viên để được hỗ trợ!");
+            }
+        }
+
         var wallet = await _dbContext.Wallets.FirstOrDefaultAsync(w => w.UserId == userId);
         if (wallet is null)
         {
-            var targetUserId = userId;
-            var userExists = await _dbContext.Users.AnyAsync(u => u.Id == userId);
-            
-            if (!userExists)
+            wallet = new Wallet
             {
-                var defaultUser = await _dbContext.Users.FirstOrDefaultAsync();
-                if (defaultUser != null)
-                {
-                    targetUserId = defaultUser.Id;
-                    wallet = await _dbContext.Wallets.FirstOrDefaultAsync(w => w.UserId == targetUserId);
-                }
-            }
+                Id = Guid.NewGuid(),
+                UserId = userId,
+                Balance = 0m,
+                Currency = "VND",
+                UpdatedAt = DateTime.UtcNow
+            };
 
-            if (wallet is null)
-            {
-                wallet = new Wallet
-                {
-                    Id = Guid.NewGuid(),
-                    UserId = targetUserId,
-                    Balance = 100000000m, // Standard 100 million VND initial balance
-                    Currency = "VND",
-                    UpdatedAt = DateTime.UtcNow
-                };
-
-                if (userExists || targetUserId != userId)
-                {
-                    _dbContext.Wallets.Add(wallet);
-                    await _dbContext.SaveChangesAsync();
-                }
-            }
-        }
-        else if (wallet.Balance > 200000000m)
-        {
-            // Reset inflated balances back to standard 100 million VND
-            wallet.Balance = 100000000m;
-            wallet.Currency = "VND";
+            _dbContext.Wallets.Add(wallet);
             await _dbContext.SaveChangesAsync();
         }
         return wallet;

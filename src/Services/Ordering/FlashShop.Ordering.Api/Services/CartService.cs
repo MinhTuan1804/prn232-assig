@@ -38,8 +38,14 @@ public class CartService : ICartService
 
     public async Task<CartItemResponse> AddToCartAsync(Guid userId, AddToCartRequest request)
     {
+        if (!Guid.TryParse(request.ProductId, out var productGuid))
+        {
+            var hashBytes = System.Security.Cryptography.MD5.HashData(System.Text.Encoding.UTF8.GetBytes(request.ProductId));
+            productGuid = new Guid(hashBytes);
+        }
+
         var existing = await _dbContext.CartItems
-            .FirstOrDefaultAsync(c => c.UserId == userId && c.ProductId == request.ProductId);
+            .FirstOrDefaultAsync(c => c.UserId == userId && c.ProductId == productGuid);
 
         if (existing != null)
         {
@@ -53,7 +59,7 @@ public class CartService : ICartService
         {
             Id = Guid.NewGuid(),
             UserId = userId,
-            ProductId = request.ProductId,
+            ProductId = productGuid,
             ProductName = request.ProductName,
             UnitPrice = request.UnitPrice,
             Quantity = request.Quantity,

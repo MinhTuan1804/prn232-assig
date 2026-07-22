@@ -10,5 +10,6 @@ public class UserResponse
     public string? AvatarUrl { get; set; }
     public bool IsActive { get; set; }
     public string Role { get; set; } = string.Empty;
+    public decimal WalletBalance { get; set; }
     public DateTime CreatedAt { get; set; }
 }

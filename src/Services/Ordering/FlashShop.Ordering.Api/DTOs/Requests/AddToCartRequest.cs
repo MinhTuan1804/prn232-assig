@@ -5,7 +5,7 @@ namespace FlashShop.Ordering.Api.DTOs.Requests;
 public class AddToCartRequest
 {
     [Required]
-    public Guid ProductId { get; set; }
+    public string ProductId { get; set; } = string.Empty;
 
     [Required, MaxLength(300)]
     public string ProductName { get; set; } = string.Empty;
@@ -16,6 +16,6 @@ public class AddToCartRequest
     [Range(1, 100)]
     public int Quantity { get; set; } = 1;
 
-    [MaxLength(500)]
+    [MaxLength(2000)]
     public string? ImageUrl { get; set; }
 }

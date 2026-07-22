@@ -168,7 +168,8 @@ public class ProductService : IProductService
             Description = request.Description,
             Price = request.Price,
             ImageUrl = request.ImageUrl,
-            CategoryId = request.CategoryId
+            CategoryId = request.CategoryId,
+            StockQuantity = request.StockQuantity
         };
 
         // Add additional images
@@ -238,6 +239,9 @@ public class ProductService : IProductService
             product.CategoryId = request.CategoryId.Value;
         }
 
+        if (request.StockQuantity.HasValue)
+            product.StockQuantity = request.StockQuantity.Value;
+
         if (request.ImageUrls is not null)
         {
             // Replace existing images
@@ -287,6 +291,7 @@ public class ProductService : IProductService
             ImageUrl = product.ImageUrl,
             CategoryId = product.CategoryId,
             CategoryName = product.Category?.Name ?? string.Empty,
+            StockQuantity = product.StockQuantity,
             IsActive = product.IsActive,
             Images = product.Images.OrderBy(i => i.SortOrder).Select(i => new ProductImageResponse
             {

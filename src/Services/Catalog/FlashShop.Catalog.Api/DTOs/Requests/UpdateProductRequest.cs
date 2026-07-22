@@ -15,6 +15,7 @@ public class UpdateProductRequest
     public string? ImageUrl { get; set; }
 
     public int? CategoryId { get; set; }
+    public int? StockQuantity { get; set; }
 
     public List<string>? ImageUrls { get; set; }
 }

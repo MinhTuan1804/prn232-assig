@@ -19,14 +19,10 @@ public class FlashSaleService : IFlashSaleService
 
     public async Task<List<FlashSaleCampaignResponse>> GetActiveCampaignsAsync()
     {
-        var now = DateTime.UtcNow;
-
         var campaigns = await _context.FlashSaleCampaigns
             .Include(c => c.Items)
                 .ThenInclude(i => i.Product)
-            .Where(c => c.Status == CampaignStatus.Active
-                || (c.StartTime <= now && c.EndTime >= now))
-            .OrderBy(c => c.StartTime)
+            .OrderByDescending(c => c.StartTime)
             .ToListAsync();
 
         return campaigns.Select(MapToCampaignResponse).ToList();
@@ -142,6 +138,7 @@ public class FlashSaleService : IFlashSaleService
                 FlashSalePrice = i.FlashSalePrice,
                 FlashSaleQuantity = i.FlashSaleQuantity,
                 SoldQuantity = i.SoldQuantity,
+                StockQuantity = i.Product?.StockQuantity ?? Math.Max(0, i.FlashSaleQuantity - i.SoldQuantity),
                 MaxPerUser = i.MaxPerUser
             }).ToList()
         };

@@ -19,5 +19,6 @@ public class FlashSaleItemResponse
     public decimal FlashSalePrice { get; set; }
     public int FlashSaleQuantity { get; set; }
     public int SoldQuantity { get; set; }
+    public int StockQuantity { get; set; }
     public int MaxPerUser { get; set; }
 }
