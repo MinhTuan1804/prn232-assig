@@ -304,3 +304,7 @@ E:\Ki 8\PRN232\PRN232-ASSIGMENT\prn232-assig\src\Services\Catalog\FlashShop.Cata
 E:\Ki 8\PRN232\PRN232-ASSIGMENT\prn232-assig\src\Services\Catalog\FlashShop.Catalog.Api\obj\Debug\net8.0\FlashShop.Catalog.Api.pdb
 E:\Ki 8\PRN232\PRN232-ASSIGMENT\prn232-assig\src\Services\Catalog\FlashShop.Catalog.Api\obj\Debug\net8.0\FlashShop.Catalog.Api.genruntimeconfig.cache
 E:\Ki 8\PRN232\PRN232-ASSIGMENT\prn232-assig\src\Services\Catalog\FlashShop.Catalog.Api\obj\Debug\net8.0\ref\FlashShop.Catalog.Api.dll
+E:\Ki 8\PRN232\PRN232-ASSIGMENT\prn232-assig\src\Services\Catalog\FlashShop.Catalog.Api\bin\Debug\net8.0\Google.Protobuf.dll
+E:\Ki 8\PRN232\PRN232-ASSIGMENT\prn232-assig\src\Services\Catalog\FlashShop.Catalog.Api\bin\Debug\net8.0\Grpc.Core.Api.dll
+E:\Ki 8\PRN232\PRN232-ASSIGMENT\prn232-assig\src\Services\Catalog\FlashShop.Catalog.Api\bin\Debug\net8.0\Grpc.Net.Client.dll
+E:\Ki 8\PRN232\PRN232-ASSIGMENT\prn232-assig\src\Services\Catalog\FlashShop.Catalog.Api\bin\Debug\net8.0\Grpc.Net.Common.dll

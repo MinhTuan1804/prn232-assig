@@ -115,6 +115,7 @@ services:
       - ConnectionStrings__OrderingDb=Server=sqlserver;Database=FlashShop_OrderingDb;User Id=sa;Password=FlashShop2024Strong;TrustServerCertificate=True
       - RabbitMq__Host=rabbitmq
       - ServiceUrls__Identity=http://identity_api:8080
+      - ServiceUrls__IdentityGrpc=http://identity_api:8080
     depends_on:
       sqlserver:
         condition: service_healthy

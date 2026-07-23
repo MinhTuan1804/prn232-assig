@@ -1,4 +1,4 @@
-using System.Text;
+        using System.Text;
 using FlashShop.Ordering.Api.Consumers;
 using FlashShop.Ordering.Api.Data;
 using FlashShop.Ordering.Api.Jobs;
@@ -78,6 +78,13 @@ builder.Services.AddHangfireServer();
 builder.Services.AddHttpClient("IdentityService", client =>
 {
     client.BaseAddress = new Uri(builder.Configuration["ServiceUrls:Identity"]!);
+});
+
+// gRPC Client for Identity Service
+builder.Services.AddGrpcClient<FlashShop.MessageContracts.Protos.WalletGrpc.WalletGrpcClient>(o =>
+{
+    var identityUri = builder.Configuration["ServiceUrls:IdentityGrpc"] ?? builder.Configuration["ServiceUrls:Identity"] ?? "http://localhost:5001";
+    o.Address = new Uri(identityUri);
 });
 
 // Services

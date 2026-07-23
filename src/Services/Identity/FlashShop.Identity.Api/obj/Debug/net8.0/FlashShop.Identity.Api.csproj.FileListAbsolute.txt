@@ -314,3 +314,10 @@ E:\Ki 8\PRN232\PRN232-ASSIGMENT\prn232-assig\src\Services\Identity\FlashShop.Ide
 E:\Ki 8\PRN232\PRN232-ASSIGMENT\prn232-assig\src\Services\Identity\FlashShop.Identity.Api\obj\Debug\net8.0\FlashShop.Identity.Api.pdb
 E:\Ki 8\PRN232\PRN232-ASSIGMENT\prn232-assig\src\Services\Identity\FlashShop.Identity.Api\obj\Debug\net8.0\FlashShop.Identity.Api.genruntimeconfig.cache
 E:\Ki 8\PRN232\PRN232-ASSIGMENT\prn232-assig\src\Services\Identity\FlashShop.Identity.Api\obj\Debug\net8.0\ref\FlashShop.Identity.Api.dll
+E:\Ki 8\PRN232\PRN232-ASSIGMENT\prn232-assig\src\Services\Identity\FlashShop.Identity.Api\bin\Debug\net8.0\Google.Protobuf.dll
+E:\Ki 8\PRN232\PRN232-ASSIGMENT\prn232-assig\src\Services\Identity\FlashShop.Identity.Api\bin\Debug\net8.0\Grpc.AspNetCore.Server.dll
+E:\Ki 8\PRN232\PRN232-ASSIGMENT\prn232-assig\src\Services\Identity\FlashShop.Identity.Api\bin\Debug\net8.0\Grpc.AspNetCore.Server.ClientFactory.dll
+E:\Ki 8\PRN232\PRN232-ASSIGMENT\prn232-assig\src\Services\Identity\FlashShop.Identity.Api\bin\Debug\net8.0\Grpc.Core.Api.dll
+E:\Ki 8\PRN232\PRN232-ASSIGMENT\prn232-assig\src\Services\Identity\FlashShop.Identity.Api\bin\Debug\net8.0\Grpc.Net.Client.dll
+E:\Ki 8\PRN232\PRN232-ASSIGMENT\prn232-assig\src\Services\Identity\FlashShop.Identity.Api\bin\Debug\net8.0\Grpc.Net.ClientFactory.dll
+E:\Ki 8\PRN232\PRN232-ASSIGMENT\prn232-assig\src\Services\Identity\FlashShop.Identity.Api\bin\Debug\net8.0\Grpc.Net.Common.dll

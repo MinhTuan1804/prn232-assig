@@ -16,17 +16,20 @@ public class OrderService : IOrderService
     private readonly OrderingDbContext _dbContext;
     private readonly IPublishEndpoint _publishEndpoint;
     private readonly HttpClient _identityClient;
+    private readonly FlashShop.MessageContracts.Protos.WalletGrpc.WalletGrpcClient _walletGrpcClient;
     private readonly ILogger<OrderService> _logger;
 
     public OrderService(
         OrderingDbContext dbContext,
         IPublishEndpoint publishEndpoint,
         IHttpClientFactory httpClientFactory,
+        FlashShop.MessageContracts.Protos.WalletGrpc.WalletGrpcClient walletGrpcClient,
         ILogger<OrderService> logger)
     {
         _dbContext = dbContext;
         _publishEndpoint = publishEndpoint;
         _identityClient = httpClientFactory.CreateClient("IdentityService");
+        _walletGrpcClient = walletGrpcClient;
         _logger = logger;
     }
 
@@ -47,36 +50,57 @@ public class OrderService : IOrderService
             || request.PaymentMethod.Contains("Ví FlashPay") 
             || request.PaymentMethod.Contains("Wallet");
 
-        // 1. If paying by Wallet, verify and deduct wallet balance FIRST!
+        // 1. If paying by Wallet, verify and deduct wallet balance FIRST via gRPC (with REST fallback)
         if (isWalletPayment)
         {
-            var paymentRequest = new
+            try
             {
-                UserId = userId,
-                Amount = totalAmount,
-                OrderId = orderId.ToString(),
-                Description = $"Thanh toán đơn hàng {orderNumber}"
-            };
-
-            var payResponse = await _identityClient.PostAsJsonAsync("/api/wallets/pay", paymentRequest);
-            if (!payResponse.IsSuccessStatusCode)
-            {
-                var errorContent = await payResponse.Content.ReadAsStringAsync();
-                var errorMessage = "Số dư ví FlashPay không đủ để thanh toán. Vui lòng nạp thêm tiền vào ví!";
-                try
+                _logger.LogInformation("Executing gRPC Wallet Payment for Order {OrderNumber}, UserId: {UserId}", orderNumber, userId);
+                var grpcReq = new FlashShop.MessageContracts.Protos.WalletPaymentRequest
                 {
-                    var apiErr = System.Text.Json.JsonSerializer.Deserialize<FlashShop.Shared.Common.ApiResponse<object>>(
-                        errorContent, 
-                        new System.Text.Json.JsonSerializerOptions { PropertyNameCaseInsensitive = true }
-                    );
-                    if (!string.IsNullOrWhiteSpace(apiErr?.Message))
-                    {
-                        errorMessage = apiErr.Message;
-                    }
-                }
-                catch { }
+                    UserId = userId.ToString(),
+                    Amount = (double)totalAmount,
+                    OrderId = orderId.ToString(),
+                    Description = $"Thanh toán đơn hàng {orderNumber}"
+                };
 
-                throw new BadRequestException(errorMessage);
+                var grpcRes = await _walletGrpcClient.PayWithWalletAsync(grpcReq);
+                if (!grpcRes.IsSuccess)
+                {
+                    throw new BadRequestException(!string.IsNullOrWhiteSpace(grpcRes.Message) ? grpcRes.Message : "Số dư ví FlashPay không đủ để thanh toán. Vui lòng nạp thêm tiền vào ví!");
+                }
+            }
+            catch (Exception ex) when (ex is not BadRequestException)
+            {
+                _logger.LogWarning(ex, "gRPC Wallet Payment failed/unavailable. Falling back to HTTP REST call for Order {OrderNumber}", orderNumber);
+                var paymentRequest = new
+                {
+                    UserId = userId,
+                    Amount = totalAmount,
+                    OrderId = orderId.ToString(),
+                    Description = $"Thanh toán đơn hàng {orderNumber}"
+                };
+
+                var payResponse = await _identityClient.PostAsJsonAsync("/api/wallets/pay", paymentRequest);
+                if (!payResponse.IsSuccessStatusCode)
+                {
+                    var errorContent = await payResponse.Content.ReadAsStringAsync();
+                    var errorMessage = "Số dư ví FlashPay không đủ để thanh toán. Vui lòng nạp thêm tiền vào ví!";
+                    try
+                    {
+                        var apiErr = System.Text.Json.JsonSerializer.Deserialize<FlashShop.Shared.Common.ApiResponse<object>>(
+                            errorContent, 
+                            new System.Text.Json.JsonSerializerOptions { PropertyNameCaseInsensitive = true }
+                        );
+                        if (!string.IsNullOrWhiteSpace(apiErr?.Message))
+                        {
+                            errorMessage = apiErr.Message;
+                        }
+                    }
+                    catch { }
+
+                    throw new BadRequestException(errorMessage);
+                }
             }
         }
 

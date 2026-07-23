@@ -109,6 +109,7 @@ app.UseSwaggerUI(c =>
 app.UseAuthentication();
 app.UseAuthorization();
 app.MapControllers();
+app.MapGrpcService<WalletGrpcService>();
 
 
 using (var scope = app.Services.CreateScope())

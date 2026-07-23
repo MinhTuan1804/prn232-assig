@@ -1,4 +1,4 @@
-using FlashShop.Inventory.Api.Services;
+    using FlashShop.Inventory.Api.Services;
 using FlashShop.MessageContracts.Events;
 using MassTransit;
 

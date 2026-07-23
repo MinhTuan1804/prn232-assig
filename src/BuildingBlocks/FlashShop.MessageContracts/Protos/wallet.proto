@@ -1,0 +1,34 @@
+syntax = "proto3";
+
+option csharp_namespace = "FlashShop.MessageContracts.Protos";
+
+package wallet;
+
+service WalletGrpc {
+  rpc PayWithWallet (WalletPaymentRequest) returns (WalletPaymentResponse);
+  rpc GetWalletBalance (GetWalletBalanceRequest) returns (GetWalletBalanceResponse);
+}
+
+message WalletPaymentRequest {
+  string user_id = 1;
+  double amount = 2;
+  string order_id = 3;
+  string description = 4;
+}
+
+message WalletPaymentResponse {
+  bool is_success = 1;
+  string message = 2;
+  double remaining_balance = 3;
+  string transaction_id = 4;
+}
+
+message GetWalletBalanceRequest {
+  string user_id = 1;
+}
+
+message GetWalletBalanceResponse {
+  bool is_success = 1;
+  string message = 2;
+  double balance = 3;
+}
