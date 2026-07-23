@@ -52,6 +52,8 @@ builder.Services.AddAuthentication(opt =>
     };
 });
 
+builder.Services.AddGrpc();
+
 // Services
 builder.Services.AddScoped<IAuthService, AuthService>();
 builder.Services.AddScoped<IUserService, UserService>();
