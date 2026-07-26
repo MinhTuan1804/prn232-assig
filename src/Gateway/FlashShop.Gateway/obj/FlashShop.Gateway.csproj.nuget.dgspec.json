@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "e:\\Ki 8\\PRN232\\PRN232-ASSIGMENT\\prn232-assig\\src\\Gateway\\FlashShop.Gateway\\FlashShop.Gateway.csproj": {}
+    "E:\\Ki 8\\PRN232\\PRN232-ASSIGMENT\\prn232-assig\\src\\Gateway\\FlashShop.Gateway\\FlashShop.Gateway.csproj": {}
   },
   "projects": {
-    "e:\\Ki 8\\PRN232\\PRN232-ASSIGMENT\\prn232-assig\\src\\BuildingBlocks\\FlashShop.Shared\\FlashShop.Shared.csproj": {
+    "E:\\Ki 8\\PRN232\\PRN232-ASSIGMENT\\prn232-assig\\src\\BuildingBlocks\\FlashShop.Shared\\FlashShop.Shared.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "e:\\Ki 8\\PRN232\\PRN232-ASSIGMENT\\prn232-assig\\src\\BuildingBlocks\\FlashShop.Shared\\FlashShop.Shared.csproj",
+        "projectUniqueName": "E:\\Ki 8\\PRN232\\PRN232-ASSIGMENT\\prn232-assig\\src\\BuildingBlocks\\FlashShop.Shared\\FlashShop.Shared.csproj",
         "projectName": "FlashShop.Shared",
-        "projectPath": "e:\\Ki 8\\PRN232\\PRN232-ASSIGMENT\\prn232-assig\\src\\BuildingBlocks\\FlashShop.Shared\\FlashShop.Shared.csproj",
+        "projectPath": "E:\\Ki 8\\PRN232\\PRN232-ASSIGMENT\\prn232-assig\\src\\BuildingBlocks\\FlashShop.Shared\\FlashShop.Shared.csproj",
         "packagesPath": "C:\\Users\\Admin\\.nuget\\packages\\",
-        "outputPath": "e:\\Ki 8\\PRN232\\PRN232-ASSIGMENT\\prn232-assig\\src\\BuildingBlocks\\FlashShop.Shared\\obj\\",
+        "outputPath": "E:\\Ki 8\\PRN232\\PRN232-ASSIGMENT\\prn232-assig\\src\\BuildingBlocks\\FlashShop.Shared\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
@@ -69,14 +69,14 @@
         }
       }
     },
-    "e:\\Ki 8\\PRN232\\PRN232-ASSIGMENT\\prn232-assig\\src\\Gateway\\FlashShop.Gateway\\FlashShop.Gateway.csproj": {
+    "E:\\Ki 8\\PRN232\\PRN232-ASSIGMENT\\prn232-assig\\src\\Gateway\\FlashShop.Gateway\\FlashShop.Gateway.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "e:\\Ki 8\\PRN232\\PRN232-ASSIGMENT\\prn232-assig\\src\\Gateway\\FlashShop.Gateway\\FlashShop.Gateway.csproj",
+        "projectUniqueName": "E:\\Ki 8\\PRN232\\PRN232-ASSIGMENT\\prn232-assig\\src\\Gateway\\FlashShop.Gateway\\FlashShop.Gateway.csproj",
         "projectName": "FlashShop.Gateway",
-        "projectPath": "e:\\Ki 8\\PRN232\\PRN232-ASSIGMENT\\prn232-assig\\src\\Gateway\\FlashShop.Gateway\\FlashShop.Gateway.csproj",
+        "projectPath": "E:\\Ki 8\\PRN232\\PRN232-ASSIGMENT\\prn232-assig\\src\\Gateway\\FlashShop.Gateway\\FlashShop.Gateway.csproj",
         "packagesPath": "C:\\Users\\Admin\\.nuget\\packages\\",
-        "outputPath": "e:\\Ki 8\\PRN232\\PRN232-ASSIGMENT\\prn232-assig\\src\\Gateway\\FlashShop.Gateway\\obj\\",
+        "outputPath": "E:\\Ki 8\\PRN232\\PRN232-ASSIGMENT\\prn232-assig\\src\\Gateway\\FlashShop.Gateway\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
@@ -97,8 +97,8 @@
           "net8.0": {
             "targetAlias": "net8.0",
             "projectReferences": {
-              "e:\\Ki 8\\PRN232\\PRN232-ASSIGMENT\\prn232-assig\\src\\BuildingBlocks\\FlashShop.Shared\\FlashShop.Shared.csproj": {
-                "projectPath": "e:\\Ki 8\\PRN232\\PRN232-ASSIGMENT\\prn232-assig\\src\\BuildingBlocks\\FlashShop.Shared\\FlashShop.Shared.csproj"
+              "E:\\Ki 8\\PRN232\\PRN232-ASSIGMENT\\prn232-assig\\src\\BuildingBlocks\\FlashShop.Shared\\FlashShop.Shared.csproj": {
+                "projectPath": "E:\\Ki 8\\PRN232\\PRN232-ASSIGMENT\\prn232-assig\\src\\BuildingBlocks\\FlashShop.Shared\\FlashShop.Shared.csproj"
               }
             }
           }
