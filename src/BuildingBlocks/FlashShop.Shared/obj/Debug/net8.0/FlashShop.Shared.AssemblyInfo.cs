@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("FlashShop.Shared")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+c5437978b67130cde7292aeb0285cea1bf473bd5")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+ddf819a882ca064340b6e149485afd70bce42cdd")]
 [assembly: System.Reflection.AssemblyProductAttribute("FlashShop.Shared")]
 [assembly: System.Reflection.AssemblyTitleAttribute("FlashShop.Shared")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

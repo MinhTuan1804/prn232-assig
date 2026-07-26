@@ -131,7 +131,7 @@ public class NotificationsController : ControllerBase
     [AllowAnonymous]
     public async Task<IActionResult> PushTest([FromBody] PushTestRequest? request)
     {
-        var title = string.IsNullOrWhiteSpace(request?.Title) ? "⚡ BÁO ĐỘNG SALE SỐC 2026" : request.Title.Trim();
+        var title = string.IsNullOrWhiteSpace(request?.Title) ? "BÁO ĐỘNG SALE SỐC 2026" : request.Title.Trim();
         var message = string.IsNullOrWhiteSpace(request?.Message) ? "Chuột Gaming Razer Viper V3 Pro 54g siêu nhẹ đang giảm giá 30%!" : request.Message.Trim();
 
         var log = new NotificationLog

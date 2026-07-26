@@ -15,7 +15,7 @@ public static class DataSeeder
             {
                 Id = existingTemplates.FirstOrDefault(t => t.Key == "OrderAwaitingPayment")?.Id ?? Guid.NewGuid(),
                 Key = "OrderAwaitingPayment",
-                Subject = "⚡ [FlashShop] Đơn hàng {{OrderNumber}} đang chờ thanh toán",
+                Subject = "[FlashShop] Đơn hàng {{OrderNumber}} đang chờ thanh toán",
                 IsActive = true,
                 Body = """
                 <!DOCTYPE html>
@@ -83,7 +83,7 @@ public static class DataSeeder
             {
                 Id = existingTemplates.FirstOrDefault(t => t.Key == "OrderPaid")?.Id ?? Guid.NewGuid(),
                 Key = "OrderPaid",
-                Subject = "🎉 [FlashShop] Thanh toán thành công đơn hàng {{OrderNumber}}",
+                Subject = "[FlashShop] Thanh toán thành công đơn hàng {{OrderNumber}}",
                 IsActive = true,
                 Body = """
                 <!DOCTYPE html>
@@ -111,7 +111,7 @@ public static class DataSeeder
                                             <div style="background-color:#131320; border:1px solid #10B981; border-radius:14px; padding:24px; margin: 28px 0;">
                                                 <table width="100%" cellspacing="0" cellpadding="0" border="0">
                                                     <tr>
-                                                        <td style="padding-bottom:12px; color:#10B981; font-size:13px; text-transform:uppercase; font-weight:700; letter-spacing:1px;">✓ Đã Xác Nhận Thanh Toán</td>
+                                                        <td style="padding-bottom:12px; color:#10B981; font-size:13px; text-transform:uppercase; font-weight:700; letter-spacing:1px;">Đã Xác Nhận Thanh Toán</td>
                                                     </tr>
                                                     <tr>
                                                         <td style="padding: 8px 0; color:#94A3B8; font-size:14px;">Mã đơn hàng:</td>
@@ -151,7 +151,7 @@ public static class DataSeeder
             {
                 Id = existingTemplates.FirstOrDefault(t => t.Key == "OrderOutOfStock")?.Id ?? Guid.NewGuid(),
                 Key = "OrderOutOfStock",
-                Subject = "⚠️ [FlashShop] Đơn hàng {{OrderNumber}} tạm thời hết hàng",
+                Subject = "[FlashShop] Đơn hàng {{OrderNumber}} tạm thời hết hàng",
                 IsActive = true,
                 Body = """
                 <!DOCTYPE html>
@@ -202,7 +202,7 @@ public static class DataSeeder
             {
                 Id = existingTemplates.FirstOrDefault(t => t.Key == "OrderCancelled")?.Id ?? Guid.NewGuid(),
                 Key = "OrderCancelled",
-                Subject = "❌ [FlashShop] Thông báo hủy đơn hàng {{OrderNumber}}",
+                Subject = "[FlashShop] Thông báo hủy đơn hàng {{OrderNumber}}",
                 IsActive = true,
                 Body = """
                 <!DOCTYPE html>
@@ -253,7 +253,7 @@ public static class DataSeeder
             {
                 Id = existingTemplates.FirstOrDefault(t => t.Key == "DailySalesReport")?.Id ?? Guid.NewGuid(),
                 Key = "DailySalesReport",
-                Subject = "📊 [FlashShop Admin] Báo cáo doanh thu ngày {{Date}}",
+                Subject = "[FlashShop Admin] Báo cáo doanh thu ngày {{Date}}",
                 IsActive = true,
                 Body = """
                 <!DOCTYPE html>
