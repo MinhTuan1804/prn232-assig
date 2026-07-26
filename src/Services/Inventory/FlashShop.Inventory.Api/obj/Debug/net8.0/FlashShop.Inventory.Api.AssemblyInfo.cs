@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("FlashShop.Inventory.Api")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+7805dc88891dc53045fa73ec8422c2f7649bcc31")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+c5437978b67130cde7292aeb0285cea1bf473bd5")]
 [assembly: System.Reflection.AssemblyProductAttribute("FlashShop.Inventory.Api")]
 [assembly: System.Reflection.AssemblyTitleAttribute("FlashShop.Inventory.Api")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

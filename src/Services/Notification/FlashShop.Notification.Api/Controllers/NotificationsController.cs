@@ -160,10 +160,31 @@ public class NotificationsController : ControllerBase
 
         return Ok(ApiResponse<object>.SuccessResponse(notification, "Push notification sent successfully."));
     }
+
+    [HttpPost("send-test")]
+    [AllowAnonymous]
+    public async Task<IActionResult> SendTestEmail([FromBody] SendTestEmailRequest? request)
+    {
+        var recipient = !string.IsNullOrWhiteSpace(request?.Email) ? request.Email.Trim() : "tuanhotboy2005@gmail.com";
+        var placeholders = new Dictionary<string, string>
+        {
+            { "OrderNumber", "FS-20260727-8899" },
+            { "TotalAmount", "1,500,000" },
+            { "PaymentDeadline", DateTime.UtcNow.AddMinutes(15).ToString("HH:mm dd/MM/yyyy") }
+        };
+
+        await _notificationService.SendNotificationAsync("OrderPaid", recipient, placeholders);
+        return Ok(ApiResponse<object>.SuccessResponse(new { recipient }, "Test email request sent."));
+    }
 }
 
 public class PushTestRequest
 {
     public string? Title { get; set; }
     public string? Message { get; set; }
+}
+
+public class SendTestEmailRequest
+{
+    public string? Email { get; set; }
 }

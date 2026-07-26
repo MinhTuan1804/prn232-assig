@@ -29,7 +29,7 @@ public class EmailService : IEmailService
             message.Body = bodyBuilder.ToMessageBody();
 
             using var client = new SmtpClient();
-            await client.ConnectAsync(_settings.Host, _settings.Port, _settings.UseSsl);
+            await client.ConnectAsync(_settings.Host, _settings.Port, MailKit.Security.SecureSocketOptions.Auto);
 
             if (!string.IsNullOrEmpty(_settings.Username))
                 await client.AuthenticateAsync(_settings.Username, _settings.Password);
