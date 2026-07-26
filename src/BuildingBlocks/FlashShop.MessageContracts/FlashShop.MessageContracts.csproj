@@ -19,6 +19,7 @@
 
   <ItemGroup>
     <Protobuf Include="Protos\wallet.proto" GrpcServices="Both" />
+    <Protobuf Include="Protos\catalog.proto" GrpcServices="Both" />
   </ItemGroup>
 
   <ItemGroup>

@@ -1,0 +1,23 @@
+syntax = "proto3";
+
+option csharp_namespace = "FlashShop.MessageContracts.Protos";
+
+package catalog;
+
+service CatalogGrpc {
+  rpc DeductStock (DeductStockRequest) returns (DeductStockResponse);
+}
+
+message StockItem {
+  string product_id = 1;
+  int32 quantity = 2;
+}
+
+message DeductStockRequest {
+  repeated StockItem items = 1;
+}
+
+message DeductStockResponse {
+  bool is_success = 1;
+  string message = 2;
+}

@@ -15,21 +15,21 @@ public class OrderService : IOrderService
 {
     private readonly OrderingDbContext _dbContext;
     private readonly IPublishEndpoint _publishEndpoint;
-    private readonly HttpClient _identityClient;
     private readonly FlashShop.MessageContracts.Protos.WalletGrpc.WalletGrpcClient _walletGrpcClient;
+    private readonly FlashShop.MessageContracts.Protos.CatalogGrpc.CatalogGrpcClient _catalogGrpcClient;
     private readonly ILogger<OrderService> _logger;
 
     public OrderService(
         OrderingDbContext dbContext,
         IPublishEndpoint publishEndpoint,
-        IHttpClientFactory httpClientFactory,
         FlashShop.MessageContracts.Protos.WalletGrpc.WalletGrpcClient walletGrpcClient,
+        FlashShop.MessageContracts.Protos.CatalogGrpc.CatalogGrpcClient catalogGrpcClient,
         ILogger<OrderService> logger)
     {
         _dbContext = dbContext;
         _publishEndpoint = publishEndpoint;
-        _identityClient = httpClientFactory.CreateClient("IdentityService");
         _walletGrpcClient = walletGrpcClient;
+        _catalogGrpcClient = catalogGrpcClient;
         _logger = logger;
     }
 
@@ -50,57 +50,24 @@ public class OrderService : IOrderService
             || request.PaymentMethod.Contains("Ví FlashPay") 
             || request.PaymentMethod.Contains("Wallet");
 
-        // 1. If paying by Wallet, verify and deduct wallet balance FIRST via gRPC (with REST fallback)
+        // 1. If paying by Wallet, verify and deduct wallet balance FIRST via gRPC
         if (isWalletPayment)
         {
-            try
+            _logger.LogInformation("Executing gRPC Wallet Payment for Order {OrderNumber}, UserId: {UserId}", orderNumber, userId);
+            var grpcReq = new FlashShop.MessageContracts.Protos.WalletPaymentRequest
             {
-                _logger.LogInformation("Executing gRPC Wallet Payment for Order {OrderNumber}, UserId: {UserId}", orderNumber, userId);
-                var grpcReq = new FlashShop.MessageContracts.Protos.WalletPaymentRequest
-                {
-                    UserId = userId.ToString(),
-                    Amount = (double)totalAmount,
-                    OrderId = orderId.ToString(),
-                    Description = $"Thanh toán đơn hàng {orderNumber}"
-                };
+                UserId = userId.ToString(),
+                Amount = (double)totalAmount,
+                OrderId = orderId.ToString(),
+                Description = $"Thanh toán đơn hàng {orderNumber}"
+            };
 
-                var grpcRes = await _walletGrpcClient.PayWithWalletAsync(grpcReq);
-                if (!grpcRes.IsSuccess)
-                {
-                    throw new BadRequestException(!string.IsNullOrWhiteSpace(grpcRes.Message) ? grpcRes.Message : "Số dư ví FlashPay không đủ để thanh toán. Vui lòng nạp thêm tiền vào ví!");
-                }
-            }
-            catch (Exception ex) when (ex is not BadRequestException)
+            var grpcRes = await _walletGrpcClient.PayWithWalletAsync(grpcReq);
+            if (!grpcRes.IsSuccess)
             {
-                _logger.LogWarning(ex, "gRPC Wallet Payment failed/unavailable. Falling back to HTTP REST call for Order {OrderNumber}", orderNumber);
-                var paymentRequest = new
-                {
-                    UserId = userId,
-                    Amount = totalAmount,
-                    OrderId = orderId.ToString(),
-                    Description = $"Thanh toán đơn hàng {orderNumber}"
-                };
-
-                var payResponse = await _identityClient.PostAsJsonAsync("/api/wallets/pay", paymentRequest);
-                if (!payResponse.IsSuccessStatusCode)
-                {
-                    var errorContent = await payResponse.Content.ReadAsStringAsync();
-                    var errorMessage = "Số dư ví FlashPay không đủ để thanh toán. Vui lòng nạp thêm tiền vào ví!";
-                    try
-                    {
-                        var apiErr = System.Text.Json.JsonSerializer.Deserialize<FlashShop.Shared.Common.ApiResponse<object>>(
-                            errorContent, 
-                            new System.Text.Json.JsonSerializerOptions { PropertyNameCaseInsensitive = true }
-                        );
-                        if (!string.IsNullOrWhiteSpace(apiErr?.Message))
-                        {
-                            errorMessage = apiErr.Message;
-                        }
-                    }
-                    catch { }
-
-                    throw new BadRequestException(errorMessage);
-                }
+                throw new BadRequestException(!string.IsNullOrWhiteSpace(grpcRes.Message) 
+                    ? grpcRes.Message 
+                    : "Số dư ví FlashPay không đủ để thanh toán. Vui lòng nạp thêm tiền vào ví!");
             }
         }
 
@@ -155,20 +122,25 @@ public class OrderService : IOrderService
         _dbContext.CartItems.RemoveRange(cartItems);
         await _dbContext.SaveChangesAsync();
 
-        // Deduct inventory stock quantity in CatalogDb for purchased items
-        foreach (var cartItem in cartItems)
+        // Deduct inventory stock quantity in CatalogDb via gRPC for purchased items
+        try
         {
-            try
+            var deductReq = new FlashShop.MessageContracts.Protos.DeductStockRequest();
+            deductReq.Items.AddRange(cartItems.Select(c => new FlashShop.MessageContracts.Protos.StockItem
             {
-                await _dbContext.Database.ExecuteSqlRawAsync(
-                    "USE FlashShop_CatalogDb; UPDATE Products SET StockQuantity = CASE WHEN StockQuantity - {0} < 0 THEN 0 ELSE StockQuantity - {0} END WHERE Id = {1}; UPDATE FlashSaleItems SET SoldQuantity = SoldQuantity + {0} WHERE ProductId = {1}; USE FlashShop_OrderingDb;",
-                    cartItem.Quantity, cartItem.ProductId
-                );
-            }
-            catch (Exception ex)
+                ProductId = c.ProductId.ToString(),
+                Quantity = c.Quantity
+            }));
+
+            var deductRes = await _catalogGrpcClient.DeductStockAsync(deductReq);
+            if (!deductRes.IsSuccess)
             {
-                _logger.LogWarning(ex, "Notice: Stock quantity update notice for product {ProductId}", cartItem.ProductId);
+                _logger.LogWarning("Catalog gRPC stock deduction notice: {Message}", deductRes.Message);
             }
+        }
+        catch (Exception ex)
+        {
+            _logger.LogWarning(ex, "Catalog gRPC stock deduction failed");
         }
 
         // 3. Publish events to MassTransit
@@ -253,18 +225,18 @@ public class OrderService : IOrderService
 
         try
         {
-            var paymentRequest = new
+            var grpcReq = new FlashShop.MessageContracts.Protos.WalletPaymentRequest
             {
-                UserId = userId,
-                Amount = order.TotalAmount,
+                UserId = userId.ToString(),
+                Amount = (double)order.TotalAmount,
                 OrderId = order.Id.ToString(),
                 Description = $"Payment for order {order.OrderNumber}"
             };
-            await _identityClient.PostAsJsonAsync("/api/wallets/pay", paymentRequest);
+            await _walletGrpcClient.PayWithWalletAsync(grpcReq);
         }
         catch (Exception ex)
         {
-            _logger.LogWarning(ex, "Wallet deduction failed in PayOrderAsync, preserving Paid status");
+            _logger.LogWarning(ex, "Wallet deduction failed in PayOrderAsync via gRPC, preserving Paid status");
         }
 
         await _publishEndpoint.Publish(new OrderPaidEvent

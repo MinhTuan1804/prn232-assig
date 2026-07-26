@@ -87,6 +87,13 @@ builder.Services.AddGrpcClient<FlashShop.MessageContracts.Protos.WalletGrpc.Wall
     o.Address = new Uri(identityUri);
 });
 
+// gRPC Client for Catalog Service
+builder.Services.AddGrpcClient<FlashShop.MessageContracts.Protos.CatalogGrpc.CatalogGrpcClient>(o =>
+{
+    var catalogUri = builder.Configuration["ServiceUrls:CatalogGrpc"] ?? builder.Configuration["ServiceUrls:Catalog"] ?? "http://localhost:5002";
+    o.Address = new Uri(catalogUri);
+});
+
 // Services
 builder.Services.AddScoped<ICartService, CartService>();
 builder.Services.AddScoped<IOrderService, OrderService>();

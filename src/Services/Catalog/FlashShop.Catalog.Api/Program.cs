@@ -56,6 +56,7 @@ builder.Services.AddMassTransit(x =>
 });
 
 builder.Services.AddControllers();
+builder.Services.AddGrpc();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen(c =>
 {
@@ -94,6 +95,7 @@ app.UseSwaggerUI(c =>
 app.UseAuthentication();
 app.UseAuthorization();
 app.MapControllers();
+app.MapGrpcService<CatalogGrpcService>();
 
 
 using (var scope = app.Services.CreateScope())

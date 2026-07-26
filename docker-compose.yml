@@ -116,6 +116,8 @@ services:
       - RabbitMq__Host=rabbitmq
       - ServiceUrls__Identity=http://identity_api:8080
       - ServiceUrls__IdentityGrpc=http://identity_api:8080
+      - ServiceUrls__Catalog=http://catalog_api:8080
+      - ServiceUrls__CatalogGrpc=http://catalog_api:8080
     depends_on:
       sqlserver:
         condition: service_healthy
