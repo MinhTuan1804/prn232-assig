@@ -12,6 +12,8 @@ services:
       - SA_PASSWORD=FlashShop2024Strong
     ports:
       - "1434:1433" # Map port 1433 in container to 1434 on host (as in appsettings.json)
+    volumes:
+      - sqlserver_data:/var/opt/mssql/
     healthcheck:
       test:
         [
@@ -33,6 +35,8 @@ services:
     ports:
       - "5672:5672"
       - "15672:15672"
+    volumes:
+      - rabbitmq_data:/var/lib/rabbitmq
     healthcheck:
       test: rabbitmq-diagnostics -q ping
       interval: 10s
@@ -205,3 +209,9 @@ services:
 networks:
   flashshop-network:
     driver: bridge
+
+volumes:
+  sqlserver_data:
+    driver: local
+  rabbitmq_data:
+    driver: local
