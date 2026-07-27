@@ -16,3 +16,15 @@ The primary architectural styles are:
 - Hangfire for recurring and background processing.
 
 This document describes the architecture represented by the source code and deployment configuration in this repository.
+
+## 2. System Context and Actors
+
+FlashShop serves three business actors:
+
+- Guest: browses categories, products, testimonials, and flash-sale campaigns; registers and signs in.
+- Customer: manages a profile and FlashPay wallet, maintains a cart, checks out, pays for orders, and reviews order history.
+- Administrator: manages users, roles, categories, products, campaigns, stock, orders, and notification templates.
+
+The web frontend or another HTTP API client is the access channel. It sends REST requests to the API Gateway and includes a JWT for protected operations. Gmail SMTP is an external delivery system for transactional emails and administrative reports. Product and testimonial records may reference images hosted by Unsplash.
+
+SQL Server, RabbitMQ, and Hangfire are supporting runtime infrastructure rather than business actors.
