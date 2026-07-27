@@ -52,6 +52,10 @@ services:
     container_name: identity_api
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_Kestrel__Endpoints__Http1__Url=http://+:8080
+      - ASPNETCORE_Kestrel__Endpoints__Http1__Protocols=Http1
+      - ASPNETCORE_Kestrel__Endpoints__Http2__Url=http://+:8081
+      - ASPNETCORE_Kestrel__Endpoints__Http2__Protocols=Http2
       - ConnectionStrings__IdentityDb=Server=sqlserver;Database=FlashShop_IdentityDb;User Id=sa;Password=FlashShop2024Strong;TrustServerCertificate=True
       - RabbitMq__Host=rabbitmq
     depends_on:
@@ -72,6 +76,10 @@ services:
     container_name: catalog_api
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_Kestrel__Endpoints__Http1__Url=http://+:8080
+      - ASPNETCORE_Kestrel__Endpoints__Http1__Protocols=Http1
+      - ASPNETCORE_Kestrel__Endpoints__Http2__Url=http://+:8081
+      - ASPNETCORE_Kestrel__Endpoints__Http2__Protocols=Http2
       - ConnectionStrings__CatalogDb=Server=sqlserver;Database=FlashShop_CatalogDb;User Id=sa;Password=FlashShop2024Strong;TrustServerCertificate=True
       - RabbitMq__Host=rabbitmq
     depends_on:
@@ -92,6 +100,10 @@ services:
     container_name: inventory_api
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_Kestrel__Endpoints__Http1__Url=http://+:8080
+      - ASPNETCORE_Kestrel__Endpoints__Http1__Protocols=Http1
+      - ASPNETCORE_Kestrel__Endpoints__Http2__Url=http://+:8081
+      - ASPNETCORE_Kestrel__Endpoints__Http2__Protocols=Http2
       - ConnectionStrings__InventoryDb=Server=sqlserver;Database=FlashShop_InventoryDb;User Id=sa;Password=FlashShop2024Strong;TrustServerCertificate=True
       - RabbitMq__Host=rabbitmq
     depends_on:
@@ -112,12 +124,16 @@ services:
     container_name: ordering_api
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_Kestrel__Endpoints__Http1__Url=http://+:8080
+      - ASPNETCORE_Kestrel__Endpoints__Http1__Protocols=Http1
+      - ASPNETCORE_Kestrel__Endpoints__Http2__Url=http://+:8081
+      - ASPNETCORE_Kestrel__Endpoints__Http2__Protocols=Http2
       - ConnectionStrings__OrderingDb=Server=sqlserver;Database=FlashShop_OrderingDb;User Id=sa;Password=FlashShop2024Strong;TrustServerCertificate=True
       - RabbitMq__Host=rabbitmq
       - ServiceUrls__Identity=http://identity_api:8080
-      - ServiceUrls__IdentityGrpc=http://identity_api:8080
+      - ServiceUrls__IdentityGrpc=http://identity_api:8081
       - ServiceUrls__Catalog=http://catalog_api:8080
-      - ServiceUrls__CatalogGrpc=http://catalog_api:8080
+      - ServiceUrls__CatalogGrpc=http://catalog_api:8081
     depends_on:
       sqlserver:
         condition: service_healthy
@@ -136,8 +152,19 @@ services:
     container_name: notification_api
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_Kestrel__Endpoints__Http1__Url=http://+:8080
+      - ASPNETCORE_Kestrel__Endpoints__Http1__Protocols=Http1
+      - ASPNETCORE_Kestrel__Endpoints__Http2__Url=http://+:8081
+      - ASPNETCORE_Kestrel__Endpoints__Http2__Protocols=Http2
       - ConnectionStrings__NotificationDb=Server=sqlserver;Database=FlashShop_NotificationDb;User Id=sa;Password=FlashShop2024Strong;TrustServerCertificate=True
       - RabbitMq__Host=rabbitmq
+      - SmtpSettings__Host=smtp.gmail.com
+      - SmtpSettings__Port=587
+      - SmtpSettings__Username=se180276leminhtuan@gmail.com
+      - SmtpSettings__Password=nhhxicoldllpwgwu
+      - SmtpSettings__FromEmail=se180276leminhtuan@gmail.com
+      - SmtpSettings__FromName=FlashShop
+      - SmtpSettings__UseSsl=true
     depends_on:
       sqlserver:
         condition: service_healthy
