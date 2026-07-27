@@ -70,3 +70,15 @@ Each service owns a separate Entity Framework Core context and logical SQL Serve
 | FlashShop_NotificationDb | Notification | Templates, delivery logs, and Hangfire state |
 
 The databases currently share one SQL Server container for development convenience, but their schemas and migrations are owned by separate services. Cross-service business operations use APIs or messages rather than direct table access.
+
+## 6. Synchronous Communication
+
+External clients communicate with the backend through REST and JSON. This keeps the public API compatible with browsers, Swagger, Postman, and mobile clients.
+
+Ordering uses gRPC for internal operations that require an immediate result:
+
+- WalletGrpc.PayWithWallet asks Identity to deduct a customer's FlashPay balance and returns success or failure.
+- WalletGrpc.GetWalletBalance reads the current balance.
+- CatalogGrpc.DeductStock updates catalog product and flash-sale quantities.
+
+The Protobuf contracts live in the shared MessageContracts project, while Identity and Catalog host the gRPC servers. Ordering receives generated strongly typed clients through dependency injection. HTTP/2 endpoints are separated from the HTTP/1 REST endpoints in the container configuration.
