@@ -42,3 +42,17 @@ The backend is divided into five business services:
 | Notification | Notification templates, delivery logs, transactional email, and scheduled reports |
 
 Each service has a dedicated startup entry point, controllers, application services, entity model, Entity Framework Core context, migrations, and Dockerfile. Shared code is limited to cross-cutting primitives and communication contracts.
+
+## 4. API Gateway and Routing
+
+The YARP-based API Gateway is the intended public backend entry point. It maps resource-oriented URL prefixes to internal services:
+
+- Authentication, users, and wallets route to Identity.
+- Categories, products, testimonials, and flash sales route to Catalog.
+- Stock routes to Inventory.
+- Cart and order routes to Ordering.
+- Notification routes to Notification.
+
+The Gateway validates JWT issuer, audience, signature, and token lifetime. It also provides cross-origin configuration, aggregated Swagger endpoints, and a health endpoint that checks the availability of all five services.
+
+Keeping routing at the Gateway prevents clients from depending on internal container names and gives the backend a central location for public access policies.
