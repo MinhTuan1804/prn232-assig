@@ -1,0 +1,69 @@
+sequenceDiagram
+    autonumber
+    actor Customer as Khách hàng
+    participant GW as API Gateway (YARP)
+    participant ORD as Ordering.Api (OrderService)
+    participant ID_GRPC as Identity gRPC Server (WalletGrpc)
+    participant ID_REST as Identity REST API (/api/wallets/pay)
+    participant CAT_DB as CatalogDb (Raw SQL)
+    participant MQ as RabbitMQ Message Broker
+    participant INV as Inventory.Api (Consumer)
+    participant NOTI as Notification.Api (Consumer)
+
+    Customer->>GW: POST /api/orders/checkout (JWT Token + CheckoutRequest)
+    GW->>ORD: Forward Request to Ordering Service
+
+    Note over ORD: Bước 1: Kiểm tra giỏ hàng không rỗng (OrderService.cs dòng 42)
+
+    rect rgb(255, 244, 229)
+        Note over ORD, ID_GRPC: Bước 2: Thanh toán trừ tiền Ví qua gRPC (ưu tiên)
+        ORD->>ID_GRPC: gRPC PayWithWalletAsync(UserId, TotalAmount, OrderId)
+        alt gRPC thành công
+            ID_GRPC-->>ORD: WalletPaymentResponse (IsSuccess=true)
+        else gRPC thất bại / không khả dụng (OrderService.cs dòng 73-104)
+            Note over ORD, ID_REST: Fallback sang HTTP REST Call
+            ORD->>ID_REST: HTTP POST /api/wallets/pay (UserId, Amount, OrderId)
+            alt REST thành công (200 OK)
+                ID_REST-->>ORD: HTTP 200 OK
+            else Số dư ví không đủ (400 Bad Request)
+                ID_REST-->>ORD: HTTP 400 Bad Request
+                ORD-->>GW: Lỗi: Số dư ví FlashPay không đủ
+                GW-->>Customer: Hiển thị lỗi thanh toán ví
+            end
+        end
+    end
+
+    rect rgb(240, 253, 244)
+        Note over ORD, CAT_DB: Bước 3: Tạo Order + Trừ tồn kho hiển thị (CatalogDb)
+        ORD->>ORD: Tạo bản ghi Order (Status=Paid nếu Wallet / Status=Pending nếu COD)
+        ORD->>ORD: Xóa CartItems khỏi giỏ hàng (OrderingDb)
+        ORD->>CAT_DB: Raw SQL: UPDATE CatalogDb.Products StockQuantity & FlashSaleItems SoldQuantity
+    end
+
+    rect rgb(239, 246, 255)
+        Note over ORD, NOTI: Bước 4: Phát hành Event bất đồng bộ qua Message Queue
+        alt Thanh toán bằng Ví (isWalletPayment = true)
+            ORD->>MQ: Publish OrderPaidEvent (OrderId, UserEmail, TotalAmount)
+        else Thanh toán COD / Phương thức khác
+            ORD->>MQ: Publish OrderCreatedEvent (OrderId, Items, IsFlashSale)
+        end
+    end
+
+    ORD-->>GW: HTTP 200 OK (OrderResponse)
+    GW-->>Customer: Hiển thị đơn hàng thành công
+
+    par Xử lý bất đồng bộ qua MassTransit & RabbitMQ
+        MQ->>INV: Consume OrderCreatedEvent (nếu đơn COD)
+        Note over INV: Giữ chỗ tồn kho trong InventoryDb (ReserveStockAsync)
+        INV->>INV: Cập nhật InventoryDb (ReservedQuantity & AvailableQuantity)
+        alt Giữ chỗ kho thành công
+            INV->>MQ: Publish InventoryReservedEvent
+            MQ->>ORD: Consume InventoryReservedEvent
+        else Tồn kho không đủ
+            INV->>MQ: Publish InventoryReservationFailedEvent
+            MQ->>ORD: Consume InventoryReservationFailedEvent
+        end
+    and Thông báo tự động
+        MQ->>NOTI: Consume OrderPaidEvent / InventoryReservedEvent
+        NOTI->>NOTI: Tạo Notification + Gửi Email xác nhận qua MailKit SMTP
+    end

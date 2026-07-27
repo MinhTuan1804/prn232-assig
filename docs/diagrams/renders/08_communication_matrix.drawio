@@ -1,0 +1,203 @@
+<?xml version='1.0' encoding='utf-8'?>
+<mxfile host="app.diagrams.net" modified="2026-07-27T01:40:00.000Z" agent="Antigravity" version="24.0.0" type="device">
+  <diagram id="comm_matrix_arch" name="08_Communication_Matrix">
+    <mxGraphModel dx="1500" dy="900" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1300" pageHeight="750" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="title" value="MA TRẬN GIAO TIẾP DỊCH VỤ (COMMUNICATION MATRIX DIAGRAM)" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;fontStyle=1;fontSize=15;fontColor=#1E3A8A;" parent="1" vertex="1">
+          <mxGeometry x="350" y="15" width="600" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="legend_box" value="Ghi chú Giao thức Giao tiếp (Communication Protocols)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#F8FAFC;strokeColor=#64748B;fontStyle=1;fontSize=11;verticalAlign=top;align=left;spacingLeft=10;spacingTop=5;" parent="1" vertex="1">
+          <mxGeometry x="40" y="55" width="1220" height="45" as="geometry" />
+        </mxCell>
+        <mxCell id="leg_rest" value="REST API Proxy (Đồng bộ)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#E0F2FE;strokeColor=#0284C7;fontStyle=1;fontSize=10;" parent="1" vertex="1">
+          <mxGeometry x="60" y="72" width="170" height="22" as="geometry" />
+        </mxCell>
+        <mxCell id="leg_grpc" value="gRPC HTTP/2 (Đồng bộ)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FEF3C7;strokeColor=#D97706;fontStyle=1;fontSize=10;" parent="1" vertex="1">
+          <mxGeometry x="250" y="72" width="170" height="22" as="geometry" />
+        </mxCell>
+        <mxCell id="leg_rawsql" value="Raw SQL Cross-DB (Trực tiếp)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FEE2E2;strokeColor=#DC2626;fontStyle=1;fontSize=10;" parent="1" vertex="1">
+          <mxGeometry x="440" y="72" width="190" height="22" as="geometry" />
+        </mxCell>
+        <mxCell id="leg_event" value="RabbitMQ MassTransit Event (Bất đồng bộ)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#DCFCE7;strokeColor=#15803D;fontStyle=1;fontSize=10;" parent="1" vertex="1">
+          <mxGeometry x="650" y="72" width="250" height="22" as="geometry" />
+        </mxCell>
+        <mxCell id="leg_ef" value="EF Core ORM (Nội bộ DB)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#F1F5F9;strokeColor=#64748B;fontStyle=1;fontSize=10;" parent="1" vertex="1">
+          <mxGeometry x="920" y="72" width="170" height="22" as="geometry" />
+        </mxCell>
+        <mxCell id="leg_smtp" value="SMTP Emailer (External)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#F3F4F6;strokeColor=#4B5563;fontStyle=1;fontSize=10;" parent="1" vertex="1">
+          <mxGeometry x="1105" y="72" width="140" height="22" as="geometry" />
+        </mxCell>
+        <mxCell id="hdr_0" value="Source / Target" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#1E293B;strokeColor=#475569;fontStyle=1;fontSize=11;fontColor=#FFFFFF;align=center;" parent="1" vertex="1">
+          <mxGeometry x="40" y="115" width="160" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="hdr_1" value="Identity Service" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#1E293B;strokeColor=#475569;fontStyle=1;fontSize=11;fontColor=#FFFFFF;align=center;" parent="1" vertex="1">
+          <mxGeometry x="200" y="115" width="200" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="hdr_2" value="Catalog Service" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#1E293B;strokeColor=#475569;fontStyle=1;fontSize=11;fontColor=#FFFFFF;align=center;" parent="1" vertex="1">
+          <mxGeometry x="400" y="115" width="200" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="hdr_3" value="Inventory Service" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#1E293B;strokeColor=#475569;fontStyle=1;fontSize=11;fontColor=#FFFFFF;align=center;" parent="1" vertex="1">
+          <mxGeometry x="600" y="115" width="200" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="hdr_4" value="Ordering Service" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#1E293B;strokeColor=#475569;fontStyle=1;fontSize=11;fontColor=#FFFFFF;align=center;" parent="1" vertex="1">
+          <mxGeometry x="800" y="115" width="230" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="hdr_5" value="Notification Service" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#1E293B;strokeColor=#475569;fontStyle=1;fontSize=11;fontColor=#FFFFFF;align=center;" parent="1" vertex="1">
+          <mxGeometry x="1030" y="115" width="230" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="hdr_6" value="External / DB" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#1E293B;strokeColor=#475569;fontStyle=1;fontSize=11;fontColor=#FFFFFF;align=center;" parent="1" vertex="1">
+          <mxGeometry x="1260" y="115" width="160" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="row_hdr_0" value="API Gateway (YARP)" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#334155;strokeColor=#475569;fontStyle=1;fontSize=11;fontColor=#FFFFFF;align=center;" parent="1" vertex="1">
+          <mxGeometry x="40" y="155" width="160" height="65" as="geometry" />
+        </mxCell>
+        <mxCell id="cell_0_0" value="REST Proxy&#10;/api/auth, /api/wallets" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#E0F2FE;strokeColor=#0284C7;fontStyle=1;fontSize=10;align=center;" parent="1" vertex="1">
+          <mxGeometry x="200" y="155" width="200" height="65" as="geometry" />
+        </mxCell>
+        <mxCell id="cell_0_1" value="REST Proxy&#10;/api/products, /api/categories" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#E0F2FE;strokeColor=#0284C7;fontStyle=1;fontSize=10;align=center;" parent="1" vertex="1">
+          <mxGeometry x="400" y="155" width="200" height="65" as="geometry" />
+        </mxCell>
+        <mxCell id="cell_0_2" value="REST Proxy&#10;/api/stocks" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#E0F2FE;strokeColor=#0284C7;fontStyle=1;fontSize=10;align=center;" parent="1" vertex="1">
+          <mxGeometry x="600" y="155" width="200" height="65" as="geometry" />
+        </mxCell>
+        <mxCell id="cell_0_3" value="REST Proxy&#10;/api/cart, /api/orders" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#E0F2FE;strokeColor=#0284C7;fontStyle=1;fontSize=10;align=center;" parent="1" vertex="1">
+          <mxGeometry x="800" y="155" width="230" height="65" as="geometry" />
+        </mxCell>
+        <mxCell id="cell_0_4" value="REST Proxy&#10;/api/notifications" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#E0F2FE;strokeColor=#0284C7;fontStyle=1;fontSize=10;align=center;" parent="1" vertex="1">
+          <mxGeometry x="1030" y="155" width="230" height="65" as="geometry" />
+        </mxCell>
+        <mxCell id="cell_0_5" value="—" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#F8FAFC;strokeColor=#CBD5E1;fontStyle=1;fontSize=10;align=center;" parent="1" vertex="1">
+          <mxGeometry x="1260" y="155" width="160" height="65" as="geometry" />
+        </mxCell>
+        <mxCell id="row_hdr_1" value="Identity Service" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#334155;strokeColor=#475569;fontStyle=1;fontSize=11;fontColor=#FFFFFF;align=center;" parent="1" vertex="1">
+          <mxGeometry x="40" y="220" width="160" height="65" as="geometry" />
+        </mxCell>
+        <mxCell id="cell_1_0" value="EF Core&#10;➔ IdentityDb" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#F1F5F9;strokeColor=#64748B;fontStyle=1;fontSize=10;align=center;" parent="1" vertex="1">
+          <mxGeometry x="200" y="220" width="200" height="65" as="geometry" />
+        </mxCell>
+        <mxCell id="cell_1_1" value="—" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#F8FAFC;strokeColor=#CBD5E1;fontStyle=1;fontSize=10;align=center;" parent="1" vertex="1">
+          <mxGeometry x="400" y="220" width="200" height="65" as="geometry" />
+        </mxCell>
+        <mxCell id="cell_1_2" value="—" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#F8FAFC;strokeColor=#CBD5E1;fontStyle=1;fontSize=10;align=center;" parent="1" vertex="1">
+          <mxGeometry x="600" y="220" width="200" height="65" as="geometry" />
+        </mxCell>
+        <mxCell id="cell_1_3" value="—" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#F8FAFC;strokeColor=#CBD5E1;fontStyle=1;fontSize=10;align=center;" parent="1" vertex="1">
+          <mxGeometry x="800" y="220" width="230" height="65" as="geometry" />
+        </mxCell>
+        <mxCell id="cell_1_4" value="—" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#F8FAFC;strokeColor=#CBD5E1;fontStyle=1;fontSize=10;align=center;" parent="1" vertex="1">
+          <mxGeometry x="1030" y="220" width="230" height="65" as="geometry" />
+        </mxCell>
+        <mxCell id="cell_1_5" value="gRPC Server&#10;(wallet.proto)" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#FEF3C7;strokeColor=#D97706;fontStyle=1;fontSize=10;align=center;" parent="1" vertex="1">
+          <mxGeometry x="1260" y="220" width="160" height="65" as="geometry" />
+        </mxCell>
+        <mxCell id="row_hdr_2" value="Catalog Service" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#334155;strokeColor=#475569;fontStyle=1;fontSize=11;fontColor=#FFFFFF;align=center;" parent="1" vertex="1">
+          <mxGeometry x="40" y="285" width="160" height="65" as="geometry" />
+        </mxCell>
+        <mxCell id="cell_2_0" value="—" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#F8FAFC;strokeColor=#CBD5E1;fontStyle=1;fontSize=10;align=center;" parent="1" vertex="1">
+          <mxGeometry x="200" y="285" width="200" height="65" as="geometry" />
+        </mxCell>
+        <mxCell id="cell_2_1" value="EF Core&#10;➔ CatalogDb" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#F1F5F9;strokeColor=#64748B;fontStyle=1;fontSize=10;align=center;" parent="1" vertex="1">
+          <mxGeometry x="400" y="285" width="200" height="65" as="geometry" />
+        </mxCell>
+        <mxCell id="cell_2_2" value="—" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#F8FAFC;strokeColor=#CBD5E1;fontStyle=1;fontSize=10;align=center;" parent="1" vertex="1">
+          <mxGeometry x="600" y="285" width="200" height="65" as="geometry" />
+        </mxCell>
+        <mxCell id="cell_2_3" value="—" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#F8FAFC;strokeColor=#CBD5E1;fontStyle=1;fontSize=10;align=center;" parent="1" vertex="1">
+          <mxGeometry x="800" y="285" width="230" height="65" as="geometry" />
+        </mxCell>
+        <mxCell id="cell_2_4" value="—" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#F8FAFC;strokeColor=#CBD5E1;fontStyle=1;fontSize=10;align=center;" parent="1" vertex="1">
+          <mxGeometry x="1030" y="285" width="230" height="65" as="geometry" />
+        </mxCell>
+        <mxCell id="cell_2_5" value="—" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#F8FAFC;strokeColor=#CBD5E1;fontStyle=1;fontSize=10;align=center;" parent="1" vertex="1">
+          <mxGeometry x="1260" y="285" width="160" height="65" as="geometry" />
+        </mxCell>
+        <mxCell id="row_hdr_3" value="Inventory Service" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#334155;strokeColor=#475569;fontStyle=1;fontSize=11;fontColor=#FFFFFF;align=center;" parent="1" vertex="1">
+          <mxGeometry x="40" y="350" width="160" height="65" as="geometry" />
+        </mxCell>
+        <mxCell id="cell_3_0" value="—" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#F8FAFC;strokeColor=#CBD5E1;fontStyle=1;fontSize=10;align=center;" parent="1" vertex="1">
+          <mxGeometry x="200" y="350" width="200" height="65" as="geometry" />
+        </mxCell>
+        <mxCell id="cell_3_1" value="—" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#F8FAFC;strokeColor=#CBD5E1;fontStyle=1;fontSize=10;align=center;" parent="1" vertex="1">
+          <mxGeometry x="400" y="350" width="200" height="65" as="geometry" />
+        </mxCell>
+        <mxCell id="cell_3_2" value="EF Core&#10;➔ InventoryDb" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#F1F5F9;strokeColor=#64748B;fontStyle=1;fontSize=10;align=center;" parent="1" vertex="1">
+          <mxGeometry x="600" y="350" width="200" height="65" as="geometry" />
+        </mxCell>
+        <mxCell id="cell_3_3" value="—" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#F8FAFC;strokeColor=#CBD5E1;fontStyle=1;fontSize=10;align=center;" parent="1" vertex="1">
+          <mxGeometry x="800" y="350" width="230" height="65" as="geometry" />
+        </mxCell>
+        <mxCell id="cell_3_4" value="—" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#F8FAFC;strokeColor=#CBD5E1;fontStyle=1;fontSize=10;align=center;" parent="1" vertex="1">
+          <mxGeometry x="1030" y="350" width="230" height="65" as="geometry" />
+        </mxCell>
+        <mxCell id="cell_3_5" value="Publish Events&#10;➔ RabbitMQ" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#DCFCE7;strokeColor=#15803D;fontStyle=1;fontSize=10;align=center;" parent="1" vertex="1">
+          <mxGeometry x="1260" y="350" width="160" height="65" as="geometry" />
+        </mxCell>
+        <mxCell id="row_hdr_4" value="Ordering Service" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#334155;strokeColor=#475569;fontStyle=1;fontSize=11;fontColor=#FFFFFF;align=center;" parent="1" vertex="1">
+          <mxGeometry x="40" y="415" width="160" height="65" as="geometry" />
+        </mxCell>
+        <mxCell id="cell_4_0" value="gRPC PayWithWallet&#10;(REST Fallback)" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#FEF3C7;strokeColor=#D97706;fontStyle=1;fontSize=10;align=center;" parent="1" vertex="1">
+          <mxGeometry x="200" y="415" width="200" height="65" as="geometry" />
+        </mxCell>
+        <mxCell id="cell_4_1" value="Raw SQL UPDATE&#10;➔ CatalogDb" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#FEE2E2;strokeColor=#DC2626;fontStyle=1;fontSize=10;align=center;" parent="1" vertex="1">
+          <mxGeometry x="400" y="415" width="200" height="65" as="geometry" />
+        </mxCell>
+        <mxCell id="cell_4_2" value="—" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#F8FAFC;strokeColor=#CBD5E1;fontStyle=1;fontSize=10;align=center;" parent="1" vertex="1">
+          <mxGeometry x="600" y="415" width="200" height="65" as="geometry" />
+        </mxCell>
+        <mxCell id="cell_4_3" value="EF Core&#10;➔ OrderingDb" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#F1F5F9;strokeColor=#64748B;fontStyle=1;fontSize=10;align=center;" parent="1" vertex="1">
+          <mxGeometry x="800" y="415" width="230" height="65" as="geometry" />
+        </mxCell>
+        <mxCell id="cell_4_4" value="—" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#F8FAFC;strokeColor=#CBD5E1;fontStyle=1;fontSize=10;align=center;" parent="1" vertex="1">
+          <mxGeometry x="1030" y="415" width="230" height="65" as="geometry" />
+        </mxCell>
+        <mxCell id="cell_4_5" value="Publish Events&#10;➔ RabbitMQ" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#DCFCE7;strokeColor=#15803D;fontStyle=1;fontSize=10;align=center;" parent="1" vertex="1">
+          <mxGeometry x="1260" y="415" width="160" height="65" as="geometry" />
+        </mxCell>
+        <mxCell id="row_hdr_5" value="Notification Service" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#334155;strokeColor=#475569;fontStyle=1;fontSize=11;fontColor=#FFFFFF;align=center;" parent="1" vertex="1">
+          <mxGeometry x="40" y="480" width="160" height="65" as="geometry" />
+        </mxCell>
+        <mxCell id="cell_5_0" value="—" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#F8FAFC;strokeColor=#CBD5E1;fontStyle=1;fontSize=10;align=center;" parent="1" vertex="1">
+          <mxGeometry x="200" y="480" width="200" height="65" as="geometry" />
+        </mxCell>
+        <mxCell id="cell_5_1" value="—" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#F8FAFC;strokeColor=#CBD5E1;fontStyle=1;fontSize=10;align=center;" parent="1" vertex="1">
+          <mxGeometry x="400" y="480" width="200" height="65" as="geometry" />
+        </mxCell>
+        <mxCell id="cell_5_2" value="—" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#F8FAFC;strokeColor=#CBD5E1;fontStyle=1;fontSize=10;align=center;" parent="1" vertex="1">
+          <mxGeometry x="600" y="480" width="200" height="65" as="geometry" />
+        </mxCell>
+        <mxCell id="cell_5_3" value="—" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#F8FAFC;strokeColor=#CBD5E1;fontStyle=1;fontSize=10;align=center;" parent="1" vertex="1">
+          <mxGeometry x="800" y="480" width="230" height="65" as="geometry" />
+        </mxCell>
+        <mxCell id="cell_5_4" value="EF Core&#10;➔ NotificationDb" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#F1F5F9;strokeColor=#64748B;fontStyle=1;fontSize=10;align=center;" parent="1" vertex="1">
+          <mxGeometry x="1030" y="480" width="230" height="65" as="geometry" />
+        </mxCell>
+        <mxCell id="cell_5_5" value="SMTP Emailer&#10;➔ MailKit" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#F3F4F6;strokeColor=#4B5563;fontStyle=1;fontSize=10;align=center;" parent="1" vertex="1">
+          <mxGeometry x="1260" y="480" width="160" height="65" as="geometry" />
+        </mxCell>
+        <mxCell id="row_hdr_6" value="RabbitMQ Broker" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#334155;strokeColor=#475569;fontStyle=1;fontSize=11;fontColor=#FFFFFF;align=center;" parent="1" vertex="1">
+          <mxGeometry x="40" y="545" width="160" height="65" as="geometry" />
+        </mxCell>
+        <mxCell id="cell_6_0" value="—" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#F8FAFC;strokeColor=#CBD5E1;fontStyle=1;fontSize=10;align=center;" parent="1" vertex="1">
+          <mxGeometry x="200" y="545" width="200" height="65" as="geometry" />
+        </mxCell>
+        <mxCell id="cell_6_1" value="—" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#F8FAFC;strokeColor=#CBD5E1;fontStyle=1;fontSize=10;align=center;" parent="1" vertex="1">
+          <mxGeometry x="400" y="545" width="200" height="65" as="geometry" />
+        </mxCell>
+        <mxCell id="cell_6_2" value="Consume Events&#10;OrderCreated/Cancelled" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#DCFCE7;strokeColor=#15803D;fontStyle=1;fontSize=10;align=center;" parent="1" vertex="1">
+          <mxGeometry x="600" y="545" width="200" height="65" as="geometry" />
+        </mxCell>
+        <mxCell id="cell_6_3" value="Consume Events&#10;InventoryReserved/Failed" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#DCFCE7;strokeColor=#15803D;fontStyle=1;fontSize=10;align=center;" parent="1" vertex="1">
+          <mxGeometry x="800" y="545" width="230" height="65" as="geometry" />
+        </mxCell>
+        <mxCell id="cell_6_4" value="Consume Events&#10;OrderPaid/Cancelled/Reserved" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#DCFCE7;strokeColor=#15803D;fontStyle=1;fontSize=10;align=center;" parent="1" vertex="1">
+          <mxGeometry x="1030" y="545" width="230" height="65" as="geometry" />
+        </mxCell>
+        <mxCell id="cell_6_5" value="MassTransit Bus&#10;(Broker)" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#FFF7ED;strokeColor=#F97316;fontStyle=1;fontSize=10;align=center;" parent="1" vertex="1">
+          <mxGeometry x="1260" y="545" width="160" height="65" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

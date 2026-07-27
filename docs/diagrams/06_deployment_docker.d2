@@ -1,0 +1,83 @@
+# Docker Deployment Diagram (D2 Format)
+# Đối chiếu chính xác 100% dòng-dòng với docker-compose.yml thực tế (MinhTuan1804/prn232-assig)
+direction: right
+
+Host: "Docker Desktop Engine (Host Machine)" {
+  style.fill: "#F8FAFC"
+  style.stroke: "#0F2043"
+  style.stroke-width: 3
+
+  Network: "Docker Bridge Network: flashshop-network (driver: bridge)" {
+    style.fill: "#FFFFFF"
+    style.stroke: "#0284C7"
+    style.stroke-width: 2
+
+    Gateway_Container: "gateway_api\nimage: flashshop.gateway\n(Port 5000 : 8080)" {
+      style.fill: "#FEF3C7"
+      style.stroke: "#D97706"
+    }
+
+    Identity_Container: "identity_api\nimage: flashshop.identity.api\n(Port 5001 : 8080)" {
+      style.fill: "#F0FDF4"
+      style.stroke: "#16A34A"
+    }
+
+    Catalog_Container: "catalog_api\nimage: flashshop.catalog.api\n(Port 5002 : 8080)" {
+      style.fill: "#F0FDF4"
+      style.stroke: "#16A34A"
+    }
+
+    Inventory_Container: "inventory_api\nimage: flashshop.inventory.api\n(Port 5003 : 8080)" {
+      style.fill: "#FFF7ED"
+      style.stroke: "#EA580C"
+    }
+
+    Ordering_Container: "ordering_api\nimage: flashshop.ordering.api\n(Port 5004 : 8080)" {
+      style.fill: "#EEF2FF"
+      style.stroke: "#6366F1"
+    }
+
+    Notification_Container: "notification_api\nimage: flashshop.notification.api\n(Port 5005 : 8080)" {
+      style.fill: "#FEF2F2"
+      style.stroke: "#EF4444"
+    }
+
+    SQLServer_Container: "flashshop_sql\nmcr.microsoft.com/mssql/server:2022-latest\n(Port 1434 : 1433)" {
+      style.fill: "#F1F5F9"
+      style.stroke: "#475569"
+      shape: cylinder
+    }
+
+    RabbitMQ_Container: "flashshop_rabbitmq\nrabbitmq:3-management\n(Port 5672 : 5672, 15672 : 15672)" {
+      style.fill: "#FFF7ED"
+      style.stroke: "#F97316"
+      shape: queue
+    }
+  }
+}
+
+# Gateway depends_on -> all 5 services (docker-compose.yml dòng 167-172)
+Network.Gateway_Container -> Network.Identity_Container: "depends_on"
+Network.Gateway_Container -> Network.Catalog_Container: "depends_on"
+Network.Gateway_Container -> Network.Inventory_Container: "depends_on"
+Network.Gateway_Container -> Network.Ordering_Container: "depends_on"
+Network.Gateway_Container -> Network.Notification_Container: "depends_on"
+
+# All 5 services depends_on -> sqlserver (condition: service_healthy) + rabbitmq (condition: service_healthy)
+Network.Identity_Container -> Network.SQLServer_Container: "TCP 1433 (IdentityDb)"
+Network.Identity_Container -> Network.RabbitMQ_Container: "AMQP 5672"
+
+Network.Catalog_Container -> Network.SQLServer_Container: "TCP 1433 (CatalogDb)"
+Network.Catalog_Container -> Network.RabbitMQ_Container: "AMQP 5672"
+
+Network.Inventory_Container -> Network.SQLServer_Container: "TCP 1433 (InventoryDb)"
+Network.Inventory_Container -> Network.RabbitMQ_Container: "AMQP 5672"
+
+Network.Ordering_Container -> Network.SQLServer_Container: "TCP 1433 (OrderingDb)"
+Network.Ordering_Container -> Network.RabbitMQ_Container: "AMQP 5672"
+
+Network.Notification_Container -> Network.SQLServer_Container: "TCP 1433 (NotificationDb)"
+Network.Notification_Container -> Network.RabbitMQ_Container: "AMQP 5672"
+
+# Ordering environment gRPC: ServiceUrls__IdentityGrpc=http://identity_api:8080
+Network.Ordering_Container -> Network.Identity_Container: "gRPC HTTP/2 (WalletGrpc)"

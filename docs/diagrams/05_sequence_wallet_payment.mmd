@@ -1,0 +1,34 @@
+sequenceDiagram
+    autonumber
+    actor Customer as Khách hàng
+    participant GW as API Gateway (YARP)
+    participant ID as Identity.Api (WalletsController)
+    participant ORD as Ordering.Api (OrderService)
+    participant HANGFIRE as Hangfire PendingOrderTimeoutJob
+    participant MQ as RabbitMQ Message Broker
+    participant INV as Inventory.Api (Consumer)
+    participant NOTI as Notification.Api (Consumer)
+
+    rect rgb(240, 248, 255)
+        note over Customer, ID: Luồng A: Khách hàng Nạp tiền vào Ví Điện tử (WalletsController.cs)
+        Customer->>GW: POST /api/wallets/topup (Amount)
+        GW->>ID: Forward Request to WalletsController.TopUp()
+        ID->>ID: Cập nhật Wallet.Balance & Tạo bản ghi WalletTransaction
+        ID-->>GW: HTTP 200 OK (Số dư mới)
+        GW-->>Customer: Hiển thị nạp tiền thành công
+    end
+
+    rect rgb(255, 247, 237)
+        note over ORD, NOTI: Luồng B: Tự động Hủy Đơn Quá Hạn (Ordering.Api — Hangfire Cron.Minutely)
+        HANGFIRE->>HANGFIRE: Chạy ngầm định kỳ mỗi phút (Cron.Minutely)
+        HANGFIRE->>ORD: Gọi OrderService.CancelExpiredOrdersAsync()
+        ORD->>ORD: Quét đơn hàng trạng thái AwaitingPayment có PaymentDeadline < UtcNow
+        loop Cho mỗi đơn quá hạn
+            ORD->>ORD: Đổi trạng thái Order → Cancelled (Reason: Payment deadline exceeded)
+            ORD->>MQ: Publish OrderCancelledEvent (OrderId, OrderNumber, UserEmail, Reason)
+            MQ->>INV: Consume OrderCancelledEvent
+            INV->>INV: Giải phóng Reservation (ReleaseReservationAsync)
+            MQ->>NOTI: Consume OrderCancelledEvent
+            NOTI->>NOTI: Tạo Notification + Gửi Email hủy đơn qua MailKit SMTP
+        end
+    end

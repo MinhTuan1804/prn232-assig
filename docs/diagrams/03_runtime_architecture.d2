@@ -1,0 +1,108 @@
+# Runtime Architecture Diagram (D2 Format)
+# Tinh gọn cấp Runtime: Bắt bỏ chi tiết Controller names & /api/... routes
+# Giữ nguyên ở cấp Service/Component + REST, gRPC, RabbitMQ/Event, Database, Worker
+direction: right
+
+Client: "Clients Layer (Web / Mobile)" {
+  style.fill: "#F0F9FF"
+  style.stroke: "#0284C7"
+}
+
+Gateway: "FlashShop.Gateway" {
+  style.fill: "#FEF3C7"
+  style.stroke: "#D97706"
+  Proxy: "YARP Reverse Proxy"
+  Auth: "JWT Bearer Validation"
+  Swagger: "Aggregated Swagger UI"
+}
+
+Services: "FlashShop Microservices Platform" {
+  style.fill: "#FFFFFF"
+  style.stroke: "#15803D"
+  style.stroke-width: 3
+
+  Identity: "Identity Service" {
+    API_Identity: "Identity.Api"
+    gRPC_Wallet: "gRPC WalletGrpc Server (wallet.proto)" {
+      style.fill: "#FFF4E5"
+    }
+    DB_Identity: "IdentityDb (SQL Server)" { shape: cylinder }
+  }
+
+  Catalog: "Catalog Service" {
+    API_Catalog: "Catalog.Api"
+    DB_Catalog: "CatalogDb (SQL Server)" { shape: cylinder }
+  }
+
+  Inventory: "Inventory Service" {
+    API_Inventory: "Inventory.Api"
+    Consumers_Inv: "MassTransit Consumers"
+    DB_Inventory: "InventoryDb (SQL Server)" { shape: cylinder }
+  }
+
+  Ordering: "Ordering Service" {
+    API_Ordering: "Ordering.Api"
+    gRPC_Client: "gRPC WalletGrpcClient" {
+      style.fill: "#FFF4E5"
+    }
+    REST_Fallback: "HTTP REST Fallback"
+    Consumers_Ord: "MassTransit Consumers"
+    Hangfire_Ordering: "Hangfire PendingOrderTimeoutJob (Cron.Minutely)"
+    DB_Ordering: "OrderingDb (SQL Server)" { shape: cylinder }
+  }
+
+  Notification: "Notification Service" {
+    API_Notification: "Notification.Api"
+    Consumers_Noti: "MassTransit Consumers"
+    Hangfire_Noti: "Hangfire DailySalesReportJob (23:59 daily)"
+    DB_Notification: "NotificationDb (SQL Server)" { shape: cylinder }
+  }
+}
+
+Broker: "RabbitMQ Message Broker" {
+  style.fill: "#FFF7ED"
+  style.stroke: "#F97316"
+  shape: queue
+  Exchange: "MassTransit Exchange Bus"
+}
+
+External: "External Infrastructure" {
+  style.stroke-dash: 3
+  MailServer: "SMTP Mail Server (MailKit)"
+}
+
+# Client -> Gateway
+Client -> Gateway: "HTTP / REST API Request"
+
+# Gateway YARP Proxy Routes
+Gateway -> Services.Identity.API_Identity: "REST Proxy"
+Gateway -> Services.Catalog.API_Catalog: "REST Proxy"
+Gateway -> Services.Inventory.API_Inventory: "REST Proxy"
+Gateway -> Services.Ordering.API_Ordering: "REST Proxy"
+Gateway -> Services.Notification.API_Notification: "REST Proxy"
+
+# Database Connections (EF Core)
+Services.Identity.API_Identity -> Services.Identity.DB_Identity: "EF Core"
+Services.Catalog.API_Catalog -> Services.Catalog.DB_Catalog: "EF Core"
+Services.Inventory.API_Inventory -> Services.Inventory.DB_Inventory: "EF Core"
+Services.Ordering.API_Ordering -> Services.Ordering.DB_Ordering: "EF Core"
+Services.Notification.API_Notification -> Services.Notification.DB_Notification: "EF Core"
+
+# Synchronous gRPC: Ordering -> Identity (WalletGrpc ONLY)
+Services.Ordering.gRPC_Client -> Services.Identity.gRPC_Wallet: "gRPC HTTP/2 (PayWithWallet, GetWalletBalance)"
+
+# REST Fallback: Ordering -> Identity (khi gRPC fail)
+Services.Ordering.REST_Fallback -> Services.Identity.API_Identity: "HTTP REST Fallback (/api/wallets/pay)"
+
+# Cross-DB raw SQL: Ordering -> CatalogDb
+Services.Ordering.API_Ordering -> Services.Catalog.DB_Catalog: "Raw SQL UPDATE Products & FlashSaleItems"
+
+# Asynchronous Event Bus (MassTransit + RabbitMQ)
+Services.Ordering.API_Ordering -> Broker.Exchange: "Publish OrderCreatedEvent, OrderPaidEvent, OrderCancelledEvent"
+Broker.Exchange -> Services.Inventory.Consumers_Inv: "Consume OrderCreatedEvent, OrderPaidEvent, OrderCancelledEvent"
+Services.Inventory.Consumers_Inv -> Broker.Exchange: "Publish InventoryReservedEvent, InventoryReservationFailedEvent"
+Broker.Exchange -> Services.Ordering.Consumers_Ord: "Consume InventoryReservedEvent, InventoryReservationFailedEvent"
+Broker.Exchange -> Services.Notification.Consumers_Noti: "Consume OrderPaidEvent, OrderCancelledEvent, InventoryReservedEvent, ReservationFailedEvent"
+
+# SMTP Email Notification
+Services.Notification.API_Notification -> External.MailServer: "SMTP (MailKit Emailer)"

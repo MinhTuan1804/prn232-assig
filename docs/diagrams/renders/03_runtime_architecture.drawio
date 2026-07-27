@@ -1,0 +1,122 @@
+<?xml version='1.0' encoding='utf-8'?>
+<mxfile host="app.diagrams.net" modified="2026-07-27T01:15:00.000Z" agent="Antigravity" version="24.0.0" type="device">
+  <diagram id="runtime_arch_v2" name="03_Runtime_Architecture">
+    <mxGraphModel dx="1600" dy="1000" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1450" pageHeight="700" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="client" value="Client Layer&#10;(Web / Mobile)" style="shape=umlActor;verticalLabelPosition=bottom;verticalAlign=top;html=1;outlineConnect=0;fillColor=#F0F9FF;strokeColor=#0284C7;" parent="1" vertex="1">
+          <mxGeometry x="675" y="20" width="30" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="gateway" value="FlashShop.Gateway (YARP)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FEF3C7;strokeColor=#D97706;fontStyle=1;fontSize=12;" parent="1" vertex="1">
+          <mxGeometry x="570" y="90" width="240" height="45" as="geometry" />
+        </mxCell>
+        <mxCell id="platform" value="FlashShop Microservices Platform" style="rounded=0;whiteSpace=wrap;html=1;fillColor=none;strokeColor=#15803D;strokeWidth=2;verticalAlign=top;align=left;spacingLeft=10;spacingTop=5;fontStyle=1;fontSize=13;fontColor=#15803D;" parent="1" vertex="1">
+          <mxGeometry x="30" y="160" width="1370" height="340" as="geometry" />
+        </mxCell>
+        <mxCell id="id_box" value="Identity Service" style="rounded=1;whiteSpace=wrap;html=1;fillColor=none;strokeColor=#9CA3AF;verticalAlign=top;align=center;fontStyle=1;fontSize=12;spacingTop=5;" parent="1" vertex="1">
+          <mxGeometry x="50" y="190" width="230" height="280" as="geometry" />
+        </mxCell>
+        <mxCell id="id_api" value="Identity.Api&#10;(gRPC Server)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFF4E5;strokeColor=#4B5563;fontStyle=1;fontSize=11;align=center;" parent="1" vertex="1">
+          <mxGeometry x="70" y="235" width="190" height="55" as="geometry" />
+        </mxCell>
+        <mxCell id="id_db" value="IdentityDb" style="shape=cylinder3;boundedLbl=1;backgroundOutline=1;size=12;whiteSpace=wrap;html=1;fillColor=#E6F4EA;strokeColor=#166534;fontStyle=1;fontSize=11;align=center;" parent="1" vertex="1">
+          <mxGeometry x="95" y="385" width="140" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="e_id_ef" value="EF Core" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;fontSize=10;fontColor=#6B7280;strokeColor=#9CA3AF;" parent="1" edge="1" source="id_api" target="id_db">
+          <mxGeometry as="geometry" />
+        </mxCell>
+        <mxCell id="cat_box" value="Catalog Service" style="rounded=1;whiteSpace=wrap;html=1;fillColor=none;strokeColor=#9CA3AF;verticalAlign=top;align=center;fontStyle=1;fontSize=12;spacingTop=5;" parent="1" vertex="1">
+          <mxGeometry x="320" y="190" width="230" height="280" as="geometry" />
+        </mxCell>
+        <mxCell id="cat_api" value="Catalog.Api" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#4B5563;fontStyle=1;fontSize=11;align=center;" parent="1" vertex="1">
+          <mxGeometry x="340" y="235" width="190" height="55" as="geometry" />
+        </mxCell>
+        <mxCell id="cat_db" value="CatalogDb" style="shape=cylinder3;boundedLbl=1;backgroundOutline=1;size=12;whiteSpace=wrap;html=1;fillColor=#E6F4EA;strokeColor=#166534;fontStyle=1;fontSize=11;align=center;" parent="1" vertex="1">
+          <mxGeometry x="365" y="385" width="140" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="e_cat_ef" value="EF Core" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;fontSize=10;fontColor=#6B7280;strokeColor=#9CA3AF;" parent="1" edge="1" source="cat_api" target="cat_db">
+          <mxGeometry as="geometry" />
+        </mxCell>
+        <mxCell id="inv_box" value="Inventory Service" style="rounded=1;whiteSpace=wrap;html=1;fillColor=none;strokeColor=#9CA3AF;verticalAlign=top;align=center;fontStyle=1;fontSize=12;spacingTop=5;" parent="1" vertex="1">
+          <mxGeometry x="590" y="190" width="230" height="280" as="geometry" />
+        </mxCell>
+        <mxCell id="inv_api" value="Inventory.Api&#10;(Consumer)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#4B5563;fontStyle=1;fontSize=11;align=center;" parent="1" vertex="1">
+          <mxGeometry x="610" y="235" width="190" height="55" as="geometry" />
+        </mxCell>
+        <mxCell id="inv_db" value="InventoryDb" style="shape=cylinder3;boundedLbl=1;backgroundOutline=1;size=12;whiteSpace=wrap;html=1;fillColor=#E6F4EA;strokeColor=#166534;fontStyle=1;fontSize=11;align=center;" parent="1" vertex="1">
+          <mxGeometry x="635" y="385" width="140" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="e_inv_ef" value="EF Core" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;fontSize=10;fontColor=#6B7280;strokeColor=#9CA3AF;" parent="1" edge="1" source="inv_api" target="inv_db">
+          <mxGeometry as="geometry" />
+        </mxCell>
+        <mxCell id="ord_box" value="Ordering Service" style="rounded=1;whiteSpace=wrap;html=1;fillColor=none;strokeColor=#9CA3AF;verticalAlign=top;align=center;fontStyle=1;fontSize=12;spacingTop=5;" parent="1" vertex="1">
+          <mxGeometry x="860" y="190" width="230" height="280" as="geometry" />
+        </mxCell>
+        <mxCell id="ord_api" value="Ordering.Api&#10;(gRPC Client)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFF4E5;strokeColor=#4B5563;fontStyle=1;fontSize=11;align=center;" parent="1" vertex="1">
+          <mxGeometry x="880" y="235" width="190" height="55" as="geometry" />
+        </mxCell>
+        <mxCell id="ord_db" value="OrderingDb" style="shape=cylinder3;boundedLbl=1;backgroundOutline=1;size=12;whiteSpace=wrap;html=1;fillColor=#E6F4EA;strokeColor=#166534;fontStyle=1;fontSize=11;align=center;" parent="1" vertex="1">
+          <mxGeometry x="905" y="385" width="140" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="e_ord_ef" value="EF Core" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;fontSize=10;fontColor=#6B7280;strokeColor=#9CA3AF;" parent="1" edge="1" source="ord_api" target="ord_db">
+          <mxGeometry as="geometry" />
+        </mxCell>
+        <mxCell id="noti_box" value="Notification Service" style="rounded=1;whiteSpace=wrap;html=1;fillColor=none;strokeColor=#9CA3AF;verticalAlign=top;align=center;fontStyle=1;fontSize=12;spacingTop=5;" parent="1" vertex="1">
+          <mxGeometry x="1130" y="190" width="230" height="280" as="geometry" />
+        </mxCell>
+        <mxCell id="noti_api" value="Notification.Api&#10;(Consumer)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#4B5563;fontStyle=1;fontSize=11;align=center;" parent="1" vertex="1">
+          <mxGeometry x="1150" y="235" width="190" height="55" as="geometry" />
+        </mxCell>
+        <mxCell id="noti_db" value="NotificationDb" style="shape=cylinder3;boundedLbl=1;backgroundOutline=1;size=12;whiteSpace=wrap;html=1;fillColor=#E6F4EA;strokeColor=#166534;fontStyle=1;fontSize=11;align=center;" parent="1" vertex="1">
+          <mxGeometry x="1175" y="385" width="140" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="e_noti_ef" value="EF Core" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;fontSize=10;fontColor=#6B7280;strokeColor=#9CA3AF;" parent="1" edge="1" source="noti_api" target="noti_db">
+          <mxGeometry as="geometry" />
+        </mxCell>
+        <mxCell id="rabbitmq" value="RabbitMQ Message Broker&#10;(MassTransit Event Bus)" style="shape=ellipse;whiteSpace=wrap;html=1;fillColor=#FFF7ED;strokeColor=#F97316;fontStyle=1;fontSize=12;align=center;" parent="1" vertex="1">
+          <mxGeometry x="530" y="540" width="320" height="55" as="geometry" />
+        </mxCell>
+        <mxCell id="smtp" value="SMTP Mail Server&#10;(MailKit Emailer)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#F3F4F6;strokeColor=#4B5563;dashed=1;fontStyle=1;fontSize=12;align=center;" parent="1" vertex="1">
+          <mxGeometry x="1135" y="540" width="220" height="45" as="geometry" />
+        </mxCell>
+        <mxCell id="e_cl_gw" value="REST Request" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;fontSize=10;fontColor=#0284C7;strokeColor=#0284C7;" parent="1" edge="1" source="client" target="gateway">
+          <mxGeometry as="geometry" />
+        </mxCell>
+        <mxCell id="e_gw_id" value="/api/auth, /api/wallets" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;fontSize=10;fontColor=#0284C7;strokeColor=#0284C7;exitX=0.1;exitY=1.0;exitDx=0;exitDy=0;entryX=0.5;entryY=0.0;entryDx=0;entryDy=0;" parent="1" edge="1" source="gateway" target="id_api">
+          <mxGeometry as="geometry" />
+        </mxCell>
+        <mxCell id="e_gw_cat" value="/api/products" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;fontSize=10;fontColor=#0284C7;strokeColor=#0284C7;exitX=0.3;exitY=1.0;exitDx=0;exitDy=0;entryX=0.5;entryY=0.0;entryDx=0;entryDy=0;" parent="1" edge="1" source="gateway" target="cat_api">
+          <mxGeometry as="geometry" />
+        </mxCell>
+        <mxCell id="e_gw_inv" value="/api/stocks" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;fontSize=10;fontColor=#0284C7;strokeColor=#0284C7;exitX=0.5;exitY=1.0;exitDx=0;exitDy=0;entryX=0.5;entryY=0.0;entryDx=0;entryDy=0;" parent="1" edge="1" source="gateway" target="inv_api">
+          <mxGeometry as="geometry" />
+        </mxCell>
+        <mxCell id="e_gw_ord" value="/api/orders, /api/cart" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;fontSize=10;fontColor=#0284C7;strokeColor=#0284C7;exitX=0.7;exitY=1.0;exitDx=0;exitDy=0;entryX=0.5;entryY=0.0;entryDx=0;entryDy=0;" parent="1" edge="1" source="gateway" target="ord_api">
+          <mxGeometry as="geometry" />
+        </mxCell>
+        <mxCell id="e_gw_noti" value="/api/notifications" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;fontSize=10;fontColor=#0284C7;strokeColor=#0284C7;exitX=0.9;exitY=1.0;exitDx=0;exitDy=0;entryX=0.5;entryY=0.0;entryDx=0;entryDy=0;" parent="1" edge="1" source="gateway" target="noti_api">
+          <mxGeometry as="geometry" />
+        </mxCell>
+        <mxCell id="e_ord_id_grpc" value="gRPC PayWithWallet" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;fontSize=11;fontStyle=1;fontColor=#D97706;strokeColor=#D97706;strokeWidth=2;exitX=0.0;exitY=0.3;exitDx=0;exitDy=0;entryX=1.0;entryY=0.3;entryDx=0;entryDy=0;" parent="1" edge="1" source="ord_api" target="id_api">
+          <mxGeometry as="geometry" />
+        </mxCell>
+        <mxCell id="e_ord_catdb" value="Raw SQL UPDATE Products" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;fontSize=10;dashed=1;fontColor=#DC2626;strokeColor=#DC2626;exitX=0.0;exitY=0.8;exitDx=0;exitDy=0;entryX=1.0;entryY=0.5;entryDx=0;entryDy=0;" parent="1" edge="1" source="ord_api" target="cat_db">
+          <mxGeometry as="geometry" />
+        </mxCell>
+        <mxCell id="e_ord_mq" value="Publish Order Events" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;fontSize=10;fontColor=#F97316;strokeColor=#F97316;exitX=0.5;exitY=1.0;exitDx=0;exitDy=0;entryX=0.8;entryY=0.0;entryDx=0;entryDy=0;" parent="1" edge="1" source="ord_api" target="rabbitmq">
+          <mxGeometry as="geometry" />
+        </mxCell>
+        <mxCell id="e_mq_inv" value="Stock Reservation" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;fontSize=10;fontColor=#F97316;strokeColor=#F97316;exitX=0.3;exitY=0.0;exitDx=0;exitDy=0;entryX=0.5;entryY=1.0;entryDx=0;entryDy=0;" parent="1" edge="1" source="rabbitmq" target="inv_api">
+          <mxGeometry as="geometry" />
+        </mxCell>
+        <mxCell id="e_mq_noti" value="Mail Events" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;fontSize=10;fontColor=#F97316;strokeColor=#F97316;exitX=0.9;exitY=0.5;exitDx=0;exitDy=0;entryX=0.3;entryY=1.0;entryDx=0;entryDy=0;" parent="1" edge="1" source="rabbitmq" target="noti_api">
+          <mxGeometry as="geometry" />
+        </mxCell>
+        <mxCell id="e_noti_smtp" value="Send Email" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;fontSize=10;fontColor=#4B5563;strokeColor=#4B5563;exitX=0.5;exitY=1.0;exitDx=0;exitDy=0;entryX=0.5;entryY=0.0;entryDx=0;entryDy=0;" parent="1" edge="1" source="noti_api" target="smtp">
+          <mxGeometry as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

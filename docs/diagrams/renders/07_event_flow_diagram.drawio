@@ -1,0 +1,113 @@
+<?xml version='1.0' encoding='utf-8'?>
+<mxfile host="app.diagrams.net" modified="2026-07-27T01:40:00.000Z" agent="Antigravity" version="24.0.0" type="device">
+  <diagram id="event_flow_v2" name="07_Event_Flow_Diagram">
+    <mxGraphModel dx="1500" dy="900" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1400" pageHeight="720" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="title" value="SƠ ĐỒ LUỒNG SỰ KIỆN (EVENT FLOW DIAGRAM) — RABBITMQ MASSTRANSIT" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;fontStyle=1;fontSize=15;fontColor=#1E3A8A;" parent="1" vertex="1">
+          <mxGeometry x="400" y="15" width="600" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="ord_box" value="Ordering Service&#10;(Event Publisher &amp; Consumer)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFF4E5;strokeColor=#D97706;fontStyle=1;fontSize=12;verticalAlign=top;align=center;spacingTop=5;" parent="1" vertex="1">
+          <mxGeometry x="40" y="55" width="340" height="620" as="geometry" />
+        </mxCell>
+        <mxCell id="pub_oc" value="Publish: OrderCreatedEvent" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FEF3C7;strokeColor=#D97706;fontStyle=1;fontSize=11;" parent="1" vertex="1">
+          <mxGeometry x="60" y="110" width="300" height="45" as="geometry" />
+        </mxCell>
+        <mxCell id="pub_op" value="Publish: OrderPaidEvent" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FEF3C7;strokeColor=#D97706;fontStyle=1;fontSize=11;" parent="1" vertex="1">
+          <mxGeometry x="60" y="210" width="300" height="45" as="geometry" />
+        </mxCell>
+        <mxCell id="pub_ox" value="Publish: OrderCancelledEvent" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FEF3C7;strokeColor=#D97706;fontStyle=1;fontSize=11;" parent="1" vertex="1">
+          <mxGeometry x="60" y="310" width="300" height="45" as="geometry" />
+        </mxCell>
+        <mxCell id="sub_ir" value="Consume: InventoryReservedEvent&#10;➔ Confirm Order" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#E0F2FE;strokeColor=#0284C7;fontStyle=1;fontSize=11;" parent="1" vertex="1">
+          <mxGeometry x="60" y="440" width="300" height="45" as="geometry" />
+        </mxCell>
+        <mxCell id="sub_if" value="Consume: InventoryReservationFailedEvent&#10;➔ Fail Order" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FEE2E2;strokeColor=#DC2626;fontStyle=1;fontSize=11;" parent="1" vertex="1">
+          <mxGeometry x="60" y="540" width="300" height="45" as="geometry" />
+        </mxCell>
+        <mxCell id="mq_box" value="RabbitMQ Exchange Bus&#10;(MassTransit Broker)" style="shape=ellipse;whiteSpace=wrap;html=1;fillColor=#FFF7ED;strokeColor=#F97316;fontStyle=1;fontSize=13;align=center;verticalAlign=top;spacingTop=15;" parent="1" vertex="1">
+          <mxGeometry x="440" y="55" width="450" height="620" as="geometry" />
+        </mxCell>
+        <mxCell id="q_oc" value="OrderCreatedEvent Queue" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFEDD5;strokeColor=#EA580C;fontStyle=1;fontSize=11;" parent="1" vertex="1">
+          <mxGeometry x="490" y="110" width="350" height="45" as="geometry" />
+        </mxCell>
+        <mxCell id="q_op" value="OrderPaidEvent Queue" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFEDD5;strokeColor=#EA580C;fontStyle=1;fontSize=11;" parent="1" vertex="1">
+          <mxGeometry x="490" y="210" width="350" height="45" as="geometry" />
+        </mxCell>
+        <mxCell id="q_ox" value="OrderCancelledEvent Queue" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFEDD5;strokeColor=#EA580C;fontStyle=1;fontSize=11;" parent="1" vertex="1">
+          <mxGeometry x="490" y="310" width="350" height="45" as="geometry" />
+        </mxCell>
+        <mxCell id="q_ir" value="InventoryReservedEvent Queue" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#E0F2FE;strokeColor=#0284C7;fontStyle=1;fontSize=11;" parent="1" vertex="1">
+          <mxGeometry x="490" y="440" width="350" height="45" as="geometry" />
+        </mxCell>
+        <mxCell id="q_if" value="InventoryReservationFailedEvent Queue" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FEE2E2;strokeColor=#DC2626;fontStyle=1;fontSize=11;" parent="1" vertex="1">
+          <mxGeometry x="490" y="540" width="350" height="45" as="geometry" />
+        </mxCell>
+        <mxCell id="inv_box" value="Inventory Service&#10;(Consumer &amp; Publisher)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#F0FDF4;strokeColor=#166534;fontStyle=1;fontSize=12;verticalAlign=top;align=center;spacingTop=5;" parent="1" vertex="1">
+          <mxGeometry x="960" y="55" width="390" height="300" as="geometry" />
+        </mxCell>
+        <mxCell id="cons_inv_oc" value="Consume: OrderCreatedEvent&#10;➔ ReserveStockAsync()" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#DCFCE7;strokeColor=#15803D;fontSize=11;" parent="1" vertex="1">
+          <mxGeometry x="980" y="100" width="350" height="45" as="geometry" />
+        </mxCell>
+        <mxCell id="pub_inv_ir" value="Publish: InventoryReservedEvent" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#E0F2FE;strokeColor=#0284C7;fontStyle=1;fontSize=11;" parent="1" vertex="1">
+          <mxGeometry x="980" y="160" width="350" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="pub_inv_if" value="Publish: InventoryReservationFailedEvent" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FEE2E2;strokeColor=#DC2626;fontStyle=1;fontSize=11;" parent="1" vertex="1">
+          <mxGeometry x="980" y="220" width="350" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="cons_inv_ox" value="Consume: OrderCancelledEvent&#10;➔ ReleaseReservationAsync()" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#DCFCE7;strokeColor=#15803D;fontSize=11;" parent="1" vertex="1">
+          <mxGeometry x="980" y="280" width="350" height="45" as="geometry" />
+        </mxCell>
+        <mxCell id="noti_box" value="Notification Service&#10;(Event Consumer)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FDF4FF;strokeColor=#9333EA;fontStyle=1;fontSize=12;verticalAlign=top;align=center;spacingTop=5;" parent="1" vertex="1">
+          <mxGeometry x="960" y="375" width="390" height="300" as="geometry" />
+        </mxCell>
+        <mxCell id="cons_noti_op" value="Consume: OrderPaidEvent&#10;➔ Send Paid Email" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#F5D0FE;strokeColor=#A855F7;fontSize=11;" parent="1" vertex="1">
+          <mxGeometry x="980" y="420" width="350" height="45" as="geometry" />
+        </mxCell>
+        <mxCell id="cons_noti_ox" value="Consume: OrderCancelledEvent&#10;➔ Send Cancel Email" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#F5D0FE;strokeColor=#A855F7;fontSize=11;" parent="1" vertex="1">
+          <mxGeometry x="980" y="500" width="350" height="45" as="geometry" />
+        </mxCell>
+        <mxCell id="cons_noti_ir" value="Consume: InventoryReservedEvent&#10;➔ Send Order Email" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#F5D0FE;strokeColor=#A855F7;fontSize=11;" parent="1" vertex="1">
+          <mxGeometry x="980" y="580" width="350" height="45" as="geometry" />
+        </mxCell>
+        <mxCell id="e1" value="Publish" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;fontSize=10;fontColor=#EA580C;strokeColor=#EA580C;strokeWidth=2;exitX=1.0;exitY=0.5;exitDx=0;exitDy=0;entryX=0.0;entryY=0.5;entryDx=0;entryDy=0;" parent="1" edge="1" source="pub_oc" target="q_oc">
+          <mxGeometry as="geometry" />
+        </mxCell>
+        <mxCell id="e2" value="Publish" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;fontSize=10;fontColor=#EA580C;strokeColor=#EA580C;strokeWidth=2;exitX=1.0;exitY=0.5;exitDx=0;exitDy=0;entryX=0.0;entryY=0.5;entryDx=0;entryDy=0;" parent="1" edge="1" source="pub_op" target="q_op">
+          <mxGeometry as="geometry" />
+        </mxCell>
+        <mxCell id="e3" value="Publish" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;fontSize=10;fontColor=#EA580C;strokeColor=#EA580C;strokeWidth=2;exitX=1.0;exitY=0.5;exitDx=0;exitDy=0;entryX=0.0;entryY=0.5;entryDx=0;entryDy=0;" parent="1" edge="1" source="pub_ox" target="q_ox">
+          <mxGeometry as="geometry" />
+        </mxCell>
+        <mxCell id="e4" value="Route" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;fontSize=10;fontColor=#EA580C;strokeColor=#EA580C;strokeWidth=2;exitX=1.0;exitY=0.5;exitDx=0;exitDy=0;entryX=0.0;entryY=0.5;entryDx=0;entryDy=0;" parent="1" edge="1" source="q_oc" target="cons_inv_oc">
+          <mxGeometry as="geometry" />
+        </mxCell>
+        <mxCell id="e5" value="Route" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;fontSize=10;fontColor=#EA580C;strokeColor=#EA580C;strokeWidth=2;exitX=1.0;exitY=0.5;exitDx=0;exitDy=0;entryX=0.0;entryY=0.5;entryDx=0;entryDy=0;" parent="1" edge="1" source="q_ox" target="cons_inv_ox">
+          <mxGeometry as="geometry" />
+        </mxCell>
+        <mxCell id="e6" value="Publish" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;fontSize=10;fontColor=#0284C7;strokeColor=#0284C7;strokeWidth=2;exitX=0.0;exitY=0.5;exitDx=0;exitDy=0;entryX=1.0;entryY=0.5;entryDx=0;entryDy=0;" parent="1" edge="1" source="pub_inv_ir" target="q_ir">
+          <mxGeometry as="geometry" />
+        </mxCell>
+        <mxCell id="e7" value="Publish" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;fontSize=10;fontColor=#DC2626;strokeColor=#DC2626;strokeWidth=2;exitX=0.0;exitY=0.5;exitDx=0;exitDy=0;entryX=1.0;entryY=0.5;entryDx=0;entryDy=0;" parent="1" edge="1" source="pub_inv_if" target="q_if">
+          <mxGeometry as="geometry" />
+        </mxCell>
+        <mxCell id="e8" value="Route" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;fontSize=10;fontColor=#0284C7;strokeColor=#0284C7;strokeWidth=2;exitX=0.0;exitY=0.5;exitDx=0;exitDy=0;entryX=1.0;entryY=0.5;entryDx=0;entryDy=0;" parent="1" edge="1" source="q_ir" target="sub_ir">
+          <mxGeometry as="geometry" />
+        </mxCell>
+        <mxCell id="e9" value="Route" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;fontSize=10;fontColor=#DC2626;strokeColor=#DC2626;strokeWidth=2;exitX=0.0;exitY=0.5;exitDx=0;exitDy=0;entryX=1.0;entryY=0.5;entryDx=0;entryDy=0;" parent="1" edge="1" source="q_if" target="sub_if">
+          <mxGeometry as="geometry" />
+        </mxCell>
+        <mxCell id="e10" value="Route Mail" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;fontSize=10;fontColor=#9333EA;strokeColor=#9333EA;strokeWidth=2;exitX=1.0;exitY=0.5;exitDx=0;exitDy=0;entryX=0.0;entryY=0.5;entryDx=0;entryDy=0;" parent="1" edge="1" source="q_op" target="cons_noti_op">
+          <mxGeometry as="geometry" />
+        </mxCell>
+        <mxCell id="e11" value="Route Mail" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;fontSize=10;fontColor=#9333EA;strokeColor=#9333EA;strokeWidth=2;exitX=1.0;exitY=0.5;exitDx=0;exitDy=0;entryX=0.0;entryY=0.5;entryDx=0;entryDy=0;" parent="1" edge="1" source="q_ox" target="cons_noti_ox">
+          <mxGeometry as="geometry" />
+        </mxCell>
+        <mxCell id="e12" value="Route Mail" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;fontSize=10;fontColor=#9333EA;strokeColor=#9333EA;strokeWidth=2;exitX=1.0;exitY=0.5;exitDx=0;exitDy=0;entryX=0.0;entryY=0.5;entryDx=0;entryDy=0;" parent="1" edge="1" source="q_ir" target="cons_noti_ir">
+          <mxGeometry as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
