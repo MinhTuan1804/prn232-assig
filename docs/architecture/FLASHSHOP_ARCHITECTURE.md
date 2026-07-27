@@ -121,3 +121,18 @@ Ordering and Notification use Hangfire with SQL Server storage. Ordering runs a 
 Each service applies its own Entity Framework Core migrations at startup. Identity, Catalog, and Notification also seed the initial roles, users, product catalog, notification templates, and sample content required by the application.
 
 The Gateway exposes an aggregated health endpoint and Swagger documentation for all backend APIs. RabbitMQ additionally exposes its management interface for local operational inspection.
+
+## 10. Architectural Risks and Evolution
+
+The current implementation demonstrates the intended distributed architecture, but several areas should be strengthened before production use:
+
+- Inventory and Catalog both hold stock-related values; Inventory should become the authoritative stock owner.
+- Wallet payment can complete before the order transaction is durable; a saga or compensating refund is required.
+- Database writes and event publication are separate operations; an outbox/inbox pattern would prevent lost or duplicated messages.
+- Event consumers should implement explicit idempotency using message or aggregate identifiers.
+- Order administration endpoints must enforce the Admin role rather than authentication alone.
+- Notification test endpoints and Hangfire dashboards must not remain anonymously accessible.
+- Internal service ports should not be publicly published in production.
+- Distributed tracing, correlation identifiers, centralized logs, metrics, and health probes should be added for operational diagnosis.
+
+These improvements preserve the existing service boundaries while making cross-service workflows safer and more observable.
