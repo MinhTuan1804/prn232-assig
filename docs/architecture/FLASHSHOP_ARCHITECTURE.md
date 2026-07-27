@@ -82,3 +82,19 @@ Ordering uses gRPC for internal operations that require an immediate result:
 - CatalogGrpc.DeductStock updates catalog product and flash-sale quantities.
 
 The Protobuf contracts live in the shared MessageContracts project, while Identity and Catalog host the gRPC servers. Ordering receives generated strongly typed clients through dependency injection. HTTP/2 endpoints are separated from the HTTP/1 REST endpoints in the container configuration.
+
+## 7. Asynchronous Event Workflow
+
+RabbitMQ and MassTransit decouple order processing from inventory and notification side effects. Ordering publishes order lifecycle events, and consumers react independently.
+
+The principal messages are OrderCreated, OrderPaid, OrderCancelled, InventoryReserved, and InventoryReservationFailed.
+
+For a deferred-payment order, the workflow is:
+
+1. Ordering stores the order and publishes OrderCreated.
+2. Inventory consumes the event and attempts a serializable stock reservation.
+3. Inventory publishes either InventoryReserved or InventoryReservationFailed.
+4. Ordering updates the order state from the reservation result.
+5. Notification consumes the same result and sends the appropriate email.
+
+This publish-subscribe design allows additional consumers to be introduced without adding direct dependencies to Ordering.
