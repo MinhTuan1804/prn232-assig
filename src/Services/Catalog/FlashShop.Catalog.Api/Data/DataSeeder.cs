@@ -7,12 +7,11 @@ public static class DataSeeder
 {
     public static async Task SeedAsync(CatalogDbContext dbContext)
     {
-        // Force re-seed to update prices & images for all products in VND
-        dbContext.FlashSaleItems.RemoveRange(dbContext.FlashSaleItems);
-        dbContext.FlashSaleCampaigns.RemoveRange(dbContext.FlashSaleCampaigns);
-        dbContext.Products.RemoveRange(dbContext.Products);
-        dbContext.Categories.RemoveRange(dbContext.Categories);
-        await dbContext.SaveChangesAsync();
+        // Only seed if database has no products yet
+        if (await dbContext.Products.AnyAsync())
+        {
+            return;
+        }
 
         // 1. Categories (6 Categories)
         var categories = new List<Category>
