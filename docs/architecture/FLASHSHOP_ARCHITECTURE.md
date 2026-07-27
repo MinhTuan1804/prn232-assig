@@ -56,3 +56,17 @@ The YARP-based API Gateway is the intended public backend entry point. It maps r
 The Gateway validates JWT issuer, audience, signature, and token lifetime. It also provides cross-origin configuration, aggregated Swagger endpoints, and a health endpoint that checks the availability of all five services.
 
 Keeping routing at the Gateway prevents clients from depending on internal container names and gives the backend a central location for public access policies.
+
+## 5. Data Ownership
+
+Each service owns a separate Entity Framework Core context and logical SQL Server database:
+
+| Database | Owning service | Core data |
+| --- | --- | --- |
+| FlashShop_IdentityDb | Identity | ASP.NET Identity records, wallets, and wallet transactions |
+| FlashShop_CatalogDb | Catalog | Categories, products, images, campaigns, and campaign items |
+| FlashShop_InventoryDb | Inventory | Stock, reservations, and stock history |
+| FlashShop_OrderingDb | Ordering | Carts, orders, and order items |
+| FlashShop_NotificationDb | Notification | Templates, delivery logs, and Hangfire state |
+
+The databases currently share one SQL Server container for development convenience, but their schemas and migrations are owned by separate services. Cross-service business operations use APIs or messages rather than direct table access.
