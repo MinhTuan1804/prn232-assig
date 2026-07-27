@@ -1,5 +1,9 @@
 namespace FlashShop.MessageContracts.Events;
 
+/// <summary>
+/// Integration event published by Ordering after checkout. Inventory consumes
+/// it to reserve stock and Notification uses subsequent reservation events.
+/// </summary>
 public record OrderCreatedEvent
 {
     public Guid OrderId { get; init; }
@@ -10,6 +14,7 @@ public record OrderCreatedEvent
     public List<OrderItemDetail> Items { get; init; } = new();
 }
 
+/// <summary>Immutable product snapshot carried with an order event.</summary>
 public record OrderItemDetail
 {
     public Guid ProductId { get; init; }

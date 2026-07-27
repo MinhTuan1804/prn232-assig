@@ -1,5 +1,9 @@
 namespace FlashShop.MessageContracts.Events;
 
+/// <summary>
+/// Integration event published after a successful wallet payment. Consumers
+/// use it to confirm inventory reservations and send payment notifications.
+/// </summary>
 public record OrderPaidEvent
 {
     public Guid OrderId { get; init; }
