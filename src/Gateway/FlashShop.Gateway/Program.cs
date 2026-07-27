@@ -5,7 +5,8 @@ using Microsoft.IdentityModel.Tokens;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// JWT
+// Validate the same issuer, audience, and symmetric signature used by Identity.
+// This lets the gateway reject invalid tokens before proxying protected traffic.
 var jwtSettings = builder.Configuration.GetSection(JwtSettings.SectionName).Get<JwtSettings>()!;
 builder.Services.AddAuthentication(options =>
 {
@@ -27,11 +28,12 @@ builder.Services.AddAuthentication(options =>
 });
 builder.Services.AddAuthorization();
 
-// YARP
+// Load routes, clusters, and destination service addresses from ReverseProxy
+// configuration. YARP preserves the incoming API path when forwarding requests.
 builder.Services.AddReverseProxy()
     .LoadFromConfig(builder.Configuration.GetSection("ReverseProxy"));
 
-// CORS
+// Development clients can call the gateway from a different local origin.
 builder.Services.AddCors(options =>
 {
     options.AddPolicy("AllowAll", policy =>
@@ -50,6 +52,9 @@ builder.Services.AddSwaggerGen();
 var app = builder.Build();
 
 app.UseCors("AllowAll");
+
+// Authentication must run before authorization and before the reverse proxy so
+// the downstream request carries an already validated user principal.
 app.UseAuthentication();
 app.UseAuthorization();
 
@@ -67,6 +72,7 @@ app.UseSwaggerUI(c =>
 
 app.MapGet("/api/gateway/health", async (IHttpClientFactory clientFactory, IConfiguration config) =>
 {
+    // Read the same destinations used by YARP instead of duplicating service URLs.
     var services = new Dictionary<string, string>
     {
         { "identity", config["ReverseProxy:Clusters:identity-cluster:Destinations:destination1:Address"] ?? "http://identity-api:8080" },
@@ -81,6 +87,8 @@ app.MapGet("/api/gateway/health", async (IHttpClientFactory clientFactory, IConf
 
     var results = new Dictionary<string, bool>();
 
+    // A short timeout keeps one unavailable microservice from blocking the
+    // aggregate health response for an extended period.
     foreach (var (serviceName, address) in services)
     {
         try
@@ -99,6 +107,8 @@ app.MapGet("/api/gateway/health", async (IHttpClientFactory clientFactory, IConf
     return Results.Ok(results);
 });
 
+// Register YARP last so gateway-owned endpoints such as health and Swagger are
+// matched before the catch-all proxy routes.
 app.MapReverseProxy();
 
 app.Run();
