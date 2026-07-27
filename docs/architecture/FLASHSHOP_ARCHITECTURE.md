@@ -98,3 +98,16 @@ For a deferred-payment order, the workflow is:
 5. Notification consumes the same result and sends the appropriate email.
 
 This publish-subscribe design allows additional consumers to be introduced without adding direct dependencies to Ordering.
+
+## 8. Security Model
+
+Identity uses ASP.NET Core Identity to store users, hash passwords, enforce password rules, and manage roles. Successful authentication produces a signed JWT containing the user identifier, email, display name, and role claims.
+
+Two business roles are defined:
+
+- Customer for authenticated shopping operations.
+- Admin for user, catalog, campaign, stock, and notification administration.
+
+The Gateway and individual services both configure JWT validation. Public catalog and authentication endpoints remain anonymous, while personal profiles, wallets, carts, and orders require authentication. Administrative mutations use role-based authorization attributes.
+
+For production, only the Gateway should be publicly reachable, credentials should be supplied through a secret manager, CORS should allow known frontend origins, and operational dashboards should require administrator authentication.
