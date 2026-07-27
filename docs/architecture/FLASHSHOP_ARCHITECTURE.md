@@ -28,3 +28,17 @@ FlashShop serves three business actors:
 The web frontend or another HTTP API client is the access channel. It sends REST requests to the API Gateway and includes a JWT for protected operations. Gmail SMTP is an external delivery system for transactional emails and administrative reports. Product and testimonial records may reference images hosted by Unsplash.
 
 SQL Server, RabbitMQ, and Hangfire are supporting runtime infrastructure rather than business actors.
+
+## 3. Service Boundaries
+
+The backend is divided into five business services:
+
+| Service | Primary responsibilities |
+| --- | --- |
+| Identity | Authentication, JWT issuance, profiles, roles, account status, wallets, and wallet transactions |
+| Catalog | Categories, products, product images, product discovery, testimonials, and flash-sale campaigns |
+| Ordering | Shopping carts, checkout, order state, payment initiation, cancellation, and order history |
+| Inventory | Available stock, reserved stock, reservations, release/confirmation, and stock history |
+| Notification | Notification templates, delivery logs, transactional email, and scheduled reports |
+
+Each service has a dedicated startup entry point, controllers, application services, entity model, Entity Framework Core context, migrations, and Dockerfile. Shared code is limited to cross-cutting primitives and communication contracts.
