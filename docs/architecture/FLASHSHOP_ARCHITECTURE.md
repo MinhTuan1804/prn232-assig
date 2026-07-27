@@ -111,3 +111,13 @@ Two business roles are defined:
 The Gateway and individual services both configure JWT validation. Public catalog and authentication endpoints remain anonymous, while personal profiles, wallets, carts, and orders require authentication. Administrative mutations use role-based authorization attributes.
 
 For production, only the Gateway should be publicly reachable, credentials should be supplied through a secret manager, CORS should allow known frontend origins, and operational dashboards should require administrator authentication.
+
+## 9. Deployment and Operations
+
+Docker Compose provisions SQL Server, RabbitMQ, the five business services, and the API Gateway on a shared bridge network. Health checks ensure SQL Server and RabbitMQ are available before dependent services start.
+
+Ordering and Notification use Hangfire with SQL Server storage. Ordering runs a recurring timeout job every minute to cancel orders that exceeded their payment deadline. Notification runs a daily sales-report job at 23:59 and sends the result through the configured SMTP provider.
+
+Each service applies its own Entity Framework Core migrations at startup. Identity, Catalog, and Notification also seed the initial roles, users, product catalog, notification templates, and sample content required by the application.
+
+The Gateway exposes an aggregated health endpoint and Swagger documentation for all backend APIs. RabbitMQ additionally exposes its management interface for local operational inspection.
